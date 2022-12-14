@@ -26,15 +26,15 @@ jobs:
       run: ./7zip.exe e References.zip -oReferences -r -y
 
     - name: Restore project
-      run: dotnet restore -p:Configuration=Release -p:arch x64
+      run: dotnet restore -p:Configuration=Release
 
     - name: Build project
       shell: pwsh
       run: |
         if ('${{ GITHUB.REF }}' -Match 'dev$') {
-           dotnet build -p:DeployToServer=false -p:Configuration=Release -p:arch x64 -p:BuildNumber=${{ GITHUB.RUN_NUMBER }}
+           dotnet build -p:DeployToServer=false -p:Configuration=Release -p:BuildNumber=${{ GITHUB.RUN_NUMBER }}
         } else {
-           dotnet build -p:DeployToServer=false -p:Configuration=Release -p:arch x64
+           dotnet build -p:DeployToServer=false -p:Configuration=Release
         }
       env:
         EXILED_REFERENCES: ${{ github.workspace }}/References
