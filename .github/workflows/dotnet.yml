@@ -1,20 +1,27 @@
-name: GameStore
-on: [push, pull_request]
+
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+      - test
 
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v1.5.0
+    - uses: actions/checkout@v2
 
-    - uses: actions/checkout@v2.3.1
-
-    - name: Download 7zip
-      uses: carlosperate/download-file-action@v1.0.3
-      with:
-        file-url: 'https://www.exiled.host/7za.exe'
-        file-name: '7zip.exe'
+    - name: Setup Nuget
+      uses: warrenbuckley/Setup-Nuget@v1
+    
+    - name: Restore Packages
+      run: nuget restore BuddyPlugin.sln
+      
+    - name: Setup MSBuild
+      uses: warrenbuckley/Setup-MSBuild@v1
 
     - name: Download references
       uses: carlosperate/download-file-action@v1.0.3
@@ -22,25 +29,20 @@ jobs:
         file-url: 'https://www.exiled.host/build_deps/References.zip'
         file-name: 'References.zip'
 
+    - name: Download 7zip
+      uses: carlosperate/download-file-action@v1.0.3
+      with:
+        file-url: 'https://www.exiled.host/7za.exe'
+        file-name: '7zip.exe'
+
     - name: Extract Refs
-      run: ./7zip.exe e References.zip -oReferences -r -y
+      run: ./7zip.exe e References.zip -osrc/libs/ -r -y
 
-    - name: Restore project
-      run: dotnet restore -p:Configuration=Release
+    - name: Build
+      run: msbuild GameStore.sln -p:Configuration=release
 
-    - name: Build project
-      shell: pwsh
-      run: |
-        if ('${{ GITHUB.REF }}' -Match 'dev$') {
-           dotnet build -p:DeployToServer=false -p:Configuration=Release -p:BuildNumber=${{ GITHUB.RUN_NUMBER }}
-        } else {
-           dotnet build -p:DeployToServer=false -p:Configuration=Release
-        }
-      env:
-        EXILED_REFERENCES: ${{ github.workspace }}/References
-
-    - name: Upload artifacts
+    - name: Upload Build
       uses: actions/upload-artifact@v2
       with:
-        name: Build Results
-        path: GameStore/bin/Release
+        name: Plugin DLL
+        path: src/bin/Release/GameStore*.dll
