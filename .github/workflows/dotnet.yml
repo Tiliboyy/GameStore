@@ -15,7 +15,7 @@ jobs:
 
     - name: Setup Nuget
       with: 
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       uses: warrenbuckley/Setup-Nuget@v1
     
     - name: Restore Packages
