@@ -26,7 +26,7 @@ jobs:
       run: ./7zip.exe e References.zip -oReferences -r -y
 
     - name: Restore project
-      run: dotnet restore -p:Configuration=Release
+      run: dotnet restore -p:Configuration=Release -p:arch x64
 
     - name: Build project
       shell: pwsh
