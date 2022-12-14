@@ -12,6 +12,8 @@ public class Plugin : Plugin<Config, Translation>
     public override Version Version => new(1, 0, 0);
 
     public override Version RequiredExiledVersion => new(5, 0, 0, 0);
+
+    public static bool Enablegamestore = true;
     public EventHandlers EventHandler;
     public static Plugin Instance;
 

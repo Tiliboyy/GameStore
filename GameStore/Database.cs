@@ -122,9 +122,13 @@ namespace GameStore
                 {
                     player.ShowHint(Plugin.Instance.Translation.Givemoneytext.Replace("(moneyamount)", money.ToString()), 2);
                     dbplayer.Money += money;
-
+                    if (dbplayer.Money < 0)
+                    {
+                        dbplayer.Money = 0;
+                    }
                     players.Update(dbplayer);
                 }
+
             }
 
             public static float GetPlayerMoney(Player player)

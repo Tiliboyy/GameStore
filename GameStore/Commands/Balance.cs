@@ -20,8 +20,18 @@ namespace GameStore.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
+            if (player == null)
+            {
+                response = "Falls du diese nachricht bekommst bitte geh @Tiliboyy#6969 auf discord anschreien";
+                return false;
+            }
+            if (player.DoNotTrack)
+            {
+                response = "Du hast Do not Track aktiviert. Deakiviere es um den GameStore verwenden zu können";
+                return true;
+            }
             float balance = GameStoreSEDatabase.Database.GetPlayerMoney(player); 
-            response = "Du hast " + balance + " Money";
+            response = "Du hast " + balance + " " + Plugin.Instance.Translation.Currencyname;
             return true;
 
 

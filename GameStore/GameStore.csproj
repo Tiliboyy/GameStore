@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -71,61 +71,61 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>libs\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>libs\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-publicized">
-      <HintPath>libs\Assembly-CSharp-publicized.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-publicized.dll</HintPath>
     </Reference>
     <Reference Include="CommandSystem.Core">
-      <HintPath>libs\CommandSystem.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\CommandSystem.Core.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.API">
-      <HintPath>libs\Exiled.API.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.API.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.CreditTags">
-      <HintPath>libs\Exiled.CreditTags.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.CreditTags.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.CustomItems">
-      <HintPath>libs\Exiled.CustomItems.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.CustomItems.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.CustomRoles">
-      <HintPath>libs\Exiled.CustomRoles.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.CustomRoles.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Events">
-      <HintPath>libs\Exiled.Events.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Events.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Loader">
-      <HintPath>libs\Exiled.Loader.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Loader.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Permissions">
-      <HintPath>libs\Exiled.Permissions.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Permissions.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.Updater">
-      <HintPath>libs\Exiled.Updater.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Updater.dll</HintPath>
     </Reference>
     <Reference Include="LiteDB">
-      <HintPath>libs\LiteDB.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="MapEditorReborn">
-      <HintPath>libs\MapEditorReborn.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\MapEditorReborn.dll</HintPath>
     </Reference>
     <Reference Include="Mirror_Publicized">
-      <HintPath>libs\Mirror_Publicized.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Mirror_Publicized.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Posix">
-      <HintPath>libs\Mono.Posix.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Mono.Posix.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>libs\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SemVer">
-      <HintPath>libs\SemVer.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\SemVer.dll</HintPath>
     </Reference>
     <Reference Include="ShadowMain">
-      <HintPath>libs\ShadowMain.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\ShadowMain.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -137,23 +137,25 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>libs\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>libs\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>libs\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>libs\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>libs\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Balance.cs" />
+    <Compile Include="Commands\AddMoney.cs" />
+    <Compile Include="Commands\GameStoreToggle.cs" />
     <Compile Include="Commands\Buy.cs" />
     <Compile Include="Configs\Translations.cs" />
     <Compile Include="Database.cs" />

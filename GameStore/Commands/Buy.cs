@@ -15,7 +15,7 @@ using static Config;
 namespace GameStore.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
-    internal class Subclassing : ICommand
+    internal class Commanad : ICommand
     {
         public string Command { get; } = "buy";
 
@@ -27,7 +27,17 @@ namespace GameStore.Commands
         {
 
             Player player = Player.Get(sender);
-            if(!Round.IsStarted)
+            if (player.DoNotTrack)
+            {
+                response = "Du hast Do not Track aktiviert. Deakiviere es um den GameStore verwenden zu können";
+                return true;
+            }
+            if (!Plugin.Enablegamestore)
+            {
+                response = "Der GameStore ist momentan deakiviert!";
+                return true;
+            }
+            if (!Round.IsStarted)
             {
                 response = "Das spiel hat noch nicht gestartet";
                 return true;
