@@ -38,7 +38,7 @@ jobs:
         file-name: '7zip.exe'
 
     - name: Extract Refs
-      run: ./7zip.exe e References.zip C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\ReferenceAssemblies\v4.5\ -r -y
+      run: ./7zip.exe e References.zip D:\a\GameStore\GameStore\GameStore\libs\ -r -y
       
     - name: Build
       run: msbuild GameStore.sln -p:Configuration=release
