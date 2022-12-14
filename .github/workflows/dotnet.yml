@@ -38,7 +38,7 @@ jobs:
         file-name: '7zip.exe'
 
     - name: Extract Refs
-      run: ./7zip.exe e References.zip -oReferences -r -y
+      run: ./7zip.exe e References.zip /libs/ -r -y
       
     - name: Build
       run: msbuild GameStore.sln -p:Configuration=release
