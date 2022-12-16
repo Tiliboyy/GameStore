@@ -1,4 +1,5 @@
 name: GameStore CI
+#why no work
 on: [fork]
 
 jobs:
