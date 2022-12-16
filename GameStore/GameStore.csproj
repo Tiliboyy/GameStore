@@ -42,9 +42,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="AdvancedHints">
-            <HintPath>..\refs\AdvancedHints.dll</HintPath>
         </Reference>
+        <Reference Include="CommandSystem.Core.dll" HintPath="$(EXILED_References)\CommandSystem.Core.dll" Private="false" />
         <Reference Include="Assembly-CSharp-firstpass" HintPath="$(EXILED_References)\Assembly-CSharp-firstpass.dll" Private="false" />
         <Reference Include="Mirror" HintPath="$(EXILED_References)\Mirror-Publicized.dll" Private="false" />
         <Reference Include="UnityEngine.CoreModule" HintPath="$(EXILED_References)\UnityEngine.CoreModule.dll" Private="false" />
