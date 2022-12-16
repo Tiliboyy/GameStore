@@ -27,7 +27,7 @@ namespace GameStore.Commands
             }
             if (player.DoNotTrack)
             {
-                response = "Du hast Do not Track aktiviert. Deakiviere es um den GameStore verwenden zu können";
+                response = Plugin.Instance.Translation.Dntmessage;
                 return true;
             }
             float balance = GameStoreSEDatabase.Database.GetPlayerMoney(player); 

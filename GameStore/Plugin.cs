@@ -23,10 +23,11 @@ public class Plugin : Plugin<Config, Translation>
             Directory.CreateDirectory(Path.Combine(Paths.Configs, "GamestoreSE/"));
         Plugin.Instance = this;
         EventHandler = new EventHandlers();
-        Player.Dying += EventHandler.OnDying;
+        Player.Dying += EventHandler.OnDeath;
+        Player.Escaping += EventHandler.OnEscaping;
+        Player.Spawned += EventHandler.OnSpawned;
         Player.Verified += EventHandler.OnVerified;
-
-
+        Player.UsedItem += EventHandler.OnUsedItem;
 
     }
 
@@ -35,7 +36,11 @@ public class Plugin : Plugin<Config, Translation>
     {
         Plugin.Instance = null;
         EventHandler = null;
-        Player.Dying -= EventHandler.OnDying;
+        Player.Escaping -= EventHandler.OnEscaping;
+        Player.Dying -= EventHandler.OnDeath;
+        Player.Spawned -= EventHandler.OnSpawned;
         Player.Verified -= EventHandler.OnVerified;
+        Player.UsedItem -= EventHandler.OnUsedItem;
+
     }
 }

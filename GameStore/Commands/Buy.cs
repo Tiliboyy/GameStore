@@ -82,38 +82,38 @@ namespace GameStore.Commands
                         {
                             if (player.Items.Count >= 8)
                             {
-                                response = "Dein Inventar ist voll!";
+                                response = Plugin.Instance.Translation.Fullinventory;
                                 return true;
                             }
                             else
                             {
                                 if (!itemnum.Roles.Contains(player.Role.Type) && !itemnum.Roles.Contains(RoleType.None))
                                 {
-                                    response = "Deine Rolle erlaubt es dir nicht dieses Item zu kaufen,";
+                                    response = Plugin.Instance.Translation.WrongeRole;
                                     return true;
                                 }
                                 if(!database.CanRemoveMoneyFromPlayer(player, itemnum.Price))
                                 {
-                                    response = "Du kannst dir dieses Item nicht leisten";
+                                    response = Plugin.Instance.Translation.Cantafford;
                                     return true;
 
                                 }
-                                if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(itemnum.Item))
+                                if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(itemnum.Id))
                                 {
-                                    if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[itemnum.Item] >= itemnum.Maxbuys)
+                                    if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[itemnum.Id] >= itemnum.Maxbuys)
                                     {
-                                        response = "Du hast schon genug davon gekauft.";
+                                        response = Plugin.Instance.Translation.Maxamountreached;
                                         return true;
 
                                     }
-                                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems[itemnum.Item]++; 
+                                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems[itemnum.Id]++; 
                                 }
                                 else
                                 {
-                                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(itemnum.Item, 1);
+                                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(itemnum.Id, 1);
                                 }
                                 database.BuyItem(player, itemnum.Item, itemnum.Price);
-                                response = "Du hast " + itemnum.Name + " für " + itemnum.Price + " " + Plugin.Instance.Translation.Currencyname + " gekauft";
+                                response = Plugin.Instance.Translation.Boughtitem.Replace("(itemname)", itemnum.Name).Replace("(itemprice)", itemnum.Price.ToString());
                                 return true;
                             }
 

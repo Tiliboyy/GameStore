@@ -27,9 +27,32 @@ public class EventHandlers : Plugin<Config>
         }
 
     }
-    public void OnDying(DyingEventArgs ev)
+    public void OnEscaping(EscapingEventArgs ev)
     {
-        database.AddMoneyToPlayer(ev.Target, 100);
+        database.AddMoneyToPlayer(ev.Player, 1000);
+        if(ev.Player.Cuffer != null)
+            database.AddMoneyToPlayer(ev.Player.Cuffer, 2000);
+
+    }
+    public void OnUsedItem(UsedItemEventArgs ev)
+    {
+        database.AddMoneyToPlayer(ev.Player, 100);
+    }
+    public void OnSpawned(SpawnedEventArgs ev)
+    {
+        if (ev.Player.IsScp)
+            database.AddMoneyToPlayer(ev.Player, 200);
+        else
+            database.AddMoneyToPlayer(ev.Player, 50);
+    }
+
+    public void OnDeath(DyingEventArgs ev)
+    {
+        database.AddMoneyToPlayer(ev.Target, 50);
+        if (ev.Killer != null || ev.Killer.Id != ev.Target.Id)
+            database.AddMoneyToPlayer(ev.Killer, 50);
+
+
     }
 
 }

@@ -10,6 +10,6 @@ namespace GameStore
 {
     public class GameStoreComponent : MonoBehaviour
     {
-        public Dictionary<ItemType, int> boughtitems = new();
+        public Dictionary<int, int> boughtitems = new();
     }
 }

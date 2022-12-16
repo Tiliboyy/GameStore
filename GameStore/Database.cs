@@ -38,7 +38,7 @@ namespace GameStore
 
             public static void AddPlayer(Player player)
             {
-                if (player.DoNotTrack) return;
+                if (player.DoNotTrack || player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
                 Create();
 
@@ -62,7 +62,7 @@ namespace GameStore
 
             public static void RemoveMoneyFromPlayer(Player player, float money)
             {
-                if (player.DoNotTrack) return;
+                if (player.DoNotTrack || player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
                 Create();
                 var players = db.GetCollection<DatabasePlayer>("players");
@@ -78,7 +78,7 @@ namespace GameStore
             }
             public static void BuyItem(Player player,ItemType item, float cost)
             {
-                if (player.DoNotTrack) return;
+                if (player.DoNotTrack || player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
                 Create();
                 var players = db.GetCollection<DatabasePlayer>("players");
@@ -95,6 +95,8 @@ namespace GameStore
             }
             public static bool CanRemoveMoneyFromPlayer(Player player, float money)
             {
+                if (player.DoNotTrack || player == null) return false;
+
                 if (player.DoNotTrack) return false;
                 string playerID = player.RawUserId.Split('@')[0];
                 var players = db.GetCollection<DatabasePlayer>("players");
@@ -111,7 +113,7 @@ namespace GameStore
 
             public static void AddMoneyToPlayer(Player player, float money)
             {
-                if (player.DoNotTrack) return;
+                if (player.DoNotTrack || player == null || money == 0) return;
                 string playerID = player.RawUserId.Split('@')[0];
                 Create();
                 var players = db.GetCollection<DatabasePlayer>("players");
@@ -120,6 +122,7 @@ namespace GameStore
 
                 if (dbplayer != null)
                 {
+                    Log.Debug(player.Nickname + " has been given " + money + " " + Plugin.Instance.Translation.Currencyname, Plugin.Instance.Config.Debug);
                     player.ShowHint(Plugin.Instance.Translation.Givemoneytext.Replace("(moneyamount)", money.ToString()), 2);
                     dbplayer.Money += money;
                     if (dbplayer.Money < 0)
@@ -133,7 +136,7 @@ namespace GameStore
 
             public static float GetPlayerMoney(Player player)
             {
-                if (player.DoNotTrack) return 0;
+                if (player.DoNotTrack || player == null) return 0;
                 string playerID = player.RawUserId.Split('@')[0];
                 Create();
 
@@ -152,6 +155,7 @@ namespace GameStore
             }
             public static void RemovePlayer(Player player)
             {
+                if (player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
                 var players = db.GetCollection<DatabasePlayer>("players");
                 var dbplayer = players.FindOne(x => x._id == playerID);
