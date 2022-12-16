@@ -1,5 +1,4 @@
 name: GameStore CI
-# thing just stopped working literally cannot be assed
 on: [fork]
 
 jobs:
