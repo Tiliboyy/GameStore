@@ -1,6 +1,5 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.Handlers;
-using HarmonyLib;
 using LiteDB;
 using RemoteAdmin.Communication;
 using System;

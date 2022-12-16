@@ -1,5 +1,4 @@
 ﻿using Exiled.API.Interfaces;
-using ShadowMain.CustomItems;
 using System.ComponentModel;
 
 namespace GameStore
