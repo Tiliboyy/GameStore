@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -70,62 +70,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\Documents\Assembly\0Harmony.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\assambys\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-publicized">
-      <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-publicized.dll</HintPath>
-    </Reference>
-    <Reference Include="CommandSystem.Core">
-      <HintPath>..\..\..\..\Documents\Assembly\CommandSystem.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.API">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.API.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.CreditTags">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.CreditTags.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.CustomItems">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.CustomItems.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.CustomRoles">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.CustomRoles.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Events">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Events.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Loader">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Loader.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Permissions">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Updater">
-      <HintPath>..\..\..\..\Documents\Assembly\Exiled.Updater.dll</HintPath>
-    </Reference>
-    <Reference Include="LiteDB">
-      <HintPath>..\..\..\..\Documents\Assembly\LiteDB.dll</HintPath>
-    </Reference>
-    <Reference Include="MapEditorReborn">
-      <HintPath>..\..\..\..\Documents\Assembly\MapEditorReborn.dll</HintPath>
-    </Reference>
-    <Reference Include="Mirror_Publicized">
-      <HintPath>..\..\..\..\Documents\Assembly\Mirror_Publicized.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Posix">
-      <HintPath>..\..\..\..\Documents\Assembly\Mono.Posix.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\Documents\Assembly\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SemVer">
-      <HintPath>..\..\..\..\Documents\Assembly\SemVer.dll</HintPath>
-    </Reference>
-    <Reference Include="ShadowMain">
-      <HintPath>..\..\..\..\Documents\Assembly\ShadowMain.dll</HintPath>
+    <Reference Include="Mirror-Publicized">
+      <HintPath>..\..\..\..\Documents\assambys\Mirror-Publicized.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -137,19 +86,13 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.AnimationModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\assambys\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\assambys\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\assambys\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +113,15 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <PackageReference Include="EXILED">
+      <Version>5.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="Lib.Harmony">
+      <Version>2.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="LiteDB">
+      <Version>5.0.13</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

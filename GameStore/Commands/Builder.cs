@@ -2,8 +2,6 @@
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs;
 using InventorySystem.Items.Firearms.Ammo;
-using MapEditorReborn.Commands.UtilityCommands;
-using MEC;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
