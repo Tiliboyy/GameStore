@@ -1,7 +1,5 @@
 name: GameStore CI
 #why no work
-on: [fork]
-
 jobs:
   build:
     runs-on: windows-latest
