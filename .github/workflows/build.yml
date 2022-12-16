@@ -1,4 +1,5 @@
 name: GameStore CI
+on: push
 #why no work
 jobs:
   build:
