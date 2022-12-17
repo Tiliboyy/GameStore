@@ -7,6 +7,8 @@ using Log = Exiled.API.Features.Log;
 using Player = Exiled.API.Features.Player;
 using Database = GameStore.GameStoreSEDatabase.Database;
 using Exiled.Loader;
+using Exiled.CustomItems;
+using Exiled.CustomItems.API.Features;
 
 public class EventHandlers
 {
@@ -65,7 +67,6 @@ public class EventHandlers
         Database.AddMoneyToPlayer(ev.Target, Plugin.Instance.Config.Deathamount );
         if (ev.Killer == null || ev.Killer.Id == ev.Target.Id)
             return;
-        Log.Info(ev.Killer);
         if(ev.Killer.Role.Team == Team.SCP && ev.Killer.Role == RoleType.Scp0492)
         {
             Database.AddMoneyToPlayer(ev.Killer, Plugin.Instance.Config.Scpkillamount);

@@ -1,4 +1,5 @@
-﻿using Exiled.API.Features;
+﻿using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.Events.Commands.Show;
 using Exiled.Events.Handlers;
 using Exiled.Loader;
@@ -76,7 +77,7 @@ namespace GameStore
                     players.Update(dbplayer);
                 }
             }
-            public static void BuyItem(Player player,ItemType item, float cost)
+            public static void BuyItem(Player player,Config.ItemPrice item)
             {
                 if (player.DoNotTrack || player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
@@ -87,8 +88,23 @@ namespace GameStore
                 if (dbplayer != null)
                 {
 
-                    dbplayer.Money -= cost;
-                    player.AddItem(item);
+                    dbplayer.Money -= item.Price;
+                    if (item.IsAmmo)
+                    {
+
+                        foreach (var items in item.AmmoTypes)
+                        {
+                            player.AddAmmo(items, item.AmmoAmount);
+
+                        }
+                    }
+                    else
+                    {
+                        foreach (var items in item.ItemTypes)
+                            player.AddItem(items);
+                    }
+
+
                     players.Update(dbplayer);
                 }
             }
@@ -123,7 +139,6 @@ namespace GameStore
                     Log.Debug(player.Nickname + " has been given " + money + " " + Plugin.Instance.Translation.Currencyname, Plugin.Instance.Config.Debug);
                     if (EventHandlers.PlayerHintsLoaded)
                     {
-                        Log.Info("called");
                         Timing.RunCoroutine(PlayerHints.UnityMethods.UnityMethods.DisableHintsForTime(2, player));
                     }
                     player.ShowHint(Plugin.Instance.Translation.Givemoneytext.Replace("(moneyamount)", money.ToString()), 2);

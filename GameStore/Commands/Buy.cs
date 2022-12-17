@@ -110,7 +110,7 @@ namespace GameStore.Commands
                                 {
                                     player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(itemnum.Id, 1);
                                 }
-                                database.BuyItem(player, itemnum.Item, itemnum.Price);
+                                database.BuyItem(player, itemnum);
                                 response = Plugin.Instance.Translation.Boughtitem.Replace("(itemname)", itemnum.Name).Replace("(itemprice)", itemnum.Price.ToString());
                                 return true;
                             }
