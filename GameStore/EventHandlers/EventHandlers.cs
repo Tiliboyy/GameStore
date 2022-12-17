@@ -1,83 +1,65 @@
+using System.Linq;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
-using MEC;
-using GameStore;
-using System.Collections.Generic;
-using Log = Exiled.API.Features.Log;
-using Player = Exiled.API.Features.Player;
-using Database = GameStore.GameStoreSEDatabase.Database;
 using Exiled.Loader;
-using Exiled.CustomItems;
-using Exiled.CustomItems.API.Features;
+using GameStore;
 
 public class EventHandlers
 {
+    public static bool PlayerHintsLoaded;
 
-
-    public static List<CoroutineHandle> coroutines = new();
-
-    public static bool PlayerHintsLoaded = false;
-    public void OnVerified(VerifiedEventArgs ev)
+    public static void OnVerified(VerifiedEventArgs ev)
     {
         if (!ev.Player.DoNotTrack)
         {
-            Database.AddPlayer(ev.Player);
+            GameStoreDatabase.Database.AddPlayer(ev.Player);
             ev.Player.GameObject.AddComponent<GameStoreComponent>();
         }
         else
         {
-            Database.RemovePlayer(ev.Player);
+            GameStoreDatabase.Database.RemovePlayer(ev.Player);
         }
-
     }
-    public void OnEscaping(EscapingEventArgs ev)
-    {
-        Database.AddMoneyToPlayer(ev.Player, 1000);
-        if(ev.Player.Cuffer != null)
-            Database.AddMoneyToPlayer(ev.Player.Cuffer, 500);
 
-    }
-    public void OnWaitingForPlayers()
+    public static void OnEscaping(EscapingEventArgs ev)
     {
-        foreach (var plugins in Loader.Plugins)
+        GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, Plugin.Instance.Config.Escapeamount);
+        if (ev.Player.Cuffer != null)
+            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player.Cuffer, Plugin.Instance.Config.Escapecufferamount);
+    }
+
+    public static void OnWaitingForPlayers()
+    {
+        foreach (var unused in Loader.Plugins.Where(plugins => plugins.Name == "PlayerHints"))
         {
-            Log.Info(plugins.Name);
-            if (plugins.Name == "PlayerHints")
-            {
-                PlayerHintsLoaded = true;
-                Log.Info("PlayerHints found");
-            }
+            PlayerHintsLoaded = true;
+            Log.Info("PlayerHints found");
         }
+        GameStoreDatabase.Database.CreatePlayers();
     }
-    public void OnUsedItem(UsedItemEventArgs ev)
+
+    public static void OnUsedItem(UsedItemEventArgs ev)
     {
-        Database.AddMoneyToPlayer(ev.Player, 100);
+        GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, 50);
     }
-    public void OnSpawned(SpawnedEventArgs ev)
+
+    public static void OnSpawned(SpawnedEventArgs ev)
     {
         if (ev.Player.IsScp)
-            Database.AddMoneyToPlayer(ev.Player, 200);
+            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, Plugin.Instance.Config.Scpspawnamount);
         else
-            Database.AddMoneyToPlayer(ev.Player, 50);
+            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, Plugin.Instance.Config.Spawnamount);
     }
 
-    public void OnDeath(DiedEventArgs ev)
+    public static void OnDeath(DiedEventArgs ev)
     {
         if (ev.Target == null) return;
-        Database.AddMoneyToPlayer(ev.Target, Plugin.Instance.Config.Deathamount );
+        GameStoreDatabase.Database.AddMoneyToPlayer(ev.Target, Plugin.Instance.Config.Deathamount);
         if (ev.Killer == null || ev.Killer.Id == ev.Target.Id)
             return;
-        if(ev.Killer.Role.Team == Team.SCP && ev.Killer.Role == RoleType.Scp0492)
-        {
-            Database.AddMoneyToPlayer(ev.Killer, Plugin.Instance.Config.Scpkillamount);
-        }
+        if (ev.Killer.Role.Team == Team.SCP && ev.Killer.Role == RoleType.Scp0492)
+            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Killer, Plugin.Instance.Config.Scpkillamount);
         else
-        {
-            Database.AddMoneyToPlayer(ev.Killer, Plugin.Instance.Config.Killamount);
-        }
-
-
+            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Killer, Plugin.Instance.Config.Killamount);
     }
-
 }
-

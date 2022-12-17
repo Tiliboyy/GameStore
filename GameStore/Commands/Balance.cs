@@ -1,39 +1,36 @@
-﻿using CommandSystem;
-using CustomPlayerEffects;
-using Exiled.Permissions.Extensions;
-using GameStore;
-using System;
-using Player = Exiled.API.Features.Player;
+﻿using System;
+using System.Globalization;
+using CommandSystem;
+using Exiled.API.Features;
 
-namespace GameStore.Commands
+namespace GameStore.Commands;
+
+[CommandHandler(typeof(ClientCommandHandler))]
+internal class GameStore : ICommand
 {
-    [CommandHandler(typeof(ClientCommandHandler))]
-    internal class GameStore : ICommand
+    public string Command { get; } = "balance";
+
+    public string[] Aliases { get; } = { "bal" };
+
+    public string Description { get; } = "Zeigt dir deinen Kontostand an";
+
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        public string Command { get; } = "balance";
-
-        public string[] Aliases { get; } = new[] { "bal" };
-
-        public string Description { get; } = "Zeigt dir deinen Kontostand an";
-
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        var player = Player.Get(sender);
+        if (player == null || player.IsHost)
         {
-            Player player = Player.Get(sender);
-            if (player == null || player.IsHost)
-            {
-                response = "You can only execute this as a Player";
-                return false;
-            }
-            if (player.DoNotTrack)
-            {
-                response = Plugin.Instance.Translation.Dntmessage;
-                return true;
-            }
-            float balance = GameStoreSEDatabase.Database.GetPlayerMoney(player); 
-            response = Plugin.Instance.Translation.balmessage.Replace("(balance)", balance.ToString());
-            return true;
-
-
+            response = "You can only execute this as a Player";
+            return false;
         }
+
+        if (player.DoNotTrack)
+        {
+            response = Plugin.Instance.Translation.Dntmessage;
+            return true;
+        }
+
+        var balance = GameStoreDatabase.Database.GetPlayerMoney(player);
+        response = Plugin.Instance.Translation.balmessage.Replace("(balance)", balance.ToString(CultureInfo.InvariantCulture));
+        return true;
     }
 }

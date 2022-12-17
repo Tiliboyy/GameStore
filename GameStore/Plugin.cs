@@ -1,13 +1,18 @@
-using GameStore;
-using Exiled.API.Features;
 using System;
 using System.IO;
+using Exiled.API.Features;
+using GameStore;
 using MapEvent = Exiled.Events.Handlers.Map;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
 
 public class Plugin : Plugin<Config, Translation>
 {
+    public static bool Enablegamestore = true;
+
+    public static Plugin Instance;
+
+    public EventHandlers EventHandler;
     public override string Author => "Tiliboyy";
 
     public override string Name => "GameStore";
@@ -17,43 +22,36 @@ public class Plugin : Plugin<Config, Translation>
 
     public override Version RequiredExiledVersion => new(5, 0, 0, 0);
 
-    public static bool Enablegamestore = true;
-
-    public EventHandlers EventHandler;
-
-    public static Plugin Instance;
-
     public override void OnEnabled()
     {
         try
         {
             if (!Directory.Exists(Path.Combine(Paths.Configs, "Gamestore/")))
                 Directory.CreateDirectory(Path.Combine(Paths.Configs, "Gamestore/"));
-            Plugin.Instance = this;
+            Instance = this;
             EventHandler = new EventHandlers();
-            Server.WaitingForPlayers += EventHandler.OnWaitingForPlayers; 
-            Player.Died += EventHandler.OnDeath;
-            Player.Escaping += EventHandler.OnEscaping;
-            Player.Spawned += EventHandler.OnSpawned;
-            Player.Verified += EventHandler.OnVerified;
-            Player.UsedItem += EventHandler.OnUsedItem;
-        } catch(Exception e)
+            Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
+            Player.Died += EventHandlers.OnDeath;
+            Player.Escaping += EventHandlers.OnEscaping;
+            Player.Spawned += EventHandlers.OnSpawned;
+            Player.Verified += EventHandlers.OnVerified;
+            Player.UsedItem += EventHandlers.OnUsedItem;
+        }
+        catch (Exception e)
         {
             Log.Error("Tiliboyy hat eine Skill Issue   " + e);
         }
-
     }
 
 
     public override void OnDisabled()
     {
-        Plugin.Instance = null;
+        Instance = null;
         EventHandler = null;
-        Player.Escaping -= EventHandler.OnEscaping;
-        Player.Died -= EventHandler.OnDeath;
-        Player.Spawned -= EventHandler.OnSpawned;
-        Player.Verified -= EventHandler.OnVerified;
-        Player.UsedItem -= EventHandler.OnUsedItem;
-
+        Player.Escaping -= EventHandlers.OnEscaping;
+        Player.Died -= EventHandlers.OnDeath;
+        Player.Spawned -= EventHandlers.OnSpawned;
+        Player.Verified -= EventHandlers.OnVerified;
+        Player.UsedItem -= EventHandlers.OnUsedItem;
     }
 }
