@@ -1,6 +1,5 @@
 ﻿using CommandSystem;
 using CustomPlayerEffects;
-using GameStore.UnityMethods;
 using Exiled.Permissions.Extensions;
 using GameStore;
 using System;
@@ -15,14 +14,14 @@ namespace GameStore.Commands
 
         public string[] Aliases { get; } = new[] { "bal" };
 
-        public string Description { get; } = "give you your Balance";
+        public string Description { get; } = "Zeigt dir deinen Kontostand an";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            if (player == null)
+            if (player == null || player.IsHost)
             {
-                response = "Falls du diese nachricht bekommst bitte geh @Tiliboyy#6969 auf discord anschreien";
+                response = "You can only execute this as a Player";
                 return false;
             }
             if (player.DoNotTrack)
@@ -31,7 +30,7 @@ namespace GameStore.Commands
                 return true;
             }
             float balance = GameStoreSEDatabase.Database.GetPlayerMoney(player); 
-            response = "Du hast " + balance + " " + Plugin.Instance.Translation.Currencyname;
+            response = Plugin.Instance.Translation.balmessage.Replace("(balance)", balance.ToString());
             return true;
 
 

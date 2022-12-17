@@ -1,5 +1,6 @@
 ﻿using Exiled.API.Interfaces;
 using System.ComponentModel;
+using System.Security.Cryptography;
 
 namespace GameStore
 {
@@ -19,6 +20,15 @@ namespace GameStore
         public string Fullinventory { get; set; } = "Dein Inventar ist voll";
 
         public string Dntmessage { get; set; } = "Du hast Do not Track aktiviert. Deakiviere DNT um den GameStore verwenden zu können";
+
+        public string Disabledstore { get; set; } = "Der GameStore ist momentan deaktiviert";
+
+        public string Roundnotstarted { get; set; } = "Die Runde hat noch nicht gestartet";
+
+        public string Categorydoesnotexist { get; set; } = "Diese Kategorie existiert nicht!";
+
+        public string balmessage { get; set; } = "Du hast (balance) Daylight Bits";
+
 
 
 

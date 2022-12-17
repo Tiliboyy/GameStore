@@ -1,6 +1,10 @@
 ﻿using Exiled.API.Features;
+using Exiled.Events.Commands.Show;
 using Exiled.Events.Handlers;
+using Exiled.Loader;
+using FMODUnity;
 using LiteDB;
+using MEC;
 using RemoteAdmin.Communication;
 using System;
 using System.Collections.Generic;
@@ -16,7 +20,7 @@ namespace GameStore
     public static class GameStoreSEDatabase
     {
         
-        public static LiteDatabase db = new(Path.Combine(Paths.Configs, "GamestoreSE/GameStoreSE.db"));
+        public static LiteDatabase db = new(Path.Combine(Paths.Configs, "Gamestore/GameStore.db"));
         public class DatabasePlayer
         {
             public string _id { get; set; }
@@ -25,7 +29,7 @@ namespace GameStore
 
         public static class Database
         {
-            public static void Create()
+            public static void CreatePlayers()
             {
                 var players = db.GetCollection<DatabasePlayer>("players");
 
@@ -39,8 +43,6 @@ namespace GameStore
             {
                 if (player.DoNotTrack || player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
-                Create();
-
                 var players = db.GetCollection<DatabasePlayer>("players");
 
                 if (players.FindOne(x => x._id == playerID) != null)
@@ -63,7 +65,6 @@ namespace GameStore
             {
                 if (player.DoNotTrack || player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
-                Create();
                 var players = db.GetCollection<DatabasePlayer>("players");
 
                 var dbplayer = players.FindOne(x => x._id == playerID);
@@ -79,7 +80,6 @@ namespace GameStore
             {
                 if (player.DoNotTrack || player == null) return;
                 string playerID = player.RawUserId.Split('@')[0];
-                Create();
                 var players = db.GetCollection<DatabasePlayer>("players");
 
                 var dbplayer = players.FindOne(x => x._id == playerID);
@@ -114,7 +114,6 @@ namespace GameStore
             {
                 if (player.DoNotTrack || player == null || money == 0) return;
                 string playerID = player.RawUserId.Split('@')[0];
-                Create();
                 var players = db.GetCollection<DatabasePlayer>("players");
 
                 var dbplayer = players.FindOne(x => x._id == playerID);
@@ -122,6 +121,11 @@ namespace GameStore
                 if (dbplayer != null)
                 {
                     Log.Debug(player.Nickname + " has been given " + money + " " + Plugin.Instance.Translation.Currencyname, Plugin.Instance.Config.Debug);
+                    if (EventHandlers.PlayerHintsLoaded)
+                    {
+                        Log.Info("called");
+                        Timing.RunCoroutine(PlayerHints.UnityMethods.UnityMethods.DisableHintsForTime(2, player));
+                    }
                     player.ShowHint(Plugin.Instance.Translation.Givemoneytext.Replace("(moneyamount)", money.ToString()), 2);
                     dbplayer.Money += money;
                     if (dbplayer.Money < 0)
@@ -137,8 +141,6 @@ namespace GameStore
             {
                 if (player.DoNotTrack || player == null) return 0;
                 string playerID = player.RawUserId.Split('@')[0];
-                Create();
-
                 var players = db.GetCollection<DatabasePlayer>("players");
 
                 var dbplayer = players.FindOne(x => x._id == playerID);
@@ -164,6 +166,8 @@ namespace GameStore
                     players.Delete(dbplayer._id);
                 }
             }
+
+
         }
     }
 }

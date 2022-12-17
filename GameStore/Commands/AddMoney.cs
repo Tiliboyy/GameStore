@@ -1,6 +1,6 @@
 ﻿using CommandSystem;
 using CustomPlayerEffects;
-using GameStore.UnityMethods;
+using GameStore;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
@@ -10,7 +10,7 @@ using static GameStore.GameStoreSEDatabase;
 using Player = Exiled.API.Features.Player;
 using database = GameStore.GameStoreSEDatabase.Database;
 using System.Linq;
-using static Config;
+
 using MEC;
 
 namespace GameStore.Commands
@@ -26,7 +26,12 @@ namespace GameStore.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (arguments.Count != 2)
+            if (!sender.CheckPermission("gs.add"))
+            {
+                response = "You do not have permission to use this command";
+                return false;
+            }
+                if (arguments.Count != 2)
             {
                 response = "Usage: AddMoney ((player id / name) or (all / *)) (amount)";
                 return false;

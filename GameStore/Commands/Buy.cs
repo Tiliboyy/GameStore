@@ -1,6 +1,5 @@
 ﻿using CommandSystem;
 using CustomPlayerEffects;
-using GameStore.UnityMethods;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
@@ -10,7 +9,7 @@ using static GameStore.GameStoreSEDatabase;
 using Player = Exiled.API.Features.Player;
 using database = GameStore.GameStoreSEDatabase.Database;
 using System.Linq;
-using static Config;
+
 
 namespace GameStore.Commands
 {
@@ -18,7 +17,7 @@ namespace GameStore.Commands
     internal class Commanad : ICommand
     {
         public string Command { get; } = "buy";
-
+       
         public string[] Aliases { get; } = new string[0];
 
         public string Description { get; } = "buy";
@@ -29,17 +28,12 @@ namespace GameStore.Commands
             Player player = Player.Get(sender);
             if (player.DoNotTrack)
             {
-                response = "Du hast Do not Track aktiviert. Deakiviere es um den GameStore verwenden zu können";
+                response = Plugin.Instance.Translation.Dntmessage;
                 return true;
             }
             if (!Plugin.Enablegamestore)
             {
-                response = "Der GameStore ist momentan deakiviert!";
-                return true;
-            }
-            if (!Round.IsStarted)
-            {
-                response = "Das spiel hat noch nicht gestartet";
+                response = Plugin.Instance.Translation.Disabledstore;
                 return true;
             }
             if (player == null || player.IsHost)
@@ -49,7 +43,7 @@ namespace GameStore.Commands
             }
             if(arguments.Count == 0)
             {
-                response = Builder.CategoryBuilder();
+                response = Builders.CategoryBuilder();
                 return true;
             }
             if(arguments.Count == 1)
@@ -57,21 +51,26 @@ namespace GameStore.Commands
                 int.TryParse(arguments.Array[1], out int argument1);
                 if (argument1 > Plugin.Instance.Config.Categorys.Count)
                 {
-                    response = "Diese Kategorie existiert nicht!";
+                    response = Plugin.Instance.Translation.Categorydoesnotexist;
                     return true;
                 }
-                response = Builder.ItemListBuilder(argument1);
+                response = Builders.ItemListBuilder(argument1);
                 return true;
 
             }
             if(arguments.Count == 2)
             {
+                if (!Round.IsStarted)
+                {
+                    response = Plugin.Instance.Translation.Roundnotstarted;
+                    return true;
+                }
                 int.TryParse(arguments.Array[1], out int category);
                 int.TryParse(arguments.Array[2], out int item);
                 int i = 1;
                 if(category > Plugin.Instance.Config.Categorys.Count)
                 {
-                    response = "Diese Kategorie existiert nicht!";
+                    response = Plugin.Instance.Translation.Categorydoesnotexist;
                     return true;
                 }
                 foreach (var itemnum in Plugin.Instance.Config.Items)
@@ -96,7 +95,6 @@ namespace GameStore.Commands
                                 {
                                     response = Plugin.Instance.Translation.Cantafford;
                                     return true;
-
                                 }
                                 if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(itemnum.Id))
                                 {
@@ -125,7 +123,7 @@ namespace GameStore.Commands
                 response = "Dieses Item exisitert nicht";
                 return true;
             }
-            response = Builder.CategoryBuilder();
+            response = Builders.CategoryBuilder();
             return true;
 
 

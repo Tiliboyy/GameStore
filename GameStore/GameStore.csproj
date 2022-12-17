@@ -71,10 +71,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\Documents\assambys\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Mirror-Publicized">
-      <HintPath>..\..\..\..\Documents\assambys\Mirror-Publicized.dll</HintPath>
+    <Reference Include="Mirror_Publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Documents\Assembly\Mirror_Publicized.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayerHints, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AppData\Roaming\EXILED\Plugins\PlayerHints.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -86,13 +91,13 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\Documents\assambys\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\Documents\assambys\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\..\..\..\Documents\assambys\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -103,11 +108,11 @@
     <Compile Include="Configs\Translations.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="GameStoreComponent.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="EventHandlers\EventHandlers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\Builder.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -120,7 +125,7 @@
       <Version>2.2.2</Version>
     </PackageReference>
     <PackageReference Include="LiteDB">
-      <Version>5.0.13</Version>
+      <Version>5.0.12</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
