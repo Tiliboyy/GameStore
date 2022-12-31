@@ -3,7 +3,6 @@ using CommandSystem;
 using Exiled.Permissions.Extensions;
 using database = GameStore.GameStoreDatabase.Database;
 
-
 namespace GameStore.Commands;
 
 [CommandHandler(typeof(RemoteAdminCommandHandler))]

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using CommandSystem;
-using Exiled.API.Features;
+using Exiled.API.Features.Roles;
 using Mirror;
+using PlayerRoles;
 using database = GameStore.GameStoreDatabase.Database;
 
 
@@ -19,7 +20,7 @@ internal class Commanad : ICommand
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
         var player = Player.Get(sender);
-        if (player == null || player.IsHost)
+        if (player == null)
         {
             response = "You can only execute this as a Player";
             return false;
@@ -37,7 +38,7 @@ internal class Commanad : ICommand
 
         if (arguments.Array == null)
         {
-            response = "what the fuck did you do";
+            response = "What the fuck did you do";
             return false;
         }
 
@@ -82,12 +83,11 @@ internal class Commanad : ICommand
                             return true;
                         }
 
-                        if (!itemnum.Roles.Contains(player.Role.Type) && !itemnum.Roles.Contains(RoleType.None))
+                        if (!itemnum.Roles.Contains(player.Role.Type) && !itemnum.Roles.Contains(RoleTypeId.None) || player.IsScp)
                         {
                             response = Plugin.Instance.Translation.WrongeRole;
                             return true;
                         }
-
                         if (!database.CanRemoveMoneyFromPlayer(player, itemnum.Price))
                         {
                             response = Plugin.Instance.Translation.Cantafford;

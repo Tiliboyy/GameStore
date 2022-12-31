@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.IO;
-using Exiled.API.Features;
 using LiteDB;
 using MEC;
 using PlayerHints.UnityMethods;
@@ -47,7 +46,7 @@ public static class GameStoreDatabase
         
         public static void BuyItem(Player player, Config.ItemPrice item)
         {
-            if (player.DoNotTrack || player == null) return;
+            if (player.DoNotTrack) return;
             var playerID = player.RawUserId.Split('@')[0];
             var players = db.GetCollection<DatabasePlayer>("players");
 
@@ -68,8 +67,7 @@ public static class GameStoreDatabase
 
         public static bool CanRemoveMoneyFromPlayer(Player player, float money)
         {
-            if (player.DoNotTrack || player == null) return false;
-
+            if (player == null) return false;
             if (player.DoNotTrack) return false;
             var playerID = player.RawUserId.Split('@')[0];
             var players = db.GetCollection<DatabasePlayer>("players");
@@ -83,18 +81,24 @@ public static class GameStoreDatabase
 
         public static void AddMoneyToPlayer(Player player, float money)
         {
-            if (player.DoNotTrack || player == null || money == 0) return;
+            if (player == null) return ;
+            if (player.DoNotTrack || money == 0) return;
             var playerID = player.RawUserId.Split('@')[0];
             var players = db.GetCollection<DatabasePlayer>("players");
 
             var dbplayer = players.FindOne(x => x._id != null && x._id == playerID);
 
             if (dbplayer == null) return;
-            Log.Debug(player.Nickname + " has been given " + money + " " + Plugin.Instance.Translation.Currencyname,
-                Plugin.Instance.Config.Debug);
-            if (EventHandlers.PlayerHintsLoaded) Timing.RunCoroutine(UnityMethods.DisableHintsForTime(2, player));
-            player.ShowHint(Plugin.Instance.Translation.Givemoneytext.Replace("(moneyamount)", money.ToString(CultureInfo.InvariantCulture)),
-                2);
+            //Log.Debug(player.Nickname + " has been given " + money + " " + Plugin.Instance.Translation.Currencyname,
+            //    Plugin.Instance.Config.Debug);
+            //if (EventHandlers.PlayerHintsLoaded) Timing.RunCoroutine(UnityMethods.DisableHintsForTime(2, player));
+            player.ShowHint
+            (
+                Plugin.Instance.Translation.Givemoneytext.Replace(
+                "(moneyamount)", 
+                money.ToString(CultureInfo.InvariantCulture)), 
+                2
+            );
             dbplayer.Money += money;
             if (dbplayer.Money < 0) dbplayer.Money = 0;
             players.Update(dbplayer);

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using CommandSystem;
-using Exiled.API.Features;
+using RemoteAdmin;
+using UnityEngine;
 
 namespace GameStore.Commands;
 
@@ -17,7 +18,7 @@ internal class GameStore : ICommand
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
         var player = Player.Get(sender);
-        if (player == null || player.IsHost)
+        if (player == null)
         {
             response = "You can only execute this as a Player";
             return false;

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Interfaces;
+using InventorySystem.Items.Usables.Scp330;
+using PlayerRoles;
 
 [Serializable]
 public class Config : IConfig
@@ -30,24 +32,24 @@ public class Config : IConfig
     {
         new Category
             {
-                Name = "D-Klasse", Description = "        Hier kannst du Gegenstande für D-Klassen kaufen." },
+                Name = "D-Klasse", Description = "Hier kannst du Gegenstande für D-Klassen kaufen." },
         new Category
         {
             Name = "Wissenschaftler",
-            Description = "        Hier kannst du Gegenstande für Wissenschaftler kaufen."
+            Description = "Hier kannst du Gegenstande für Wissenschaftler kaufen."
         },
         new Category
         {
             Name = "Sicherheitspersonal",
-            Description = "        Hier kannst du Gegenstande für Sicherheitspersonal kaufen."
+            Description = "Hier kannst du Gegenstande für Sicherheitspersonal kaufen."
         },
-        new Category { Name = "MTF", Description = "       Hier kannst du Gegenstande für das MTF kaufen." },
+        new Category { Name = "MTF", Description = "Hier kannst du Gegenstande für das MTF kaufen." },
         new Category
             {
-                Name = "Chaos", Description = "        Hier kannst du Gegenstande für Chaos insurgency kaufen." },
-        new Category { Name = "Allgemein", Description = "        Hier findest du allgemeine Sachen." },
-        new Category { Name = "Munition", Description = "        Hier findest du Munition" },
-        new Category { Name = "Spezial", Description = "       Hier findest du spezielle Sachen." }
+                Name = "Chaos", Description = "Hier kannst du Gegenstande für Chaos insurgency kaufen." },
+        new Category { Name = "Allgemein", Description = "Hier findest du allgemeine Sachen." },
+        new Category { Name = "Munition", Description = "Hier findest du Munition" },
+        new Category { Name = "Spezial", Description = " Hier findest du spezielle Sachen." }
     };
 
     public List<ItemPrice> Items { get; set; } = new()
@@ -58,8 +60,8 @@ public class Config : IConfig
             Price = 2000,
             Name = "Hausmeisterkarte",
             ItemTypes = new List<ItemType> { ItemType.KeycardJanitor },
-            Roles = new List<RoleType> { RoleType.ClassD },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.ClassD },
+            Maxbuys = 1,
             CategoryNum = 1
         },
 
@@ -69,8 +71,8 @@ public class Config : IConfig
             Price = 4000,
             Name = "Wissenschaftlerkarte",
             ItemTypes = new List<ItemType> { ItemType.KeycardScientist },
-            Roles = new List<RoleType> { RoleType.ClassD },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.ClassD },
+            Maxbuys = 1,
             CategoryNum = 1
         },
 
@@ -80,8 +82,8 @@ public class Config : IConfig
             Price = 600,
             Name = "Schmerzmittel",
             ItemTypes = new List<ItemType> { ItemType.Painkillers },
-            Roles = new List<RoleType> { RoleType.ClassD },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.ClassD },
+            Maxbuys = 2,
             CategoryNum = 1
         },
 
@@ -92,8 +94,8 @@ public class Config : IConfig
             Price = 4000,
             Name = "Hauptwissenschaftlerkarte",
             ItemTypes = new List<ItemType> { ItemType.KeycardResearchCoordinator },
-            Roles = new List<RoleType> { RoleType.Scientist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
+            Maxbuys = 1,
             CategoryNum = 2
         },
 
@@ -103,8 +105,8 @@ public class Config : IConfig
             Price = 5000,
             Name = "Zonenmanagerkarte",
             ItemTypes = new List<ItemType> { ItemType.KeycardZoneManager },
-            Roles = new List<RoleType> { RoleType.Scientist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
+            Maxbuys = 1,
             CategoryNum = 2
         },
 
@@ -114,8 +116,8 @@ public class Config : IConfig
             Price = 500,
             Name = "Radio",
             ItemTypes = new List<ItemType> { ItemType.Radio },
-            Roles = new List<RoleType> { RoleType.Scientist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
+            Maxbuys = 2,
             CategoryNum = 2
         },
         new ItemPrice
@@ -124,8 +126,8 @@ public class Config : IConfig
             Price = 2000,
             Name = "SCP-500",
             ItemTypes = new List<ItemType> { ItemType.SCP500 },
-            Roles = new List<RoleType> { RoleType.Scientist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
+            Maxbuys = 2,
             CategoryNum = 2
         },
 
@@ -135,8 +137,8 @@ public class Config : IConfig
             Price = 400,
             Name = "Schmerzmittel",
             ItemTypes = new List<ItemType> { ItemType.Painkillers },
-            Roles = new List<RoleType> { RoleType.Scientist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
+            Maxbuys = 2,
             CategoryNum = 2
         },
         new ItemPrice
@@ -145,8 +147,8 @@ public class Config : IConfig
             Price = 5000,
             Name = "SCP-018",
             ItemTypes = new List<ItemType> { ItemType.SCP018 },
-            Roles = new List<RoleType> { RoleType.Scientist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
+            Maxbuys = 2,
             CategoryNum = 2
         },
         new ItemPrice
@@ -155,17 +157,17 @@ public class Config : IConfig
             Price = 7000,
             Name = "SCP-268",
             ItemTypes = new List<ItemType> { ItemType.SCP268 },
-            Roles = new List<RoleType> { RoleType.Scientist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
+            Maxbuys = 1,
             CategoryNum = 2
         },
         new ItemPrice
         {
             Id = 11,
             Price = 3500,
-            Name = "Leichte Brustpanzerung ",
+            Name = "Leichte Brustpanzerung",
             ItemTypes = new List<ItemType> { ItemType.ArmorLight },
-            Roles = new List<RoleType> { RoleType.Scientist },
+            Roles = new List<RoleTypeId> { RoleTypeId.Scientist },
             Maxbuys = 5,
             CategoryNum = 2
         },
@@ -175,10 +177,10 @@ public class Config : IConfig
         {
             Id = 12,
             Price = 3000,
-            Name = "Kadettenkarte ",
+            Name = "Kadettenkarte",
             ItemTypes = new List<ItemType> { ItemType.KeycardNTFOfficer },
-            Roles = new List<RoleType> { RoleType.FacilityGuard },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.FacilityGuard },
+            Maxbuys = 1,
             CategoryNum = 3
         },
 
@@ -187,10 +189,10 @@ public class Config : IConfig
         {
             Id = 13,
             Price = 4000,
-            Name = "Crossvec ",
+            Name = "Crossvec",
             ItemTypes = new List<ItemType> { ItemType.GunCrossvec },
-            Roles = new List<RoleType> { RoleType.FacilityGuard },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.FacilityGuard },
+            Maxbuys = 1,
             CategoryNum = 3
         },
 
@@ -201,8 +203,8 @@ public class Config : IConfig
             Price = 1000,
             Name = "Granate",
             ItemTypes = new List<ItemType> { ItemType.GrenadeHE },
-            Roles = new List<RoleType> { RoleType.FacilityGuard },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.FacilityGuard },
+            Maxbuys = 2,
             CategoryNum = 3
         },
 
@@ -212,8 +214,8 @@ public class Config : IConfig
             Price = 1000,
             Name = "Flash Grenade",
             ItemTypes = new List<ItemType> { ItemType.GrenadeFlash },
-            Roles = new List<RoleType> { RoleType.FacilityGuard },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.FacilityGuard },
+            Maxbuys = 2,
             CategoryNum = 3
         },
 
@@ -223,8 +225,8 @@ public class Config : IConfig
             Price = 4500,
             Name = "Schwere Brustpanzerung",
             ItemTypes = new List<ItemType> { ItemType.ArmorHeavy },
-            Roles = new List<RoleType> { RoleType.FacilityGuard },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.FacilityGuard },
+            Maxbuys = 1,
             CategoryNum = 3
         },
 
@@ -235,8 +237,8 @@ public class Config : IConfig
             Price = 500,
             Name = "Schmerzmittel",
             ItemTypes = new List<ItemType> { ItemType.Painkillers },
-            Roles = new List<RoleType> { RoleType.FacilityGuard },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.FacilityGuard },
+            Maxbuys = 2,
             CategoryNum = 3
         },
 
@@ -247,9 +249,9 @@ public class Config : IConfig
             Price = 7000,
             Name = "Facilitymanager Karte",
             ItemTypes = new List<ItemType> { ItemType.KeycardFacilityManager },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 1,
             CategoryNum = 4
         },
 
@@ -260,9 +262,9 @@ public class Config : IConfig
             Price = 2500,
             Name = "MTF-E11-SR",
             ItemTypes = new List<ItemType> { ItemType.GunE11SR },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 1,
             CategoryNum = 4
         },
 
@@ -272,9 +274,9 @@ public class Config : IConfig
             Price = 3500,
             Name = "Schwere Brustpanzerung",
             ItemTypes = new List<ItemType> { ItemType.ArmorHeavy },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 1,
             CategoryNum = 4
         },
 
@@ -284,9 +286,9 @@ public class Config : IConfig
             Price = 1500,
             Name = "SCP-500",
             ItemTypes = new List<ItemType> { ItemType.SCP500 },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 2,
             CategoryNum = 4
         },
 
@@ -296,9 +298,9 @@ public class Config : IConfig
             Price = 500,
             Name = "Schmerzmittel",
             ItemTypes = new List<ItemType> { ItemType.Painkillers },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 2,
             CategoryNum = 4
         },
 
@@ -308,9 +310,9 @@ public class Config : IConfig
             Price = 1000,
             Name = "Granate",
             ItemTypes = new List<ItemType> { ItemType.GrenadeHE },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 2,
             CategoryNum = 4
         },
 
@@ -321,9 +323,9 @@ public class Config : IConfig
             Price = 750,
             Name = "Flash Granate",
             ItemTypes = new List<ItemType> { ItemType.GrenadeFlash },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 2,
             CategoryNum = 4
         },
 
@@ -333,9 +335,9 @@ public class Config : IConfig
             Price = 50000,
             Name = "X3-Particle-Disruptor",
             ItemTypes = new List<ItemType> { ItemType.GrenadeFlash },
-            Roles = new List<RoleType>
-                { RoleType.NtfCaptain, RoleType.NtfPrivate, RoleType.NtfSergeant, RoleType.NtfSpecialist },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Maxbuys = 1,
             CategoryNum = 4
         },
 
@@ -346,9 +348,9 @@ public class Config : IConfig
             Price = 7000,
             Name = "Facilitymanager Karte",
             ItemTypes = new List<ItemType> { ItemType.KeycardFacilityManager },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 1,
             CategoryNum = 5
         },
 
@@ -359,9 +361,9 @@ public class Config : IConfig
             Price = 7000,
             Name = "Logicer",
             ItemTypes = new List<ItemType> { ItemType.GunLogicer },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 1,
             CategoryNum = 5
         },
 
@@ -372,9 +374,9 @@ public class Config : IConfig
             Price = 2500,
             Name = "Shotgun",
             ItemTypes = new List<ItemType> { ItemType.GunShotgun },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 1,
             CategoryNum = 5
         },
 
@@ -385,9 +387,9 @@ public class Config : IConfig
             Price = 3500,
             Name = "Schwere Brustpanzerung",
             ItemTypes = new List<ItemType> { ItemType.ArmorHeavy },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 1,
             CategoryNum = 5
         },
 
@@ -398,9 +400,9 @@ public class Config : IConfig
             Price = 500,
             Name = "Schmerzmittel",
             ItemTypes = new List<ItemType> { ItemType.Painkillers },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 2,
             CategoryNum = 5
         },
 
@@ -410,9 +412,9 @@ public class Config : IConfig
             Price = 1000,
             Name = "Granate",
             ItemTypes = new List<ItemType> { ItemType.GrenadeHE },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 2,
             CategoryNum = 5
         },
 
@@ -423,9 +425,9 @@ public class Config : IConfig
             Price = 750,
             Name = "Flash Granate",
             ItemTypes = new List<ItemType> { ItemType.GrenadeFlash },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 2,
             CategoryNum = 5
             
         },
@@ -436,9 +438,9 @@ public class Config : IConfig
             Price = 50000,
             Name = "X3-Particle-Disruptor",
             ItemTypes = new List<ItemType> { ItemType.ParticleDisruptor },
-            Roles = new List<RoleType>
-                { RoleType.ChaosConscript, RoleType.ChaosMarauder, RoleType.ChaosRepressor, RoleType.ChaosRifleman },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId>
+                { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },
+            Maxbuys = 1,
             CategoryNum = 5
         },
 
@@ -449,7 +451,7 @@ public class Config : IConfig
             Price = 300,
             Name = "Coin",
             ItemTypes = new List<ItemType> { ItemType.Coin },
-            Roles = new List<RoleType> { RoleType.None },
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
             Maxbuys = 5,
             CategoryNum = 6
         },
@@ -460,7 +462,7 @@ public class Config : IConfig
             Price = 350,
             Name = "Flashlight",
             ItemTypes = new List<ItemType> { ItemType.Flashlight },
-            Roles = new List<RoleType> { RoleType.None },
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
             Maxbuys = 5,
             CategoryNum = 6
         },
@@ -472,8 +474,8 @@ public class Config : IConfig
             Price = 1000,
             Name = "SCP-207",
             ItemTypes = new List<ItemType> { ItemType.SCP207 },
-            Roles = new List<RoleType> { RoleType.None },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 2,
             CategoryNum = 6
         },
 
@@ -484,8 +486,8 @@ public class Config : IConfig
             Price = 450,
             Name = "Adrenalin",
             ItemTypes = new List<ItemType> { ItemType.Adrenaline },
-            Roles = new List<RoleType> { RoleType.None },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 2,
             CategoryNum = 6
         },
 
@@ -495,8 +497,8 @@ public class Config : IConfig
             Price = 500,
             Name = "Medkit",
             ItemTypes = new List<ItemType> { ItemType.Medkit },
-            Roles = new List<RoleType> { RoleType.None },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 3,
             CategoryNum = 6
         },
 
@@ -508,11 +510,11 @@ public class Config : IConfig
             Name = "Kostenlose Munition",
             AmmoTypes = new Dictionary<AmmoType, ushort>
             {
-                { AmmoType.Nato762, 5 }, { AmmoType.Ammo44Cal, 5 }, { AmmoType.Nato556, 5 },
-                { AmmoType.Ammo12Gauge, 5 }, { AmmoType.Nato9, 5 }
+                { AmmoType.Nato762, 60 }, { AmmoType.Ammo44Cal, 12 }, { AmmoType.Nato556, 60 },
+                { AmmoType.Ammo12Gauge, 12 }, { AmmoType.Nato9, 60 }
             },
-            Roles = new List<RoleType> { RoleType.None },
-            Maxbuys = 5,
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 1,
             CategoryNum = 7,
             IsAmmo = true
         },
@@ -522,12 +524,58 @@ public class Config : IConfig
             Id = 40,
             Price = 75,
             Name = "9x19mm Munition",
-            AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Nato9, 5 } },
-            Roles = new List<RoleType> { RoleType.None },
-            Maxbuys = 5,
+            AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Nato9, 60 } },
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 2,
             CategoryNum = 7,
             IsAmmo = true
-        }
+        },
+        new ItemPrice
+        {
+            Id = 41,
+            Price = 75,
+            Name = "12/70 Buckshot",
+            AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Ammo12Gauge, 60 } },
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 2,
+            CategoryNum = 7,
+            IsAmmo = true
+        },
+        new ItemPrice
+        {
+            Id = 42,
+            Price = 75,
+            Name = ".44 Mag",
+            AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Ammo44Cal, 60 } },
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 2,
+            CategoryNum = 7,
+            IsAmmo = true
+        },
+        new ItemPrice
+        {
+            Id = 43,
+            Price = 75,
+            Name = "9x19mm Munition",
+            AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Nato9, 60 } },
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 2,
+            CategoryNum = 7,
+            IsAmmo = true
+        },
+        new ItemPrice
+        {
+            Id = 44,
+            Price = 75,
+            Name = "7.62x39mm Munition",
+            AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Nato762, 60 } },
+            Roles = new List<RoleTypeId> { RoleTypeId.None },
+            Maxbuys = 2,
+            CategoryNum = 7,
+            IsAmmo = true
+        },
+        
+        
     };
 
     [Description("Enables the Plugin")] public bool IsEnabled { get; set; } = true;
@@ -543,7 +591,7 @@ public class Config : IConfig
         public Dictionary<AmmoType, ushort> AmmoTypes { get; set; }
 
         public int Price { get; set; }
-        public List<RoleType> Roles { get; set; }
+        public List<RoleTypeId> Roles { get; set; }
 
         public int Maxbuys { get; set; }
 
@@ -566,7 +614,7 @@ public class Builders
         var i = 1;
         foreach (var categoryitem in Plugin.Instance.Config.Categorys)
         {
-            category += $"\n[{i}] " + categoryitem.Name + "\n" + categoryitem.Description;
+            category += $"\n[{i}] " + categoryitem.Name + "\n        " + categoryitem.Description;
             i++;
         }
 
