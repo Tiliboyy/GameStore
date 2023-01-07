@@ -32,21 +32,21 @@ public class Config : IConfig
     {
         new Category
             {
-                Name = "D-Klasse", Description = "Hier kannst du Gegenstande für D-Klassen kaufen." },
+                Name = "D-Klasse", Description = "Hier kannst du Gegenstande fÃ¼r D-Klassen kaufen." },
         new Category
         {
             Name = "Wissenschaftler",
-            Description = "Hier kannst du Gegenstande für Wissenschaftler kaufen."
+            Description = "Hier kannst du Gegenstande fÃ¼r Wissenschaftler kaufen."
         },
         new Category
         {
             Name = "Sicherheitspersonal",
-            Description = "Hier kannst du Gegenstande für Sicherheitspersonal kaufen."
+            Description = "Hier kannst du Gegenstande fÃ¼r Sicherheitspersonal kaufen."
         },
-        new Category { Name = "MTF", Description = "Hier kannst du Gegenstande für das MTF kaufen." },
+        new Category { Name = "MTF", Description = "Hier kannst du Gegenstande fÃ¼r das MTF kaufen." },
         new Category
             {
-                Name = "Chaos", Description = "Hier kannst du Gegenstande für Chaos insurgency kaufen." },
+                Name = "Chaos", Description = "Hier kannst du Gegenstande fÃ¼r Chaos insurgency kaufen." },
         new Category { Name = "Allgemein", Description = "Hier findest du allgemeine Sachen." },
         new Category { Name = "Munition", Description = "Hier findest du Munition" },
         new Category { Name = "Spezial", Description = " Hier findest du spezielle Sachen." }

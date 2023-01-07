@@ -31,11 +31,6 @@ public class EventHandlers
     }
     public static void OnWaitingForPlayers()
     {
-        foreach (var unused in Loader.Plugins.Where(plugins => plugins.Name == "PlayerHints"))
-        {
-            PlayerHintsLoaded = true;
-            Log.Info("PlayerHints found");
-        }
         GameStoreDatabase.Database.CreatePlayers();
     }
 

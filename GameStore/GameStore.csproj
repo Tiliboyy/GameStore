@@ -73,8 +73,11 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="Assembly-CSharp">
+          <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp.dll</HintPath>
+        </Reference>
         <Reference Include="Assembly-CSharp-firstpass">
-          <HintPath>..\..\..\..\Desktop\Exiled Beta\Assembly-CSharp-firstpass.dll</HintPath>
+          <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>
         <Reference Include="CommandSystem.Core">
           <HintPath>..\..\..\..\Desktop\Exiled Beta\CommandSystem.Core.dll</HintPath>
@@ -82,8 +85,8 @@
         <Reference Include="Mirror">
           <HintPath>..\..\..\..\Documents\Assembly\Mirror.dll</HintPath>
         </Reference>
-        <Reference Include="PlayerHints">
-          <HintPath>..\..\..\..\Desktop\PlayerHints.dll</HintPath>
+        <Reference Include="NorthwoodLib">
+          <HintPath>..\..\..\..\Documents\Assembly\NorthwoodLib.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -95,13 +98,13 @@
         <Reference Include="System.Net.Http" />
         <Reference Include="System.Xml" />
         <Reference Include="UnityEngine">
-            <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.dll</HintPath>
+          <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-            <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.CoreModule.dll</HintPath>
+          <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.PhysicsModule">
-            <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
+          <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
@@ -123,7 +126,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="EXILED">
-          <Version>6.0.0-beta.17</Version>
+          <Version>6.0.0-beta.20</Version>
         </PackageReference>
         <PackageReference Include="Lib.Harmony">
             <Version>2.2.2</Version>

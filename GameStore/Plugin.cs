@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using GameStore;
+using PlayerRoles;
 using MapEvent = Exiled.Events.Handlers.Map;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
@@ -48,6 +49,7 @@ public class Plugin : Plugin<Config, Translation>
     {
         Instance = null;
         EventHandler = null;
+        Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
         Player.Escaping -= EventHandlers.OnEscaping;
         Player.Died -= EventHandlers.OnDeath;
         Player.Spawned -= EventHandlers.OnSpawned;
