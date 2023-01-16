@@ -49,13 +49,7 @@ internal class Commanad : ICommand
                 return true;
             case 1:
             {
-
                 int.TryParse(arguments.Array[1], out var argument1);
-                if (argument1 > Plugin.Instance.Config.Categorys.Count)
-                {
-                    response = Plugin.Instance.Translation.Categorydoesnotexist;
-                    return true;
-                }
                 response = Builders.ItemListBuilder(argument1);
                 return true;
             }
@@ -66,57 +60,65 @@ internal class Commanad : ICommand
             {
                 int.TryParse(arguments.Array[1], out var category);
                 int.TryParse(arguments.Array[2], out var item);
-                var i = 1;
                 if (category > Plugin.Instance.Config.Categorys.Count)
                 {
                     response = Plugin.Instance.Translation.Categorydoesnotexist;
                     return true;
                 }
 
-                foreach (var itemnum in Plugin.Instance.Config.Items.Where(itemnum => category == itemnum.CategoryNum))
+                var list = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id);
+                foreach (var category1 in list)
                 {
-                    if (item == i)
+                    if (category1.id != category) continue;
+                    var itemlist = category1.Items.OrderBy(price => price.Id);
+                    foreach (var items in itemlist.Where(items => item == items.Id))
                     {
+                        string num = $"{category1.id}{items.Id}";
+                        if (!int.TryParse(num, out var result))
+                        {
+                            response = "Something went wrong please contact server staff";
+                            return true;
+                        }
+                        if (!items.Roles.Contains(player.Role.Type) && !items.Roles.Contains(RoleTypeId.None) || player.IsScp)
+                        {
+                            response = Plugin.Instance.Translation.WrongeRole;
+                            return true;
+                        }
                         if (player.Items.Count >= 8)
                         {
                             response = Plugin.Instance.Translation.Fullinventory;
                             return true;
                         }
 
-                        if (!itemnum.Roles.Contains(player.Role.Type) && !itemnum.Roles.Contains(RoleTypeId.None) || player.IsScp)
-                        {
-                            response = Plugin.Instance.Translation.WrongeRole;
-                            return true;
-                        }
-                        if (!database.CanRemoveMoneyFromPlayer(player, itemnum.Price))
+
+                        if (!database.CanRemoveMoneyFromPlayer(player, items.Price))
                         {
                             response = Plugin.Instance.Translation.Cantafford;
                             return true;
                         }
 
-                        if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(itemnum.Id))
+                        if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(result))
                         {
-                            if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[itemnum.Id] >=
-                                itemnum.Maxbuys)
+                            if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result] >=
+                                items.Maxbuys)
                             {
                                 response = Plugin.Instance.Translation.Maxamountreached;
                                 return true;
                             }
 
-                            player.GameObject.GetComponent<GameStoreComponent>().boughtitems[itemnum.Id]++;
+                            player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result]++;
                         }
                         else
                         {
-                            player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(itemnum.Id, 1);
+                            player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
                         }
 
-                        database.BuyItem(player, itemnum);
-                        response = Plugin.Instance.Translation.Boughtitem.Replace("(itemname)", itemnum.Name)
-                            .Replace("(itemprice)", itemnum.Price.ToString());
+
+                        database.BuyItem(player, items);
+                        response = Plugin.Instance.Translation.Boughtitem.Replace("(itemname)", items.Name)
+                            .Replace("(itemprice)", items.Price.ToString());
                         return true;
                     }
-
-                    i++;
                 }
 
                 response = "Dieses Item exisitert nicht";

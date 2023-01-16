@@ -21,7 +21,7 @@ public class Plugin : Plugin<Config, Translation>
     public override string Prefix => "GameStore";
     public override Version Version => new(1, 0, 0);
 
-    public override Version RequiredExiledVersion => new(5, 0, 0, 0);
+    public override Version RequiredExiledVersion => new(6, 0, 0, 0);
 
     public override void OnEnabled()
     {
@@ -40,7 +40,7 @@ public class Plugin : Plugin<Config, Translation>
         }
         catch (Exception e)
         {
-            Log.Error("Tiliboyy hat eine Skill Issue   " + e);
+            Log.Error("Error :" + e);
         }
     }
 

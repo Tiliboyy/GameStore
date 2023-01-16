@@ -73,9 +73,6 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Assembly-CSharp">
-          <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp.dll</HintPath>
-        </Reference>
         <Reference Include="Assembly-CSharp-firstpass">
           <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>

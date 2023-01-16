@@ -2,6 +2,7 @@
 using System.IO;
 using LiteDB;
 using MEC;
+using PlayerRoles;
 
 namespace GameStore;
 
@@ -43,7 +44,7 @@ public static class GameStoreDatabase
         }
 
         
-        public static void BuyItem(Player player, Config.ItemPrice item)
+        public static void BuyItem(Player player, Structs.ItemPrice item)
         {
             if (player.DoNotTrack) return;
             var playerID = player.RawUserId.Split('@')[0];
@@ -64,7 +65,7 @@ public static class GameStoreDatabase
             players.Update(dbplayer);
         }
 
-        public static bool CanRemoveMoneyFromPlayer(Player player, float money)
+        public static bool CanRemoveMoneyFromPlayer(Player player, float reward)
         {
             if (player == null) return false;
             if (player.DoNotTrack) return false;
@@ -72,7 +73,7 @@ public static class GameStoreDatabase
             var players = db.GetCollection<DatabasePlayer>("players");
             var dbplayer = players.FindOne(x => x._id == playerID);
 
-            if (dbplayer != null) return dbplayer.Money >= money;
+            if (dbplayer != null) return dbplayer.Money >= reward;
 
             return false;
         }
@@ -102,6 +103,58 @@ public static class GameStoreDatabase
             if (dbplayer.Money < 0) dbplayer.Money = 0;
             players.Update(dbplayer);
         }
+        public static void AddRewardToPlayer(Player player, Structs.Reward reward)
+        {
+            if (player == null) return ;
+            var playerID = player.RawUserId.Split('@')[0];
+            var players = db.GetCollection<DatabasePlayer>("players");
+            if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
+            {
+                int amount = player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name];
+                if (amount >= reward.MaxPerRound  && reward.MaxPerRound != -1)
+                {
+                    return;
+                }
+
+                player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name]++;
+            }
+            else
+            {
+                player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
+            }
+
+            var dbplayer = players.FindOne(x => x._id != null && x._id == playerID);
+
+            if (dbplayer == null) return;
+            
+            if (reward.Money.ContainsKey(player.Role.Type))
+            {
+                player.ShowHint
+                (
+                    Plugin.Instance.Translation.Givemoneytext.Replace(
+                        "(moneyamount)", 
+                        reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 
+                    2
+                );
+            }else if (reward.Money.ContainsKey(RoleTypeId.None))
+            {
+                dbplayer.Money += reward.Money[RoleTypeId.None];
+                player.ShowHint
+                (
+                    Plugin.Instance.Translation.Givemoneytext.Replace(
+                        "(moneyamount)", 
+                        reward.Money[RoleTypeId.None].ToString(CultureInfo.InvariantCulture)), 
+                    2
+                );
+            }
+            else
+            {
+                return;
+            }
+            if (dbplayer.Money < 0) dbplayer.Money = 0;
+            players.Update(dbplayer);
+        }
+
 
         public static float GetPlayerMoney(Player player)
         {

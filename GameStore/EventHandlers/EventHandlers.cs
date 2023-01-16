@@ -25,9 +25,9 @@ public class EventHandlers
 
     public static void OnEscaping(EscapingEventArgs ev)
     {
-        GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, Plugin.Instance.Config.Escapeamount);
+        GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.Escape);
         if (ev.Player.Cuffer != null)
-            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player.Cuffer, Plugin.Instance.Config.Escapecufferamount);
+            GameStoreDatabase.Database.AddRewardToPlayer(ev.Player.Cuffer, Plugin.Instance.Config.Escapecuffer);
     }
     public static void OnWaitingForPlayers()
     {
@@ -36,28 +36,26 @@ public class EventHandlers
 
     public static void OnUsedItem(UsedItemEventArgs ev)
     {
-        GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, 50);
+        GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.UsingItemsamount);
     }
 
     public static void OnSpawned(SpawnedEventArgs ev)
     {
-        if (ev.Player.Role == RoleTypeId.Overwatch || ev.Player.Role == RoleTypeId.Spectator || ev.Player.Role == RoleTypeId.Tutorial) return;
-        
-        if (ev.Player.IsScp)
-            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, Plugin.Instance.Config.Scpspawnamount);
-        else
-            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, Plugin.Instance.Config.Spawnamount);
+        if (ev.OldRole.Type is not RoleTypeId.ClassD or RoleTypeId.Scientist)
+        {
+            GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.Spawnamount);
+        }
     }
 
     public static void OnDeath(DiedEventArgs ev)
     {
         if (ev.Player == null) return;
-        GameStoreDatabase.Database.AddMoneyToPlayer(ev.Player, Plugin.Instance.Config.Deathamount);
+            GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.Deathamount);
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
-        if (ev.Attacker.Role.Team == Team.SCPs && ev.Attacker.Role.Type == RoleTypeId.Scp0492)
-            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Attacker, Plugin.Instance.Config.Scpkillamount);
+        if (ev.Player.Role.Team == Team.SCPs)
+            GameStoreDatabase.Database.AddRewardToPlayer(ev.Attacker, Plugin.Instance.Config.Scpkillamount);
         else
-            GameStoreDatabase.Database.AddMoneyToPlayer(ev.Attacker, Plugin.Instance.Config.Killamount);
+            GameStoreDatabase.Database.AddRewardToPlayer(ev.Attacker, Plugin.Instance.Config.Killamount);
     }
 }
