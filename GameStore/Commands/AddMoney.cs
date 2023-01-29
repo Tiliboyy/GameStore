@@ -1,5 +1,6 @@
 ﻿using System;
 using CommandSystem;
+using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using static GameStore.GameStoreDatabase;
 using database = GameStore.GameStoreDatabase.Database;

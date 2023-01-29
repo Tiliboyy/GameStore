@@ -1,13 +1,25 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using Exiled.API.Features;
+using FMOD;
 using LiteDB;
 using MEC;
 using PlayerRoles;
+using UnityEngine;
 
 namespace GameStore;
 
 public static class GameStoreDatabase
 {
+
+    public static IEnumerator<float> HintWaitUntilFalse(Player player, string message, float duration)
+    {
+        yield return Timing.WaitUntilFalse(() => player.HasHint && player.CurrentHint != null && !player.CurrentHint.Content.Contains("<size=69></size>"));
+        player.ShowHint(message, duration);
+        yield return 0;
+    }
+
     public static LiteDatabase db = new(Path.Combine(Paths.Configs, "Gamestore/GameStore.db"));
 
     public class DatabasePlayer
@@ -24,6 +36,7 @@ public static class GameStoreDatabase
 
             if (!players.Exists(x => true)) players.EnsureIndex(x => x._id);
         }
+
 
         public static void AddPlayer(Player player)
         {
@@ -89,14 +102,11 @@ public static class GameStoreDatabase
             var dbplayer = players.FindOne(x => x._id != null && x._id == playerID);
 
             if (dbplayer == null) return;
-            //Log.Debug(player.Nickname + " has been given " + money + " " + Plugin.Instance.Translation.Currencyname,
-            //    Plugin.Instance.Config.Debug);
-            //if (EventHandlers.PlayerHintsLoaded) Timing.RunCoroutine(UnityMethods.DisableHintsForTime(2, player));
-            player.ShowHint
+            player.SendHintWhenNone
             (
                 Plugin.Instance.Translation.Givemoneytext.Replace(
-                "(moneyamount)", 
-                money.ToString(CultureInfo.InvariantCulture)), 
+                    "(moneyamount)", 
+                    money.ToString(CultureInfo.InvariantCulture)), 
                 2
             );
             dbplayer.Money += money;
@@ -105,41 +115,50 @@ public static class GameStoreDatabase
         }
         public static void AddRewardToPlayer(Player player, Structs.Reward reward)
         {
-            if (player == null) return ;
+            if (player == null) return;
             var playerID = player.RawUserId.Split('@')[0];
             var players = db.GetCollection<DatabasePlayer>("players");
-            if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
-            {
-                int amount = player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name];
-                if (amount >= reward.MaxPerRound  && reward.MaxPerRound != -1)
-                {
-                    return;
-                }
-
-                player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name]++;
-            }
-            else
-            {
-                player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
-            }
-
             var dbplayer = players.FindOne(x => x._id != null && x._id == playerID);
 
             if (dbplayer == null) return;
             
             if (reward.Money.ContainsKey(player.Role.Type))
             {
-                player.ShowHint
-                (
-                    Plugin.Instance.Translation.Givemoneytext.Replace(
-                        "(moneyamount)", 
-                        reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 
-                    2
-                );
+                if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
+                {
+                    int amount = player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name];
+                    if (amount >= reward.MaxPerRound  && reward.MaxPerRound != -1)
+                    {
+                        return;
+                    }
+
+                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name]++;
+                }
+                else
+                {
+                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
+                }
+                
+                player.SendHintWhenNone
+                (Plugin.Instance.Translation.Givemoneytext.Replace("(moneyamount)", reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 2);
             }else if (reward.Money.ContainsKey(RoleTypeId.None))
             {
+                if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
+                {
+                    int amount = player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name];
+                    if (amount >= reward.MaxPerRound  && reward.MaxPerRound != -1)
+                    {
+                        return;
+                    }
+
+                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name]++;
+                }
+                else
+                {
+                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
+                }
                 dbplayer.Money += reward.Money[RoleTypeId.None];
-                player.ShowHint
+                player.SendHintWhenNone
                 (
                     Plugin.Instance.Translation.Givemoneytext.Replace(
                         "(moneyamount)", 
@@ -152,6 +171,9 @@ public static class GameStoreDatabase
                 return;
             }
             if (dbplayer.Money < 0) dbplayer.Money = 0;
+            if (dbplayer.Money > Plugin.Instance.Config.MaxMoney) 
+                dbplayer.Money = Plugin.Instance.Config.MaxMoney;
+
             players.Update(dbplayer);
         }
 

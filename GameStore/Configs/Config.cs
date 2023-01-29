@@ -17,7 +17,8 @@ public class Config : IConfig
 
     public bool Debug { get; set; } = false;
 
-
+    public int MaxMoney { get; set; } = 200000;
+    
     [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited")]
     public Structs.Reward Escape { get; set; } = new()
     {

@@ -25,9 +25,9 @@ public class EventHandlers
 
     public static void OnEscaping(EscapingEventArgs ev)
     {
-        GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.Escape);
+        ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Escape);
         if (ev.Player.Cuffer != null)
-            GameStoreDatabase.Database.AddRewardToPlayer(ev.Player.Cuffer, Plugin.Instance.Config.Escapecuffer);
+            ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Escapecuffer);
     }
     public static void OnWaitingForPlayers()
     {
@@ -36,26 +36,26 @@ public class EventHandlers
 
     public static void OnUsedItem(UsedItemEventArgs ev)
     {
-        GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.UsingItemsamount);
+        ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.UsingItemsamount);
     }
 
     public static void OnSpawned(SpawnedEventArgs ev)
     {
         if (ev.OldRole.Type is not RoleTypeId.ClassD or RoleTypeId.Scientist)
         {
-            GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.Spawnamount);
+            ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Spawnamount);
         }
     }
 
     public static void OnDeath(DiedEventArgs ev)
     {
         if (ev.Player == null) return;
-            GameStoreDatabase.Database.AddRewardToPlayer(ev.Player, Plugin.Instance.Config.Deathamount);
+            ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Deathamount);
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
         if (ev.Player.Role.Team == Team.SCPs)
-            GameStoreDatabase.Database.AddRewardToPlayer(ev.Attacker, Plugin.Instance.Config.Scpkillamount);
+            ev.Attacker.GameStoreRewardPlayer(Plugin.Instance.Config.Scpkillamount);
         else
-            GameStoreDatabase.Database.AddRewardToPlayer(ev.Attacker, Plugin.Instance.Config.Killamount);
+            ev.Attacker.GameStoreRewardPlayer(Plugin.Instance.Config.Killamount);
     }
 }
