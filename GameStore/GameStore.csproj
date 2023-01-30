@@ -111,7 +111,7 @@
         <Compile Include="Commands\Buy.cs" />
         <Compile Include="Configs\Translations.cs" />
         <Compile Include="Database.cs" />
-        <Compile Include="Extenstions.cs" />
+        <Compile Include="Extensions.cs" />
         <Compile Include="GameStoreComponent.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Configs\Config.cs" />

@@ -41,7 +41,7 @@ internal class AddMoney : ICommand
                 }
 
                 foreach (var ply in Player.List)
-                    Database.AddMoneyToPlayer(ply, amount);
+                    ply.GameStoreMoneyPlayer(amount);
 
                 response = $"Alle haben {amount} {Plugin.Instance.Translation.Currencyname} erhalten";
                 return true;
@@ -58,8 +58,7 @@ internal class AddMoney : ICommand
                     response = $"Money argument invalid: {arguments.At(1)}";
                     return false;
                 }
-
-                Database.AddMoneyToPlayer(pl, amountsingle);
+                pl.GameStoreMoneyPlayer(amountsingle);
 
                 response =
                     $"Player {pl.Nickname} has been given {amountsingle} {Plugin.Instance.Translation.Currencyname}";

@@ -58,4 +58,6 @@ public class EventHandlers
         else
             ev.Attacker.GameStoreRewardPlayer(Plugin.Instance.Config.Killamount);
     }
+
+
 }

@@ -50,9 +50,15 @@ internal class Commanad : ICommand
                 return true;
             case 1:
             {
-                int.TryParse(arguments.Array[1], out var argument1);
-                response = Builders.ItemListBuilder(argument1);
+                if (int.TryParse(arguments.Array[1], out var argument1))
+                {
+                    response = Builders.ItemListBuilder(argument1);
+                    return true;
+                }
+
+                response = player.BuyItemFromName(arguments.At(0));
                 return true;
+
             }
             case 2 when !Round.IsStarted:
                 response = Plugin.Instance.Translation.Roundnotstarted;
