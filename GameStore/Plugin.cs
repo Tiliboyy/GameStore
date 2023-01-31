@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Exiled.API.Features;
 using GameStore;
+using GameStore.EventHandlers;
 using PlayerRoles;
 using MapEvent = Exiled.Events.Handlers.Map;
 using Player = Exiled.Events.Handlers.Player;

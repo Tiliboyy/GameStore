@@ -1,10 +1,7 @@
-using System.Linq;
-using Exiled.Events.EventArgs;
-using Exiled;
 using Exiled.Events.EventArgs.Player;
-using Exiled.Loader;
-using GameStore;
 using PlayerRoles;
+
+namespace GameStore.EventHandlers;
 
 public class EventHandlers
 {
@@ -50,7 +47,7 @@ public class EventHandlers
     public static void OnDeath(DiedEventArgs ev)
     {
         if (ev.Player == null) return;
-            ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Deathamount);
+        ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Deathamount);
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
         if (ev.Player.Role.Team == Team.SCPs)

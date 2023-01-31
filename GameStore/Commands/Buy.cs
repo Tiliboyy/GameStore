@@ -74,19 +74,21 @@ internal class Commanad : ICommand
                 }
 
                 var list = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id);
+                var i = 0;
                 foreach (var category1 in list)
                 {
-                    if (category1.id != category) continue;
+                    i++;
+                    if (i != category) continue;
                     var itemlist = category1.Items.OrderBy(price => price.Id);
                     foreach (var items in itemlist.Where(items => item == items.Id))
                     {
-                        string num = $"{category1.id}{items.Id}";
+                        var num = $"{category1.id}{items.Id}";
                         if (!int.TryParse(num, out var result))
                         {
                             response = "Something went wrong please contact server staff";
                             return true;
                         }
-                        if (!items.Roles.Contains(player.Role.Type) && !items.Roles.Contains(RoleTypeId.None) || player.IsScp)
+                        if (!category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None) || player.IsScp)
                         {
                             response = Plugin.Instance.Translation.WrongeRole;
                             return true;

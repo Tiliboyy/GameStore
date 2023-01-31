@@ -74,13 +74,13 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Assembly-CSharp-firstpass">
-          <HintPath>..\..\..\..\Documents\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
+          <HintPath>..\..\..\Documents\assambys\Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>
         <Reference Include="CommandSystem.Core">
           <HintPath>..\..\..\..\Desktop\Exiled Beta\CommandSystem.Core.dll</HintPath>
         </Reference>
         <Reference Include="Mirror">
-          <HintPath>..\..\..\..\Documents\Assembly\Mirror.dll</HintPath>
+          <HintPath>..\..\..\Documents\assambys\Mirror-Publicized.dll</HintPath>
         </Reference>
         <Reference Include="NorthwoodLib">
           <HintPath>..\..\..\..\Documents\Assembly\NorthwoodLib.dll</HintPath>
@@ -95,13 +95,13 @@
         <Reference Include="System.Net.Http" />
         <Reference Include="System.Xml" />
         <Reference Include="UnityEngine">
-          <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.dll</HintPath>
+          <HintPath>..\..\..\Documents\assambys\UnityEngine.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-          <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.CoreModule.dll</HintPath>
+          <HintPath>..\..\..\Documents\assambys\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.PhysicsModule">
-          <HintPath>..\..\..\..\Documents\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
+          <HintPath>..\..\..\Documents\assambys\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>

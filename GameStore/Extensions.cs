@@ -40,7 +40,7 @@ public static class Extensions
                         {
                             continue;
                         }
-                        if (!items.Roles.Contains(player.Role.Type) && !items.Roles.Contains(RoleTypeId.None) || player.IsScp)
+                        if (!category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None) || player.IsScp)
                         {
                             continue;
                         }
