@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.API.Interfaces;
 using InventorySystem.Items.Usables.Scp330;
 using PlayerRoles;
@@ -584,42 +585,6 @@ public class Config : IConfig
     
 }
 
-public class Builders
-{
-    public static string CategoryBuilder()
-    {
-        var e = Plugin.Instance.Config.Categorys.OrderBy(category => category.id).ToList();
-
-        var category = "";
-        var i = 1;
-        foreach (var categoryitem in e)
-        {
-            category += $"\n[{i}] " + categoryitem.Name + "\n        " + categoryitem.Description;
-            i++;
-        }
-
-        if (category == "")
-            category = "Du kannst mit deiner Rolle nichts Kaufen.";
-        return category;
-    }
-
-    public static string ItemListBuilder(int category)
-    {
-        var items = "";
-        var e = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
-        foreach (var categorynum in e)
-        {
-            if(categorynum.id != category) continue;
-            foreach (var item in categorynum.Items)
-            {
-                items += $"\n[{item.Id}] {item.Name} - {item.Price} {Plugin.Instance.Translation.Currencyname}";
-            }
-
-        }
-
-        return items;
-    }
-}
 
 public class Structs
 {

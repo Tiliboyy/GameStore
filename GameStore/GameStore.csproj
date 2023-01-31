@@ -105,10 +105,12 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Commands\Balance.cs" />
-        <Compile Include="Commands\AddMoney.cs" />
-        <Compile Include="Commands\GameStoreToggle.cs" />
-        <Compile Include="Commands\Buy.cs" />
+        <Compile Include="Commands\GameConsole\Balance.cs" />
+        <Compile Include="Commands\GameConsole\Buy.cs" />
+        <Compile Include="Commands\RemoteAdmin\SubCommands\Add.cs" />
+        <Compile Include="Commands\RemoteAdmin\SubCommands\Toggle.cs" />
+        <Compile Include="Commands\RemoteAdmin\SubCommands\Set.cs" />
+        <Compile Include="Commands\RemoteAdmin\GameStoreParentCommand.cs" />
         <Compile Include="Configs\Translations.cs" />
         <Compile Include="Database.cs" />
         <Compile Include="Extensions.cs" />

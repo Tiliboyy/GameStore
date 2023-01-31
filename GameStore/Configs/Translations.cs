@@ -5,25 +5,27 @@ namespace GameStore;
 [Serializable]
 public class Translation : ITranslation
 {
-    public string Currencyname { get; set; } = "Daylight Bits.";
+    public string CurrencyName { get; set; } = "Daylight Bits.";
+    public string SetMoneyHintText { get; set; } = "Deine Daylight Bits wurden auf (money) gesetzt.";
+    public string AddMoneyHintText { get; set; } = "Du hast (money) Daylight Bits erhalten.";
+    public string BoughtItem { get; set; } = "Du hast (itemname) für (itemprice) Daylight Bits gekauft";
+    public string MaxAmountReached { get; set; } = "Du hast schon genug davon gekauft.";
 
-    public string Givemoneytext { get; set; } = "Du hast (moneyamount) Daylight Bits erhalten.";
-    public string Boughtitem { get; set; } = "Du hast (itemname) für (itemprice) Daylight Bits gekauft";
-    public string Maxamountreached { get; set; } = "Du hast schon genug davon gekauft.";
-
-    public string Cantafford { get; set; } = "Du kannst dir dieses Item nicht leisten.";
+    public string CantAfford { get; set; } = "Du kannst dir dieses Item nicht leisten.";
     public string WrongeRole { get; set; } = "Deine Rolle erlaubt es dir nicht dieses Item zu kaufen.";
 
-    public string Fullinventory { get; set; } = "Dein Inventar ist voll";
+    public string FullInventory { get; set; } = "Dein Inventar ist voll";
 
-    public string Dntmessage { get; set; } =
+    public string DntMessage { get; set; } =
         "Du hast Do not Track aktiviert. Deakiviere DNT um den GameStore verwenden zu können";
 
-    public string Disabledstore { get; set; } = "Der GameStore ist momentan deaktiviert";
+    public string DisabledStore { get; set; } = "Der GameStore ist momentan deaktiviert";
 
-    public string Roundnotstarted { get; set; } = "Die Runde hat noch nicht gestartet";
+    public string RoundNotStarted { get; set; } = "Die Runde hat noch nicht gestartet";
 
-    public string Categorydoesnotexist { get; set; } = "Diese Kategorie existiert nicht!";
+    public string CategoryDoesNotExist { get; set; } = "Diese Kategorie existiert nicht!";
 
-    public string balmessage { get; set; } = "Du hast (balance) Daylight Bits";
+    public string BalanceMessage { get; set; } = "Du hast (balance) Daylight Bits";
+
+    public string ItemDoesNotExist { get; set; } = "Dieses Item exisitert nicht!";
 }

@@ -104,8 +104,8 @@ public static class GameStoreDatabase
             if (dbplayer == null) return;
             player.SendHintWhenNone
             (
-                Plugin.Instance.Translation.Givemoneytext.Replace(
-                    "(moneyamount)", 
+                Plugin.Instance.Translation.AddMoneyHintText.Replace(
+                    "(money)", 
                     money.ToString(CultureInfo.InvariantCulture)), 
                 2
             );
@@ -140,7 +140,7 @@ public static class GameStoreDatabase
                 }
                 
                 player.SendHintWhenNone
-                (Plugin.Instance.Translation.Givemoneytext.Replace("(moneyamount)", reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 2);
+                (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 2);
             }else if (reward.Money.ContainsKey(RoleTypeId.None))
             {
                 if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
@@ -160,8 +160,8 @@ public static class GameStoreDatabase
                 dbplayer.Money += reward.Money[RoleTypeId.None];
                 player.SendHintWhenNone
                 (
-                    Plugin.Instance.Translation.Givemoneytext.Replace(
-                        "(moneyamount)", 
+                    Plugin.Instance.Translation.AddMoneyHintText.Replace(
+                        "(money)", 
                         reward.Money[RoleTypeId.None].ToString(CultureInfo.InvariantCulture)), 
                     2
                 );

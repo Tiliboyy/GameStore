@@ -5,10 +5,9 @@ using database = GameStore.GameStoreDatabase.Database;
 
 namespace GameStore.Commands;
 
-[CommandHandler(typeof(RemoteAdminCommandHandler))]
-internal class GameStoreToggle : ICommand
+internal class Toggle : ICommand
 {
-    public string Command { get; } = "ToggleGameStore";
+    public string Command { get; } = "toggle";
 
     public string[] Aliases { get; } = Array.Empty<string>();
 
@@ -16,7 +15,7 @@ internal class GameStoreToggle : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        if (!sender.CheckPermission("gs.toggle"))
+        if (!sender.CheckPermission($"gs.{Command}"))
         {
             response = "You do not have permission to use this command";
             return false;
@@ -24,12 +23,12 @@ internal class GameStoreToggle : ICommand
 
         if (Plugin.Enablegamestore)
         {
-            response = "GameStore wurde Deaktiviert";
+            response = "GameStore wurde deaktiviert";
             Plugin.Enablegamestore = false;
         }
         else
         {
-            response = "GameStore wurde Aktiviert";
+            response = "GameStore wurde aktiviert";
             Plugin.Enablegamestore = true;
         }
 

@@ -5,8 +5,6 @@ namespace GameStore.EventHandlers;
 
 public class EventHandlers
 {
-    public static bool PlayerHintsLoaded = false;
-
     public static void OnVerified(VerifiedEventArgs ev)
     {
         if (!ev.Player.DoNotTrack)
@@ -17,14 +15,15 @@ public class EventHandlers
         else
         {
             GameStoreDatabase.Database.RemovePlayer(ev.Player);
+            
         }
     }
 
     public static void OnEscaping(EscapingEventArgs ev)
     {
-        ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Escape);
+        ev.Player.GiveReward(Plugin.Instance.Config.Escape);
         if (ev.Player.Cuffer != null)
-            ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Escapecuffer);
+            ev.Player.GiveReward(Plugin.Instance.Config.Escapecuffer);
     }
     public static void OnWaitingForPlayers()
     {
@@ -33,27 +32,27 @@ public class EventHandlers
 
     public static void OnUsedItem(UsedItemEventArgs ev)
     {
-        ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.UsingItemsamount);
+        ev.Player.GiveReward(Plugin.Instance.Config.UsingItemsamount);
     }
 
     public static void OnSpawned(SpawnedEventArgs ev)
     {
         if (ev.OldRole.Type is not RoleTypeId.ClassD or RoleTypeId.Scientist)
         {
-            ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Spawnamount);
+            ev.Player.GiveReward(Plugin.Instance.Config.Spawnamount);
         }
     }
 
     public static void OnDeath(DiedEventArgs ev)
     {
         if (ev.Player == null) return;
-        ev.Player.GameStoreRewardPlayer(Plugin.Instance.Config.Deathamount);
+        ev.Player.GiveReward(Plugin.Instance.Config.Deathamount);
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
         if (ev.Player.Role.Team == Team.SCPs)
-            ev.Attacker.GameStoreRewardPlayer(Plugin.Instance.Config.Scpkillamount);
+            ev.Attacker.GiveReward(Plugin.Instance.Config.Scpkillamount);
         else
-            ev.Attacker.GameStoreRewardPlayer(Plugin.Instance.Config.Killamount);
+            ev.Attacker.GiveReward(Plugin.Instance.Config.Killamount);
     }
 
 

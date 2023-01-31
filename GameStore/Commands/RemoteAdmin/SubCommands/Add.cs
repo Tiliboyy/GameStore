@@ -7,18 +7,17 @@ using database = GameStore.GameStoreDatabase.Database;
 
 namespace GameStore.Commands;
 
-[CommandHandler(typeof(RemoteAdminCommandHandler))]
-internal class AddMoney : ICommand
+internal class Add : ICommand
 {
-    public string Command { get; } = "AddMoney";
+    public string Command { get; } = "add";
 
     public string[] Aliases { get; } = Array.Empty<string>();
 
-    public string Description { get; } = "Gives Player Money";
+    public string Description { get; } = "Gives a player money";
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        if (!sender.CheckPermission("gs.add"))
+        if (!sender.CheckPermission($"gs.{Command}"))
         {
             response = "You do not have permission to use this command";
             return false;
@@ -26,7 +25,7 @@ internal class AddMoney : ICommand
 
         if (arguments.Count != 2)
         {
-            response = "Usage: AddMoney ((player id / name) or (all / *)) (amount)";
+            response = "Usage: gamestore Add <<PlayerID> or <all / *>> <amount>";
             return false;
         }
 
@@ -36,14 +35,14 @@ internal class AddMoney : ICommand
             case "all":
                 if (!float.TryParse(arguments.At(1), out var amount) && amount <= 0)
                 {
-                    response = $"Money argument invalid: {arguments.At(1)}";
+                    response = "Thats not a number!";
                     return false;
                 }
 
                 foreach (var ply in Player.List)
-                    ply.GameStoreMoneyPlayer(amount);
+                    ply.GiveMoney(amount);
 
-                response = $"Alle haben {amount} {Plugin.Instance.Translation.Currencyname} erhalten";
+                response = $"Everyone was given {amount} {Plugin.Instance.Translation.CurrencyName}";
                 return true;
             default:
                 var pl = Player.Get(arguments.At(0));
@@ -58,10 +57,10 @@ internal class AddMoney : ICommand
                     response = $"Money argument invalid: {arguments.At(1)}";
                     return false;
                 }
-                pl.GameStoreMoneyPlayer(amountsingle);
+                pl.GiveMoney(amountsingle);
 
                 response =
-                    $"Player {pl.Nickname} has been given {amountsingle} {Plugin.Instance.Translation.Currencyname}";
+                    $"Player {pl.Nickname} has been given {amountsingle} {Plugin.Instance.Translation.CurrencyName}";
                 return true;
         }
     }

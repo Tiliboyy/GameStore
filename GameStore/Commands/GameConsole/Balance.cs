@@ -27,12 +27,12 @@ internal class GameStore : ICommand
 
         if (player.DoNotTrack)
         {
-            response = Plugin.Instance.Translation.Dntmessage;
+            response = Plugin.Instance.Translation.DntMessage;
             return true;
         }
 
-        var balance = GameStoreDatabase.Database.GetPlayerMoney(player);
-        response = Plugin.Instance.Translation.balmessage.Replace("(balance)", balance.ToString(CultureInfo.InvariantCulture));
+        var balance = player.GetMoney();
+        response = Plugin.Instance.Translation.BalanceMessage.Replace("(balance)", balance.ToString(CultureInfo.InvariantCulture));
         return true;
     }
 }
