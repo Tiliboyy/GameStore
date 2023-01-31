@@ -29,7 +29,7 @@ internal class Set : ICommand
             return true;
         }
 
-        if (!float.TryParse(arguments.At(0), out float result))
+        if (!float.TryParse(arguments.At(1), out float result))
         {
             response = "Thats not a number!";
             return true;

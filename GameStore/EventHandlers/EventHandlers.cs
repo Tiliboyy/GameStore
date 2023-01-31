@@ -23,7 +23,7 @@ public class EventHandlers
     {
         ev.Player.GiveReward(Plugin.Instance.Config.Escape);
         if (ev.Player.Cuffer != null)
-            ev.Player.GiveReward(Plugin.Instance.Config.Escapecuffer);
+            ev.Player.GiveReward(Plugin.Instance.Config.EscapeCuffer);
     }
     public static void OnWaitingForPlayers()
     {
@@ -32,27 +32,27 @@ public class EventHandlers
 
     public static void OnUsedItem(UsedItemEventArgs ev)
     {
-        ev.Player.GiveReward(Plugin.Instance.Config.UsingItemsamount);
+        ev.Player.GiveReward(Plugin.Instance.Config.UsingItemAmount);
     }
 
     public static void OnSpawned(SpawnedEventArgs ev)
     {
         if (ev.OldRole.Type is not RoleTypeId.ClassD or RoleTypeId.Scientist)
         {
-            ev.Player.GiveReward(Plugin.Instance.Config.Spawnamount);
+            ev.Player.GiveReward(Plugin.Instance.Config.SpawnAmount);
         }
     }
 
     public static void OnDeath(DiedEventArgs ev)
     {
         if (ev.Player == null) return;
-        ev.Player.GiveReward(Plugin.Instance.Config.Deathamount);
+        ev.Player.GiveReward(Plugin.Instance.Config.DeathAmount);
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
         if (ev.Player.Role.Team == Team.SCPs)
-            ev.Attacker.GiveReward(Plugin.Instance.Config.Scpkillamount);
+            ev.Attacker.GiveReward(Plugin.Instance.Config.ScpKillAmount);
         else
-            ev.Attacker.GiveReward(Plugin.Instance.Config.Killamount);
+            ev.Attacker.GiveReward(Plugin.Instance.Config.KillAmount);
     }
 
 

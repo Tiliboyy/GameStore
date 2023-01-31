@@ -62,7 +62,7 @@ public static class Extensions
             i++;
         }
         if (category == "")
-            category = "Du kannst mit deiner Rolle nichts Kaufen.";
+            category = Plugin.Instance.Translation.NothingToBuy;
         return category;
     }
     
@@ -86,85 +86,99 @@ public static class Extensions
     
     public static string BuyItemFromName(this Player player, string Name)
     {
-        var list = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id);
-                bool foundwithrole = false;
-                bool notexisting = false;
-                bool nomoney = false;
-                bool notfullinventory = false;
-                foreach (var category1 in list)
+        if (!Round.IsStarted)
+        {
+            return Plugin.Instance.Translation.RoundNotStarted;
+        }
+        var list = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
+        bool foundwithrole = false;
+        bool notexisting = false;
+        bool nomoney = false;
+        bool notfullinventory = false;
+        foreach (var category1 in list)
+        {
+            var itemlist = category1.Items.OrderBy(price => price.Id);
+            bool itembytype = Enum.TryParse(Name, out ItemType itemType);
+            foreach (var items in itemlist)
+            {
+                if (itembytype)
                 {
-                    var itemlist = category1.Items.OrderBy(price => price.Id);
-                    foreach (var items in itemlist)
+                    if (!items.ItemTypes.Contains(itemType)) continue;
+                }
+                else
+                {
+                    if(items.Name.Replace(" ", "").ToLower() != Name.Replace(" ", "").ToLower()) continue;
+                }
+                notexisting = true;
+                string num = $"{category1.id}{items.Id}";
+                if (!int.TryParse(num, out var result))
+                {
+                    continue;
+                }
+                if (!category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None) || player.IsScp)
+                {
+                    continue;
+                }
+                foundwithrole = true;
+                if (player.Items.Count >= 8)
+                {
+                    continue;                            
+                }
+
+                notfullinventory = true;
+
+
+                if (!GameStoreDatabase.Database.CanRemoveMoneyFromPlayer(player, items.Price))
+                {
+                    continue;
+                }
+
+                nomoney = true;
+
+                if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(result))
+                {
+                    if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result] >=
+                        items.Maxbuys)
                     {
-                        if(!string.Equals(items.Name, Name, StringComparison.CurrentCultureIgnoreCase)) continue;
-                        notexisting = true;
-                        string num = $"{category1.id}{items.Id}";
-                        if (!int.TryParse(num, out var result))
-                        {
-                            continue;
-                        }
-                        if (!category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None) || player.IsScp)
-                        {
-                            continue;
-                        }
-                        foundwithrole = true;
-                        if (player.Items.Count >= 8)
-                        {
-                            continue;                            
-                        }
-
-                        notfullinventory = true;
-
-
-                        if (!GameStoreDatabase.Database.CanRemoveMoneyFromPlayer(player, items.Price))
-                        {
-                            continue;
-                        }
-
-                        nomoney = true;
-
-                        if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(result))
-                        {
-                            if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result] >=
-                                items.Maxbuys)
-                            {
-                                continue;
-                            }
-
-                            player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result]++;
-                        }
-                        else
-                        {
-                            player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
-                        }
-
-                        GameStoreDatabase.Database.BuyItem(player, items);
-                        return Plugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
-                            .Replace("(itemprice)", items.Price.ToString());
+                        continue;
                     }
+
+                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result]++;
+                }
+                else
+                {
+                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
                 }
 
-                if (!notexisting)
-                {
-                    return Plugin.Instance.Translation.CategoryDoesNotExist;
-                }
-                if (!foundwithrole)
-                {
-                    return Plugin.Instance.Translation.WrongeRole;
-                }
-                
+                GameStoreDatabase.Database.BuyItem(player, items);
+                return Plugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
+                    .Replace("(itemprice)", items.Price.ToString());
+            }
+        }
 
-                if (!notfullinventory)
-                {
-                    return Plugin.Instance.Translation.FullInventory;
-                }
+        if (!notexisting)
+        {
+            return Plugin.Instance.Translation.ItemDoesNotExist;
+        }
+        if (!foundwithrole)
+        {
+            return Plugin.Instance.Translation.WrongeRole;
+        }
+        if (!notfullinventory)
+        {
+            return Plugin.Instance.Translation.FullInventory;
+        }
 
-                return !nomoney ? Plugin.Instance.Translation.CantAfford : Plugin.Instance.Translation.MaxAmountReached;
+        return !nomoney ? Plugin.Instance.Translation.CantAfford : Plugin.Instance.Translation.MaxAmountReached;
 
     }
     
     public static string BuyItemFromId(this Player player, int category, int item)
     {
+        if (!Round.IsStarted)
+        {
+            return Plugin.Instance.Translation.RoundNotStarted;
+        }
         if (category > Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).Where(x => x.AllowedRoles.Contains(player.Role.Type) || x.AllowedRoles.Contains(RoleTypeId.None)).ToList().Count)
         {
             return Plugin.Instance.Translation.CategoryDoesNotExist;

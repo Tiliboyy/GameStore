@@ -2,10 +2,12 @@
 using Exiled.API.Interfaces;
 
 namespace GameStore;
+
 [Serializable]
 public class Translation : ITranslation
 {
     public string CurrencyName { get; set; } = "Daylight Bits.";
+    public string NothingToBuy { get; set; } = "Du kannst mit deiner Rolle nichts kaufen.";
     public string SetMoneyHintText { get; set; } = "Deine Daylight Bits wurden auf (money) gesetzt.";
     public string AddMoneyHintText { get; set; } = "Du hast (money) Daylight Bits erhalten.";
     public string BoughtItem { get; set; } = "Du hast (itemname) für (itemprice) Daylight Bits gekauft";

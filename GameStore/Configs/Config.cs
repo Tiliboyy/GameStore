@@ -1,49 +1,42 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using Exiled.API.Enums;
-using Exiled.API.Features;
 using Exiled.API.Interfaces;
-using InventorySystem.Items.Usables.Scp330;
 using PlayerRoles;
 
 [Serializable]
 public class Config : IConfig
 {
-    [Description("Enables the Plugin")] 
-    
-    public bool IsEnabled { get; set; } = true;
-
-    public bool Debug { get; set; } = false;
-
     public int MaxMoney { get; set; } = 200000;
-    
+
     [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited")]
     public Structs.Reward Escape { get; set; } = new()
     {
         Name = "Escape",
 
-        Money = new Dictionary<RoleTypeId, int>()
+        Money = new Dictionary<RoleTypeId, int>
         {
-            { RoleTypeId.Scientist, 2000 }, 
-            { RoleTypeId.ClassD, 2500 },
+            { RoleTypeId.Scientist, 2000 },
+            { RoleTypeId.ClassD, 2500 }
         },
         MaxPerRound = 1
     };
-    public Structs.Reward Escapecuffer { get; set; } = new()
+
+    public Structs.Reward EscapeCuffer { get; set; } = new()
     {
         Name = "EscapeCuffer",
-        Money = new Dictionary<RoleTypeId, int>()
+        Money = new Dictionary<RoleTypeId, int>
         {
             { RoleTypeId.None, 1000 }
         },
         MaxPerRound = 1
     };
-    public Structs.Reward Killamount { get; set; } = new()
+
+    public Structs.Reward KillAmount { get; set; } = new()
     {
         Name = "Kill",
-        Money = new Dictionary<RoleTypeId, int>()
+        Money = new Dictionary<RoleTypeId, int>
         {
             { RoleTypeId.ChaosConscript, 50 },
             { RoleTypeId.ChaosMarauder, 50 },
@@ -62,45 +55,50 @@ public class Config : IConfig
             { RoleTypeId.Scp106, 100 },
             { RoleTypeId.Scp0492, 100 },
             { RoleTypeId.Scp939, 100 },
+            { RoleTypeId.Scp173, 50 },
             { RoleTypeId.Tutorial, 0 }
         },
         MaxPerRound = -1
     };
-    public Structs.Reward Scpkillamount { get; set; } = new()
+
+    public Structs.Reward ScpKillAmount { get; set; } = new()
     {
         Name = "SCPKilled",
 
-        Money = new Dictionary<RoleTypeId, int>()
+        Money = new Dictionary<RoleTypeId, int>
         {
-            { RoleTypeId.None, 1000 }, 
+            { RoleTypeId.None, 1000 }
         },
         MaxPerRound = 1
     };
-    public Structs.Reward Deathamount { get; set; } = new()
+
+    public Structs.Reward DeathAmount { get; set; } = new()
     {
         Name = "Died",
 
-        Money = new Dictionary<RoleTypeId, int>()
+        Money = new Dictionary<RoleTypeId, int>
         {
-            { RoleTypeId.None, 50 }, 
+            { RoleTypeId.None, 50 }
         },
         MaxPerRound = -1
     };
-    public Structs.Reward UsingItemsamount { get; set; } = new()
+
+    public Structs.Reward UsingItemAmount { get; set; } = new()
     {
         Name = "UsingItem",
 
-        Money = new Dictionary<RoleTypeId, int>()
+        Money = new Dictionary<RoleTypeId, int>
         {
-            { RoleTypeId.None, 50 }, 
+            { RoleTypeId.None, 50 }
         },
         MaxPerRound = -1
     };
-    public Structs.Reward Spawnamount { get; set; } = new()
+
+    public Structs.Reward SpawnAmount { get; set; } = new()
     {
         Name = "Spawned",
 
-        Money = new Dictionary<RoleTypeId, int>()
+        Money = new Dictionary<RoleTypeId, int>
         {
             { RoleTypeId.ChaosConscript, 50 },
             { RoleTypeId.ChaosMarauder, 50 },
@@ -118,7 +116,7 @@ public class Config : IConfig
             { RoleTypeId.Scp096, 200 },
             { RoleTypeId.Scp106, 200 },
             { RoleTypeId.Scp0492, 200 },
-            { RoleTypeId.Scp939, 200 },
+            { RoleTypeId.Scp939, 200 }
         },
         MaxPerRound = -1
     };
@@ -127,47 +125,47 @@ public class Config : IConfig
     {
         new Structs.Category
         {
-            id = 1,AllowedRoles = new List<RoleTypeId> { RoleTypeId.ClassD },Name = "D-Klasse", Description = "Hier kannst du Gegenstande für D-Klassen kaufen.",
+            id = 1, AllowedRoles = new List<RoleTypeId> { RoleTypeId.ClassD }, Name = "D-Klasse",
+            Description = "Hier kannst du Gegenstande für D-Klassen kaufen.",
             Items = new List<Structs.ItemPrice>
             {
-                    new Structs.ItemPrice
-                    {
-                        Id = 1,
-                        Price = 2000,
-                        Name = "Hausmeisterkarte",
-                        ItemTypes = new List<ItemType> { ItemType.KeycardJanitor },
-                        Maxbuys = 1
-                    },
+                new()
+                {
+                    Id = 1,
+                    Price = 2000,
+                    Name = "Hausmeisterkarte",
+                    ItemTypes = new List<ItemType> { ItemType.KeycardJanitor },
+                    Maxbuys = 1
+                },
 
-                    new Structs.ItemPrice
-                    {
-                        Id = 2,
-                        Price = 4000,
-                        Name = "Wissenschaftlerkarte",
-                        ItemTypes = new List<ItemType> { ItemType.KeycardScientist },
-                        Maxbuys = 1
-                    },
+                new()
+                {
+                    Id = 2,
+                    Price = 4000,
+                    Name = "Wissenschaftlerkarte",
+                    ItemTypes = new List<ItemType> { ItemType.KeycardScientist },
+                    Maxbuys = 1
+                },
 
-                    new Structs.ItemPrice
-                    {
-                        Id = 3,
-                        Price = 600,
-                        Name = "Schmerzmittel",
-                        ItemTypes = new List<ItemType> { ItemType.Painkillers },
-                        Maxbuys = 2
-                    }
-                
+                new()
+                {
+                    Id = 3,
+                    Price = 600,
+                    Name = "Schmerzmittel",
+                    ItemTypes = new List<ItemType> { ItemType.Painkillers },
+                    Maxbuys = 2
+                }
             }
         },
         new Structs.Category
-        { 
+        {
             id = 2,
             Name = "Wissenschaftler",
             AllowedRoles = new List<RoleTypeId> { RoleTypeId.Scientist },
             Description = "Hier kannst du Gegenstande für Wissenschaftler kaufen.",
             Items = new List<Structs.ItemPrice>
             {
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 1,
                     Price = 4000,
@@ -176,7 +174,7 @@ public class Config : IConfig
                     Maxbuys = 1
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 2,
                     Price = 5000,
@@ -185,7 +183,7 @@ public class Config : IConfig
                     Maxbuys = 1
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 3,
                     Price = 500,
@@ -193,7 +191,7 @@ public class Config : IConfig
                     ItemTypes = new List<ItemType> { ItemType.Radio },
                     Maxbuys = 2
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 4,
                     Price = 2000,
@@ -202,7 +200,7 @@ public class Config : IConfig
                     Maxbuys = 2
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 5,
                     Price = 400,
@@ -210,7 +208,7 @@ public class Config : IConfig
                     ItemTypes = new List<ItemType> { ItemType.Painkillers },
                     Maxbuys = 2
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 6,
                     Price = 5000,
@@ -218,7 +216,7 @@ public class Config : IConfig
                     ItemTypes = new List<ItemType> { ItemType.SCP018 },
                     Maxbuys = 2
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 7,
                     Price = 7000,
@@ -226,21 +224,23 @@ public class Config : IConfig
                     ItemTypes = new List<ItemType> { ItemType.SCP268 },
                     Maxbuys = 1
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 8,
                     Price = 3500,
                     Name = "Leichte Brustpanzerung",
                     ItemTypes = new List<ItemType> { ItemType.ArmorLight },
                     Maxbuys = 5
-                },
+                }
             }
         },
         new Structs.Category
-        { id = 3,AllowedRoles = new List<RoleTypeId> { RoleTypeId.FacilityGuard }, Name = "Sicherheitspersonal", Description= "Hier kannst du Gegenstande für Sicherheitspersonal kaufen.",
+        {
+            id = 3, AllowedRoles = new List<RoleTypeId> { RoleTypeId.FacilityGuard }, Name = "Sicherheitspersonal",
+            Description = "Hier kannst du Gegenstande für Sicherheitspersonal kaufen.",
             Items = new List<Structs.ItemPrice>
             {
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 1,
                     Price = 3000,
@@ -250,7 +250,7 @@ public class Config : IConfig
                 },
 
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 2,
                     Price = 4000,
@@ -260,7 +260,7 @@ public class Config : IConfig
                 },
 
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 3,
                     Price = 1000,
@@ -269,7 +269,7 @@ public class Config : IConfig
                     Maxbuys = 2
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 4,
                     Price = 1000,
@@ -278,7 +278,7 @@ public class Config : IConfig
                     Maxbuys = 2
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 5,
                     Price = 4500,
@@ -288,102 +288,25 @@ public class Config : IConfig
                 },
 
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 6,
                     Price = 500,
                     Name = "Schmerzmittel",
                     ItemTypes = new List<ItemType> { ItemType.Painkillers },
                     Maxbuys = 2
-                },
+                }
             }
         },
-        new Structs.Category 
-        { id = 4,AllowedRoles = new List<RoleTypeId> { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
-            Name = "MTF", Description = "Hier kannst du Gegenstande für das MTF kaufen.", 
-            Items = new List<Structs.ItemPrice>
-        {
-            new Structs.ItemPrice
-            {
-                Id = 1,
-                Price = 7000,
-                Name = "Facilitymanager Karte",
-                ItemTypes = new List<ItemType> { ItemType.KeycardFacilityManager },
-                Maxbuys = 1
-            },
-
-
-            new Structs.ItemPrice
-            {
-                Id = 2,
-                Price = 2500,
-                Name = "MTF-E11-SR",
-                ItemTypes = new List<ItemType> { ItemType.GunE11SR },
-                Maxbuys = 1
-            },
-
-            new Structs.ItemPrice
-            {
-                Id = 3,
-                Price = 3500,
-                Name = "Schwere Brustpanzerung",
-                ItemTypes = new List<ItemType> { ItemType.ArmorHeavy },
-                Maxbuys = 1
-            },
-
-            new Structs.ItemPrice
-            {
-                Id = 4,
-                Price = 1500,
-                Name = "SCP-500",
-                ItemTypes = new List<ItemType> { ItemType.SCP500 },
-                Maxbuys = 2
-            },
-
-            new Structs.ItemPrice
-            {
-                Id = 5,
-                Price = 500,
-                Name = "Schmerzmittel",
-                ItemTypes = new List<ItemType> { ItemType.Painkillers },
-                Maxbuys = 2
-            },
-
-            new Structs.ItemPrice
-            {
-                Id = 6,
-                Price = 1000,
-                Name = "Granate",
-                ItemTypes = new List<ItemType> { ItemType.GrenadeHE },
-                Maxbuys = 2
-            },
-
-
-            new Structs.ItemPrice
-            {
-                Id = 7,
-                Price = 750,
-                Name = "Flash Granate",
-                ItemTypes = new List<ItemType> { ItemType.GrenadeFlash },
-                Maxbuys = 2
-            },
-
-            new Structs.ItemPrice
-            {
-                Id = 8,
-                Price = 50000,
-                Name = "X3-Particle-Disruptor",
-                ItemTypes = new List<ItemType> { ItemType.ParticleDisruptor },
-                Maxbuys = 1
-            },
-
-            }},
         new Structs.Category
         {
-            id = 5,AllowedRoles = new List<RoleTypeId> { RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman },Name = "Chaos", Description = "Hier kannst du Gegenstande für Chaos insurgency kaufen." ,
+            id = 4,
+            AllowedRoles = new List<RoleTypeId>
+                { RoleTypeId.NtfCaptain, RoleTypeId.NtfPrivate, RoleTypeId.NtfSergeant, RoleTypeId.NtfSpecialist },
+            Name = "MTF", Description = "Hier kannst du Gegenstande für das MTF kaufen.",
             Items = new List<Structs.ItemPrice>
             {
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 1,
                     Price = 7000,
@@ -393,37 +316,34 @@ public class Config : IConfig
                 },
 
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 2,
-                    Price = 7000,
-                    Name = "Logicer",
-                    ItemTypes = new List<ItemType> { ItemType.GunLogicer },
+                    Price = 2500,
+                    Name = "MTF-E11-SR",
+                    ItemTypes = new List<ItemType> { ItemType.GunE11SR },
                     Maxbuys = 1
                 },
 
-
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 3,
-                    Price = 2500,
-                    Name = "Shotgun",
-                    ItemTypes = new List<ItemType> { ItemType.GunShotgun },
-                    Maxbuys = 1
-                },
-
-
-                new Structs.ItemPrice
-                {
-                    Id = 4,
                     Price = 3500,
                     Name = "Schwere Brustpanzerung",
                     ItemTypes = new List<ItemType> { ItemType.ArmorHeavy },
                     Maxbuys = 1
                 },
 
+                new()
+                {
+                    Id = 4,
+                    Price = 1500,
+                    Name = "SCP-500",
+                    ItemTypes = new List<ItemType> { ItemType.SCP500 },
+                    Maxbuys = 2
+                },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 5,
                     Price = 500,
@@ -432,7 +352,7 @@ public class Config : IConfig
                     Maxbuys = 2
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 6,
                     Price = 1000,
@@ -442,7 +362,7 @@ public class Config : IConfig
                 },
 
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 7,
                     Price = 750,
@@ -451,77 +371,165 @@ public class Config : IConfig
                     Maxbuys = 2
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 8,
                     Price = 50000,
                     Name = "X3-Particle-Disruptor",
                     ItemTypes = new List<ItemType> { ItemType.ParticleDisruptor },
                     Maxbuys = 1
-                }, 
+                }
             }
-    },
-        new Structs.Category 
+        },
+        new Structs.Category
         {
-            id = 6,AllowedRoles = new List<RoleTypeId> { RoleTypeId.None }, Name = "Allgemein", Description = "Hier findest du allgemeine Sachen." ,
-            Items = new List<Structs.ItemPrice>
-        {
-            new Structs.ItemPrice
+            id = 5,
+            AllowedRoles = new List<RoleTypeId>
             {
-                Id = 1,
-                Price = 300,
-                Name = "Coin",
-                ItemTypes = new List<ItemType> { ItemType.Coin },
-                Maxbuys = 5
+                RoleTypeId.ChaosConscript, RoleTypeId.ChaosMarauder, RoleTypeId.ChaosRepressor, RoleTypeId.ChaosRifleman
             },
-
-            new Structs.ItemPrice
-            {
-                Id = 2,
-                Price = 350,
-                Name = "Flashlight",
-                ItemTypes = new List<ItemType> { ItemType.Flashlight },
-                Maxbuys = 5
-            },
-
-
-            new Structs.ItemPrice
-            {
-                Id = 3,
-                Price = 1000,
-                Name = "SCP-207",
-                ItemTypes = new List<ItemType> { ItemType.SCP207 },
-                Maxbuys = 2
-            },
-
-
-            new Structs.ItemPrice
-            {
-                Id = 4,
-                Price = 450,
-                Name = "Adrenalin",
-                ItemTypes = new List<ItemType> { ItemType.Adrenaline },
-                Maxbuys = 2
-            },
-
-            new Structs.ItemPrice
-            {
-                Id = 5,
-                Price = 500,
-                Name = "Medkit",
-                ItemTypes = new List<ItemType> { ItemType.Medkit },
-                Maxbuys = 3
-            },
-
-
-        }},
-        new Structs.Category 
-        {
-            id = 7,AllowedRoles = new List<RoleTypeId> { RoleTypeId.None },
-            Name = "Munition", Description = "Hier findest du Munition", 
+            Name = "Chaos", Description = "Hier kannst du Gegenstande für Chaos insurgency kaufen.",
             Items = new List<Structs.ItemPrice>
             {
-                new Structs.ItemPrice
+                new()
+                {
+                    Id = 1,
+                    Price = 7000,
+                    Name = "Facilitymanager Karte",
+                    ItemTypes = new List<ItemType> { ItemType.KeycardFacilityManager },
+                    Maxbuys = 1
+                },
+
+
+                new()
+                {
+                    Id = 2,
+                    Price = 7000,
+                    Name = "Logicer",
+                    ItemTypes = new List<ItemType> { ItemType.GunLogicer },
+                    Maxbuys = 1
+                },
+
+
+                new()
+                {
+                    Id = 3,
+                    Price = 2500,
+                    Name = "Shotgun",
+                    ItemTypes = new List<ItemType> { ItemType.GunShotgun },
+                    Maxbuys = 1
+                },
+
+
+                new()
+                {
+                    Id = 4,
+                    Price = 3500,
+                    Name = "Schwere Brustpanzerung",
+                    ItemTypes = new List<ItemType> { ItemType.ArmorHeavy },
+                    Maxbuys = 1
+                },
+
+
+                new()
+                {
+                    Id = 5,
+                    Price = 500,
+                    Name = "Schmerzmittel",
+                    ItemTypes = new List<ItemType> { ItemType.Painkillers },
+                    Maxbuys = 2
+                },
+
+                new()
+                {
+                    Id = 6,
+                    Price = 1000,
+                    Name = "Granate",
+                    ItemTypes = new List<ItemType> { ItemType.GrenadeHE },
+                    Maxbuys = 2
+                },
+
+
+                new()
+                {
+                    Id = 7,
+                    Price = 750,
+                    Name = "Flash Granate",
+                    ItemTypes = new List<ItemType> { ItemType.GrenadeFlash },
+                    Maxbuys = 2
+                },
+
+                new()
+                {
+                    Id = 8,
+                    Price = 50000,
+                    Name = "X3-Particle-Disruptor",
+                    ItemTypes = new List<ItemType> { ItemType.ParticleDisruptor },
+                    Maxbuys = 1
+                }
+            }
+        },
+        new Structs.Category
+        {
+            id = 6, AllowedRoles = new List<RoleTypeId> { RoleTypeId.None }, Name = "Allgemein",
+            Description = "Hier findest du allgemeine Sachen.",
+            Items = new List<Structs.ItemPrice>
+            {
+                new()
+                {
+                    Id = 1,
+                    Price = 300,
+                    Name = "Coin",
+                    ItemTypes = new List<ItemType> { ItemType.Coin },
+                    Maxbuys = 5
+                },
+
+                new()
+                {
+                    Id = 2,
+                    Price = 350,
+                    Name = "Flashlight",
+                    ItemTypes = new List<ItemType> { ItemType.Flashlight },
+                    Maxbuys = 5
+                },
+
+
+                new()
+                {
+                    Id = 3,
+                    Price = 1000,
+                    Name = "SCP-207",
+                    ItemTypes = new List<ItemType> { ItemType.SCP207 },
+                    Maxbuys = 2
+                },
+
+
+                new()
+                {
+                    Id = 4,
+                    Price = 450,
+                    Name = "Adrenalin",
+                    ItemTypes = new List<ItemType> { ItemType.Adrenaline },
+                    Maxbuys = 2
+                },
+
+                new()
+                {
+                    Id = 5,
+                    Price = 500,
+                    Name = "Medkit",
+                    ItemTypes = new List<ItemType> { ItemType.Medkit },
+                    Maxbuys = 3
+                }
+            }
+        },
+        new Structs.Category
+        {
+            id = 7, AllowedRoles = new List<RoleTypeId> { RoleTypeId.None },
+            Name = "Munition", Description = "Hier findest du Munition",
+            Items = new List<Structs.ItemPrice>
+            {
+                new()
                 {
                     Id = 1,
                     Price = 0,
@@ -535,7 +543,7 @@ public class Config : IConfig
                     IsAmmo = true
                 },
 
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 2,
                     Price = 75,
@@ -544,7 +552,7 @@ public class Config : IConfig
                     Maxbuys = 2,
                     IsAmmo = true
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 3,
                     Price = 75,
@@ -553,7 +561,7 @@ public class Config : IConfig
                     Maxbuys = 2,
                     IsAmmo = true
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 4,
                     Price = 75,
@@ -562,7 +570,7 @@ public class Config : IConfig
                     Maxbuys = 2,
                     IsAmmo = true
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 5,
                     Price = 75,
@@ -571,7 +579,7 @@ public class Config : IConfig
                     Maxbuys = 2,
                     IsAmmo = true
                 },
-                new Structs.ItemPrice
+                new()
                 {
                     Id = 6,
                     Price = 75,
@@ -579,22 +587,24 @@ public class Config : IConfig
                     AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Nato762, 60 } },
                     Maxbuys = 2,
                     IsAmmo = true
-                },
-            }},
+                }
+            }
+        }
     };
-    
+
+    [Description("Enables the Plugin")] public bool IsEnabled { get; set; } = true;
+
+    public bool Debug { get; set; } = false;
 }
 
 
 public class Structs
 {
-
     public struct ItemPrice
     {
-        
         public int Id { get; set; }
         public string Name { get; set; }
-        
+
         public string Description { get; set; }
 
 
@@ -615,10 +625,10 @@ public class Structs
         public string Description { get; set; }
         public List<RoleTypeId> AllowedRoles { get; set; }
 
-        
-        public List<ItemPrice> Items { get; set; }
 
+        public List<ItemPrice> Items { get; set; }
     }
+
     public struct Reward
     {
         public string Name { get; set; }

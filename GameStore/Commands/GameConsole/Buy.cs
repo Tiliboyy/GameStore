@@ -4,6 +4,7 @@ using CommandSystem;
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
 using Mirror;
+using NorthwoodLib.Pools;
 using PlayerRoles;
 using database = GameStore.GameStoreDatabase.Database;
 
@@ -56,24 +57,44 @@ internal class Commanad : ICommand
                     return true;
                 }
 
-                response = player.BuyItemFromName(arguments.At(0));
+                string name = FormatArguments(arguments, 0);
+                response = player.BuyItemFromName(name);
                 return true;
 
             }
-            case 2 when !Round.IsStarted:
-                response = Plugin.Instance.Translation.RoundNotStarted;
-                return true;
             case 2:
             {
-                int.TryParse(arguments.Array[1], out var category);
-                int.TryParse(arguments.Array[2], out var item);
-                
-                response = player.BuyItemFromId(category, item);
+                if (int.TryParse(arguments.Array[1], out var category) &&
+                    int.TryParse(arguments.Array[2], out var item))
+                {
+                    response = player.BuyItemFromId(category, item);
+                    return true;
+                }
+                string name1 = FormatArguments(arguments, 0);
+                response = player.BuyItemFromName(name1);
                 return true;
+                
             }
+            case >2:                 
+                string name2 = FormatArguments(arguments, 0);
+                response = player.BuyItemFromName(name2);
+                return true;
             default:
                 response = player.GetAvailableCategories();
                 return true;
         }
+        
+    }
+    public static string FormatArguments(ArraySegment<string> sentence, int index)
+    {
+        var sb = StringBuilderPool.Shared.Rent();
+        foreach (string word in sentence.Segment(index))
+        {
+            sb.Append(word);
+            sb.Append(" ");
+        }
+        string msg = sb.ToString();
+        StringBuilderPool.Shared.Return(sb);
+        return msg;
     }
 }
