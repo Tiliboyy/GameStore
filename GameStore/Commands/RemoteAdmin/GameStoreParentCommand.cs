@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using CommandSystem;
 using Exiled.Permissions.Extensions;
 
@@ -25,15 +26,7 @@ public class GameStoreParentCommand : ParentCommand
 
     protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        response = "\nPlease enter a valid subcommand:";
-
-        foreach (ICommand command in AllCommands)
-        {
-            if (sender.CheckPermission($"gs.{command.Command}"))
-            {
-                response += $"\n\n<color=#00fce3><b>- {command.Command} </b></color>\n<color=white>{command.Description}</color>";
-            }
-        }
+        response = AllCommands.Where(command => sender.CheckPermission($"gs.{command.Command}")).Aggregate("\nPlease enter a valid subcommand:", (current, command) => current + $"\n\n<color=#00fce3><b>- {command.Command} </b></color>\n<color=white>{command.Description}</color>");
 
         return false;
     }

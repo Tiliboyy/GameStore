@@ -10,6 +10,7 @@ namespace GameStore;
 
 public static class Extensions
 {
+
     public static void SendHintWhenNone(this Player player, string message, float duration)
     {
         if (player != null) Timing.RunCoroutine(GameStoreDatabase.HintWaitUntilFalse(player, message, duration));
