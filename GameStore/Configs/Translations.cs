@@ -11,6 +11,8 @@ public class Translation : ITranslation
     public string SetMoneyHintText { get; set; } = "Deine Daylight Bits wurden auf (money) gesetzt.";
     public string AddMoneyHintText { get; set; } = "Du hast (money) Daylight Bits erhalten.";
     public string BoughtItem { get; set; } = "Du hast (itemname) für (itemprice) Daylight Bits gekauft";
+    public string ErrorMessage { get; set; } = "Error please contact server staff with this: (error)";
+
     public string MaxAmountReached { get; set; } = "Du hast schon genug davon gekauft.";
 
     public string CantAfford { get; set; } = "Du kannst dir dieses Item nicht leisten.";

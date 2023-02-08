@@ -8,6 +8,7 @@ using PlayerRoles;
 [Serializable]
 public class Config : IConfig
 {
+    public bool ShowOnlyAvalibleItems { get; set; }= true;
     public int MaxMoney { get; set; } = 200000;
 
     [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited")]
@@ -624,8 +625,6 @@ public class Structs
 
         public string Description { get; set; }
         public List<RoleTypeId> AllowedRoles { get; set; }
-
-
         public List<ItemPrice> Items { get; set; }
     }
 

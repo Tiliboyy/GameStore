@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using Exiled.API.Features;
+using Exiled.Loader;
 using JetBrains.Annotations;
 using MEC;
 using PlayerRoles;
@@ -54,7 +55,9 @@ public static class Extensions
     public static string GetAvailableCategories(this Player player)
     {
         var list = Plugin.Instance.Config.Categorys.OrderBy(category => category.id).ToList();
-        var categories = list.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
+        var categories = list;
+        if (Plugin.Instance.Config.ShowOnlyAvalibleItems)
+            categories = list.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
         var category = "";
         var i = 1;
         foreach (var categoryitem in categories)
@@ -71,7 +74,9 @@ public static class Extensions
     {
         var items = "";
         var e = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
-        var categories = e.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
+        var categories = e;
+        if (Plugin.Instance.Config.ShowOnlyAvalibleItems)
+            categories = e.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
         if (category > categories.Count)
             return Plugin.Instance.Translation.ItemDoesNotExist;
         var i = 0;
@@ -180,25 +185,44 @@ public static class Extensions
         {
             return Plugin.Instance.Translation.RoundNotStarted;
         }
-        if (category > Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).Where(x => x.AllowedRoles.Contains(player.Role.Type) || x.AllowedRoles.Contains(RoleTypeId.None)).ToList().Count)
+
+        if (player == null)
+        {
+            return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", "Player is Null");
+        }
+
+        var Categorys = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
+        if (Plugin.Instance.Config.ShowOnlyAvalibleItems)
+        {
+            Categorys = Categorys.Where(x => x.AllowedRoles.Contains(player.Role.Type) || x.AllowedRoles.Contains(RoleTypeId.None)).ToList();
+        }
+        if (category > Categorys.Count)
         {
             return Plugin.Instance.Translation.CategoryDoesNotExist;
         }
 
-        var list = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).Where(x => x.AllowedRoles.Contains(player.Role.Type) || x.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp);
+        var list = Categorys;
         var i = 0;
         foreach (var category1 in list)
         {
             i++;
             if (i != category) continue;
-            var itemlist = category1.Items.OrderBy(price => price.Id);
+            var itemlist = category1.Items.OrderBy(price => price.Id).ToList();
             foreach (var items in itemlist.Where(items => item == items.Id))
             {
                 var num = $"{category1.id}{items.Id}";
                 if (!int.TryParse(num, out var result))
                 {
-                    return "Something went wrong please contact server staff";
+                    Log.Error($"\nCategory ID: {category1.id} \nItem ID:{items.Id} is invalid");
+                    return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Category Id: {category1.id} or {items.Id} is Invalid");
                 }
+
+                if (category1.AllowedRoles == null)
+                {
+                    Log.Info("allowed Roles is null!");
+                    return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Allowed roles from {category1.Name} is null");
+                }
+                Log.Info(category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None));
                 if (!category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None) || player.IsScp)
                 {
                     return Plugin.Instance.Translation.WrongeRole;
@@ -208,7 +232,6 @@ public static class Extensions
                     return Plugin.Instance.Translation.FullInventory;
                 }
 
-
                 if (!GameStoreDatabase.Database.CanRemoveMoneyFromPlayer(player, items.Price))
                 {
                     return Plugin.Instance.Translation.CantAfford;
@@ -216,24 +239,24 @@ public static class Extensions
 
                 if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(result))
                 {
+
                     if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result] >=
                         items.Maxbuys)
                     {
                         return Plugin.Instance.Translation.MaxAmountReached;
                     }
-
                     player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result]++;
                 }
                 else
                 {
                     player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
                 }
-
-
+                
                 GameStoreDatabase.Database.BuyItem(player, items);
                 return Plugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
                     .Replace("(itemprice)", items.Price.ToString());
             }
+            break;
         }
 
         return Plugin.Instance.Translation.ItemDoesNotExist;
