@@ -39,6 +39,7 @@ public class Plugin : Plugin<Config, Translation>
             Player.Spawned += EventHandlers.OnSpawned;
             Player.Verified += EventHandlers.OnVerified;
             Player.UsedItem += EventHandlers.OnUsedItem;
+            Player.ThrownProjectile += EventHandlers.OnThownItem;
         }
         catch (Exception e)
         {
@@ -49,13 +50,14 @@ public class Plugin : Plugin<Config, Translation>
 
     public override void OnDisabled()
     {
-        Instance = null;
-        EventHandler = null;
         Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
         Player.Escaping -= EventHandlers.OnEscaping;
         Player.Died -= EventHandlers.OnDeath;
         Player.Spawned -= EventHandlers.OnSpawned;
         Player.Verified -= EventHandlers.OnVerified;
         Player.UsedItem -= EventHandlers.OnUsedItem;
+        Player.ThrownProjectile -= EventHandlers.OnThownItem;
+        Instance = null;
+        EventHandler = null;
     }
 }
