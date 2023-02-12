@@ -22,6 +22,7 @@ public class GameStoreParentCommand : ParentCommand
         RegisterCommand(new Add());
         RegisterCommand(new Set());
         RegisterCommand(new Toggle());
+        RegisterCommand(new ResetLimits());
     }
 
     protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)

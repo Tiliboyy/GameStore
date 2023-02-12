@@ -38,6 +38,12 @@ internal class Commanad : ICommand
             return true;
         }
 
+        if (!player.IsAlive)
+        {
+            response = Plugin.Instance.Translation.WrongeRole;
+            return true;
+        }
+
         if (arguments.Array == null)
         {
             response = "What the fuck did you do";

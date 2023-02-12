@@ -2,9 +2,8 @@ using System;
 using System.Globalization;
 using System.Linq;
 using Exiled.API.Features;
-using Exiled.Loader;
-using JetBrains.Annotations;
 using MEC;
+using Microsoft.CSharp.RuntimeBinder;
 using PlayerRoles;
 
 namespace GameStore;
@@ -126,9 +125,9 @@ public static class Extensions
                     continue;
                 }
                 foundwithrole = true;
-                if (player.Items.Count >= 8)
+                if (player.Items.Count >= 8 && items.NoInventoryCheck == false)
                 {
-                    continue;                            
+                    continue;
                 }
 
                 notfullinventory = true;
@@ -219,15 +218,14 @@ public static class Extensions
 
                 if (category1.AllowedRoles == null)
                 {
-                    Log.Info("allowed Roles is null!");
+                    Log.Error("Allowed Roles is null!");
                     return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Allowed roles from {category1.Name} is null");
                 }
-                Log.Info(category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None));
                 if (!category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None) || player.IsScp)
                 {
                     return Plugin.Instance.Translation.WrongeRole;
                 }
-                if (player.Items.Count >= 8)
+                if (player.Items.Count >= 8 && items.NoInventoryCheck == false)
                 {
                     return Plugin.Instance.Translation.FullInventory;
                 }
@@ -251,7 +249,6 @@ public static class Extensions
                 {
                     player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
                 }
-                
                 GameStoreDatabase.Database.BuyItem(player, items);
                 return Plugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
                     .Replace("(itemprice)", items.Price.ToString());

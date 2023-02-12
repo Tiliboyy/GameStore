@@ -108,6 +108,8 @@
         <Compile Include="Commands\GameConsole\Balance.cs" />
         <Compile Include="Commands\GameConsole\Buy.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Add.cs" />
+        <Compile Include="Commands\RemoteAdmin\SubCommands\Delete.cs" />
+        <Compile Include="Commands\RemoteAdmin\SubCommands\ResetLimits.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Toggle.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Set.cs" />
         <Compile Include="Commands\RemoteAdmin\GameStoreParentCommand.cs" />
@@ -125,7 +127,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="EXILED">
-          <Version>6.0.0-beta.25</Version>
+          <Version>6.0.0-beta.26</Version>
         </PackageReference>
         <PackageReference Include="Lib.Harmony">
             <Version>2.2.2</Version>
