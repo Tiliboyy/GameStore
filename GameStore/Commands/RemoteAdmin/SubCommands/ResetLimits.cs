@@ -1,7 +1,5 @@
 using System;
 using CommandSystem;
-using PluginAPI.Core;
-using static GameStore.Extensions;
 using Player = Exiled.API.Features.Player;
 
 namespace GameStore.Commands;

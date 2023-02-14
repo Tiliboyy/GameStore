@@ -2,11 +2,9 @@
 using System.Globalization;
 using System.IO;
 using Exiled.API.Features;
-using FMOD;
 using LiteDB;
 using MEC;
 using PlayerRoles;
-using UnityEngine;
 
 namespace GameStore;
 
@@ -138,11 +136,14 @@ public static class GameStoreDatabase
                 {
                     player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
                 }
-                
+                if(reward.Money[player.Role.Type] == 0) return;
+                dbplayer.Money += reward.Money[player.Role.Type];
                 player.SendHintWhenNone
-                (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 2);
+                    (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 2);
+                
             }else if (reward.Money.ContainsKey(RoleTypeId.None))
             {
+                
                 if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
                 {
                     int amount = player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name];
@@ -168,12 +169,13 @@ public static class GameStoreDatabase
             }
             else
             {
+                Log.Debug("Reward does not contain player role");
                 return;
             }
             if (dbplayer.Money < 0) dbplayer.Money = 0;
             if (dbplayer.Money > Plugin.Instance.Config.MaxMoney) 
                 dbplayer.Money = Plugin.Instance.Config.MaxMoney;
-
+        
             players.Update(dbplayer);
         }
 

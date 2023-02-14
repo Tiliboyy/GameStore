@@ -36,9 +36,13 @@ internal class Set : ICommand
         }
 
         var oldamount = player.GetMoney();
-        player.SetMoney(result);
-        response = $"Die {Plugin.Instance.Translation.CurrencyName} von {player.Nickname} wurde von {oldamount} auf {result} gesetzt";
-        return true;
+        if (player.SetMoney(result))
+        {
+            response = $"Die {Plugin.Instance.Translation.CurrencyName} von {player.Nickname} wurde von {oldamount} auf {result} gesetzt";
+            return true;
+        }
 
+        response = $"Der Spieler wurde nicht gefunden oder er hat DNT aktiviert.";
+        return true;
     }
 }

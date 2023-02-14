@@ -15,15 +15,15 @@ public static class Extensions
     {
         if (player != null) Timing.RunCoroutine(GameStoreDatabase.HintWaitUntilFalse(player, message, duration));
     }
-    public static void SetMoney(this Player player, float money)
+    public static bool SetMoney(this Player player, float money)
     {
-        if (player == null) return ;
-        if (player.DoNotTrack || money == 0) return;
+        if (player == null) return false;
+        if (player.DoNotTrack) return false;
         var playerID = player.RawUserId.Split('@')[0];
         var players = GameStoreDatabase.db.GetCollection<GameStoreDatabase.DatabasePlayer>("players");
         var dbplayer = players.FindOne(x => x._id != null && x._id == playerID);
 
-        if (dbplayer == null) return;
+        if (dbplayer == null) return false;
         player.SendHintWhenNone
         (
             Plugin.Instance.Translation.SetMoneyHintText.Replace(
@@ -33,7 +33,8 @@ public static class Extensions
         );
         dbplayer.Money = money;
         if (dbplayer.Money < 0) dbplayer.Money = 0;
-        players.Update(dbplayer);    
+        players.Update(dbplayer);
+        return true;
     }
 
     public static float GetMoney(this Player player)
