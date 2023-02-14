@@ -1,3 +1,5 @@
+using System.Linq;
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using InventorySystem.Items.ThrowableProjectiles;
@@ -50,12 +52,19 @@ public class EventHandlers
         ev.Player.GiveReward(Plugin.Instance.Config.UsingItemReward);
     }
 
-    public static void OnDeath(DiedEventArgs ev)
+    public static void OnDying(DyingEventArgs ev)
     {
-        if (ev.Player == null) return;
+        if (ev.Player == null) 
+            return;
+        
         ev.Player.GiveReward(Plugin.Instance.Config.DeathReward);
+        if (ev.DamageHandler.Type == DamageType.PocketDimension)
+            foreach (var ply in Player.List.Where(x => x.Role.Type == RoleTypeId.Scp106))
+                ply.GiveReward(Plugin.Instance.Config.KillReward);
+        
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
+        
         if (ev.Player.Role.Team == Team.SCPs)
             ev.Attacker.GiveReward(Plugin.Instance.Config.ScpKillReward);
         else
