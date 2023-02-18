@@ -169,7 +169,6 @@ public static class GameStoreDatabase
             }
             else
             {
-                Log.Debug("Reward does not contain player role");
                 return;
             }
             if (dbplayer.Money < 0) dbplayer.Money = 0;

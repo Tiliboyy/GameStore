@@ -40,6 +40,9 @@ public class Plugin : Plugin<Config, Translation>
             Player.Verified += EventHandlers.OnVerified;
             Player.UsedItem += EventHandlers.OnUsedItem;
             Player.ThrownProjectile += EventHandlers.OnThownItem;
+            Player.EscapingPocketDimension += EventHandlers.OnEscapingPocketDimension;
+            Player.FailingEscapePocketDimension += EventHandlers.OnFailingEscapePocketDimension;
+            Player.EnteringPocketDimension += EventHandlers.OnEnteringPocketDimension;
         }
         catch (Exception e)
         {
@@ -57,6 +60,9 @@ public class Plugin : Plugin<Config, Translation>
         Player.Verified -= EventHandlers.OnVerified;
         Player.UsedItem -= EventHandlers.OnUsedItem;
         Player.ThrownProjectile -= EventHandlers.OnThownItem;
+        Player.EscapingPocketDimension -= EventHandlers.OnEscapingPocketDimension;
+        Player.FailingEscapePocketDimension -= EventHandlers.OnFailingEscapePocketDimension;
+        Player.EnteringPocketDimension -= EventHandlers.OnEnteringPocketDimension;
         Instance = null;
         EventHandler = null;
     }

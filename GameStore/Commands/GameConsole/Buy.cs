@@ -38,11 +38,6 @@ internal class Commanad : ICommand
             return true;
         }
 
-        if (!player.IsAlive)
-        {
-            response = Plugin.Instance.Translation.WrongeRole;
-            return true;
-        }
 
         if (arguments.Array == null)
         {
@@ -53,16 +48,33 @@ internal class Commanad : ICommand
         switch (arguments.Count)
         {
             case 0:
+                
+                if (!player.IsAlive)
+                {
+                    response = player.GetAvailableCategories(true);
+                    return true;
+                }
                 response = player.GetAvailableCategories();
                 return true;
             case 1:
             {
+                
+
                 if (int.TryParse(arguments.Array[1], out var argument1))
                 {
+                    if (!player.IsAlive)
+                    {
+                        response = player.GetAvailableItems(argument1);
+                        return true;
+                    }
                     response = player.GetAvailableItems(argument1);
                     return true;
                 }
-
+                if (!player.IsAlive)
+                {
+                    response = Plugin.Instance.Translation.CategoryDoesNotExist;
+                    return true;
+                }
                 string name = FormatArguments(arguments, 0);
                 response = player.BuyItemFromName(name);
                 return true;
@@ -70,6 +82,12 @@ internal class Commanad : ICommand
             }
             case 2:
             {
+                
+                if (!player.IsAlive)
+                {
+                    response = player.GetAvailableCategories(true);
+                    return true;
+                }
                 if (int.TryParse(arguments.Array[1], out var category) &&
                     int.TryParse(arguments.Array[2], out var item))
                 {

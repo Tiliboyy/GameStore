@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
@@ -9,6 +10,8 @@ namespace GameStore.EventHandlers;
 
 public class EventHandlers
 {
+    public static Dictionary<Player, Player> pocketPlayers = new Dictionary<Player, Player>();
+
     public static void OnVerified(VerifiedEventArgs ev)
     {
         if (!ev.Player.DoNotTrack)
@@ -56,12 +59,16 @@ public class EventHandlers
     {
         if (ev.Player == null) 
             return;
-        
         ev.Player.GiveReward(Plugin.Instance.Config.DeathReward);
         if (ev.DamageHandler.Type == DamageType.PocketDimension)
-            foreach (var ply in Player.List.Where(x => x.Role.Type == RoleTypeId.Scp106))
-                ply.GiveReward(Plugin.Instance.Config.KillReward);
-        
+        {
+            if (!pocketPlayers.ContainsKey(ev.Player)) return; 
+            pocketPlayers[ev.Player].GiveReward(Plugin.Instance.Config.KillReward);
+            pocketPlayers.Remove(ev.Player);
+            return;
+        }
+        if (pocketPlayers.ContainsKey(ev.Player))
+            pocketPlayers.Remove(ev.Player);
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
         
@@ -69,6 +76,26 @@ public class EventHandlers
             ev.Attacker.GiveReward(Plugin.Instance.Config.ScpKillReward);
         else
             ev.Attacker.GiveReward(Plugin.Instance.Config.KillReward);
+
+    }
+    
+    public static void OnEnteringPocketDimension(EnteringPocketDimensionEventArgs ev)
+    {
+        if(ev.Scp106 != null && ev.Player != null)
+            pocketPlayers.Add(ev.Player, ev.Scp106);
+    }
+
+    public static void OnFailingEscapePocketDimension(FailingEscapePocketDimensionEventArgs ev)
+    {
+        if (!pocketPlayers.ContainsKey(ev.Player)) return;
+        pocketPlayers[ev.Player].GiveReward(Plugin.Instance.Config.KillReward);
+        pocketPlayers.Remove(ev.Player);
+    }
+
+    public static void OnEscapingPocketDimension(EscapingPocketDimensionEventArgs ev)
+    {
+        if (pocketPlayers.ContainsKey(ev.Player))
+            pocketPlayers.Remove(ev.Player);
     }
 
 

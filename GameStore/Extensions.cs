@@ -52,11 +52,11 @@ public static class Extensions
         GameStoreDatabase.Database.AddMoneyToPlayer(player, money);
     }
     
-    public static string GetAvailableCategories(this Player player)
+    public static string GetAvailableCategories(this Player player, bool ShowAll = false)
     {
         var list = Plugin.Instance.Config.Categorys.OrderBy(category => category.id).ToList();
         var categories = list;
-        if (Plugin.Instance.Config.ShowOnlyAvalibleItems)
+        if (Plugin.Instance.Config.ShowOnlyAvalibleItems && !ShowAll)
             categories = list.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
         var category = "";
         var i = 1;
@@ -179,7 +179,7 @@ public static class Extensions
 
     }
     
-    public static string BuyItemFromId(this Player player, int category, int item)
+    public static string BuyItemFromId(this Player player, int category, int item, bool ShowAll = false)
     {
         if (!Round.IsStarted)
         {
@@ -213,7 +213,7 @@ public static class Extensions
                 var num = $"{category1.id}{items.Id}";
                 if (!int.TryParse(num, out var result))
                 {
-                    Log.Error($"\nCategory ID: {category1.id} \nItem ID:{items.Id} is invalid");
+                    Log.Warn($"\nCategory ID: {category1.id} \nItem ID:{items.Id} is invalid");
                     return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Category Id: {category1.id} or {items.Id} is Invalid");
                 }
 

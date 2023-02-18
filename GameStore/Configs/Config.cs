@@ -620,16 +620,6 @@ public class Config : IConfig
                 },
                 new()
                 {
-                    Id = 5,
-                    Price = 75,
-                    NoInventoryCheck = true,
-                    Name = "9x19mm Munition",
-                    AmmoTypes = new Dictionary<AmmoType, ushort> { { AmmoType.Nato9, 60 } },
-                    Maxbuys = 2,
-                    IsAmmo = true
-                },
-                new()
-                {
                     Id = 6,
                     Price = 75,
                     NoInventoryCheck = true,
