@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using Exiled.API.Features;
+using JetBrains.Annotations;
 using LiteDB;
 using MEC;
 using PlayerRoles;
@@ -191,6 +192,7 @@ public static class GameStoreDatabase
                 return dbplayer.Money;
             return 0;
         }
+        [UsedImplicitly]
         public static float GetMoneyFromSteam64ID(string steam64id)
         {
             var playerID = steam64id.Split('@')[0];

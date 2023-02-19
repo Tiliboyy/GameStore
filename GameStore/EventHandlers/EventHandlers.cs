@@ -25,7 +25,10 @@ public class EventHandlers
             
         }
     }
-
+    public static void OnLeveling(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
+    {
+        ev.Player.GiveReward(Plugin.Instance.Config.EscapeReward);
+    }
     public static void OnEscaping(EscapingEventArgs ev)
     {
         ev.Player.GiveReward(Plugin.Instance.Config.EscapeReward);
@@ -57,6 +60,7 @@ public class EventHandlers
 
     public static void OnDying(DyingEventArgs ev)
     {
+        if(Round.IsEnded || !Round.IsStarted) return;
         if (ev.Player == null) 
             return;
         ev.Player.GiveReward(Plugin.Instance.Config.DeathReward);
@@ -72,7 +76,7 @@ public class EventHandlers
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
         
-        if (ev.Player.Role.Team == Team.SCPs)
+        if (ev.Player.Role.Team == Team.SCPs && ev.Player.Role.Type != RoleTypeId.Scp0492)
             ev.Attacker.GiveReward(Plugin.Instance.Config.ScpKillReward);
         else
             ev.Attacker.GiveReward(Plugin.Instance.Config.KillReward);

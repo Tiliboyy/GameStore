@@ -27,6 +27,16 @@ public class Config : IConfig
         },
         MaxPerRound = 1
     };
+    public Structs.Reward Scp079LevelReward { get; set; } = new()
+    {
+        Name = "Scp079Level",
+
+        Money = new Dictionary<RoleTypeId, int>
+        {
+            { RoleTypeId.Scp079, 500 },
+        },
+        MaxPerRound = 1
+    };
 
     public Structs.Reward CufferReward { get; set; } = new()
     {
