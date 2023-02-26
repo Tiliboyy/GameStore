@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using Exiled.API.Features;
 using MEC;
-using Microsoft.CSharp.RuntimeBinder;
 using PlayerRoles;
 
 namespace GameStore;
@@ -13,7 +12,7 @@ public static class Extensions
 
     public static void SendHintWhenNone(this Player player, string message, float duration)
     {
-        if (player != null) Timing.RunCoroutine(GameStoreDatabase.HintWaitUntilFalse(player, message, duration));
+        if (player != null) Timing.RunCoroutine(GameStoreDatabase.SentHint(player, message, duration));
     }
     public static bool SetMoney(this Player player, float money)
     {

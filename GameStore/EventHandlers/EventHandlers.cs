@@ -27,7 +27,7 @@ public class EventHandlers
     }
     public static void OnLeveling(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
     {
-        ev.Player.GiveReward(Plugin.Instance.Config.EscapeReward);
+        ev.Player.GiveReward(Plugin.Instance.Config.Scp079LevelReward);
     }
     public static void OnEscaping(EscapingEventArgs ev)
     {

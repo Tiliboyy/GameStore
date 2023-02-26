@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Exiled.API.Features;
+using Exiled.Events.Handlers;
 using GameStore;
 using GameStore.EventHandlers;
 using PlayerRoles;
@@ -43,6 +44,7 @@ public class Plugin : Plugin<Config, Translation>
             Player.EscapingPocketDimension += EventHandlers.OnEscapingPocketDimension;
             Player.FailingEscapePocketDimension += EventHandlers.OnFailingEscapePocketDimension;
             Player.EnteringPocketDimension += EventHandlers.OnEnteringPocketDimension;
+            Scp079.GainingLevel += EventHandlers.OnLeveling;
         }
         catch (Exception e)
         {
@@ -63,6 +65,7 @@ public class Plugin : Plugin<Config, Translation>
         Player.EscapingPocketDimension -= EventHandlers.OnEscapingPocketDimension;
         Player.FailingEscapePocketDimension -= EventHandlers.OnFailingEscapePocketDimension;
         Player.EnteringPocketDimension -= EventHandlers.OnEnteringPocketDimension;
+        Scp079.GainingLevel -= EventHandlers.OnLeveling;
         Instance = null;
         EventHandler = null;
     }

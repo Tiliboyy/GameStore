@@ -12,7 +12,7 @@ namespace GameStore;
 public static class GameStoreDatabase
 {
 
-    public static IEnumerator<float> HintWaitUntilFalse(Player player, string message, float duration)
+    public static IEnumerator<float> SentHint(Player player, string message, float duration)
     {
         yield return Timing.WaitUntilFalse(() => player.HasHint && player.CurrentHint != null && !player.CurrentHint.Content.Contains("<size=69></size>"));
         player.ShowHint(message, duration);
@@ -73,7 +73,7 @@ public static class GameStoreDatabase
                 foreach (var items in item.ItemTypes)
                     player.AddItem(items);
 
-
+            player.Broadcast(3, Plugin.Instance.Translation.BoughtItemBroadcast.Replace("(item)", item.Name));
             players.Update(dbplayer);
         }
 
