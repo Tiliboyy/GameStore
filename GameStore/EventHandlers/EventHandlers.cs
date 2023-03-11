@@ -10,7 +10,7 @@ namespace GameStore.EventHandlers;
 
 public class EventHandlers
 {
-    public static Dictionary<Player, Player> pocketPlayers = new Dictionary<Player, Player>();
+    public static Dictionary<Player, Player> PocketPlayers = new();
 
     public static void OnVerified(VerifiedEventArgs ev)
     {
@@ -22,18 +22,16 @@ public class EventHandlers
         else
         {
             GameStoreDatabase.Database.RemovePlayer(ev.Player);
-            
         }
     }
-    public static void OnLeveling(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
+    public static void OnGainingLevel(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
     {
-        ev.Player.GiveReward(Plugin.Instance.Config.Scp079LevelReward);
+        ev.Player?.GiveReward(Plugin.Instance.Config.Scp079LevelReward);
     }
     public static void OnEscaping(EscapingEventArgs ev)
     {
         ev.Player.GiveReward(Plugin.Instance.Config.EscapeReward);
-        if (ev.Player.Cuffer != null)
-            ev.Player.GiveReward(Plugin.Instance.Config.CufferReward);
+        ev.Player.Cuffer?.GiveReward(Plugin.Instance.Config.CufferReward);
     }
     public static void OnWaitingForPlayers()
     {
@@ -47,7 +45,7 @@ public class EventHandlers
 
     public static void OnSpawned(SpawnedEventArgs ev)
     {
-        if (ev.OldRole.Type is not RoleTypeId.ClassD or RoleTypeId.Scientist)
+        if (ev.Reason != SpawnReason.Escaped)
         {
             ev.Player.GiveReward(Plugin.Instance.Config.SpawnReward);
         }
@@ -66,15 +64,18 @@ public class EventHandlers
         ev.Player.GiveReward(Plugin.Instance.Config.DeathReward);
         if (ev.DamageHandler.Type == DamageType.PocketDimension)
         {
-            if (!pocketPlayers.ContainsKey(ev.Player)) return; 
-            pocketPlayers[ev.Player].GiveReward(Plugin.Instance.Config.KillReward);
-            pocketPlayers.Remove(ev.Player);
+            if (!PocketPlayers.ContainsKey(ev.Player)) return; 
+            PocketPlayers[ev.Player].GiveReward(Plugin.Instance.Config.KillReward);
+            PocketPlayers.Remove(ev.Player);
             return;
         }
-        if (pocketPlayers.ContainsKey(ev.Player))
-            pocketPlayers.Remove(ev.Player);
+        if (PocketPlayers.ContainsKey(ev.Player))
+            PocketPlayers.Remove(ev.Player);
+        
+        
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
+        
         
         if (ev.Player.Role.Team == Team.SCPs && ev.Player.Role.Type != RoleTypeId.Scp0492)
             ev.Attacker.GiveReward(Plugin.Instance.Config.ScpKillReward);
@@ -86,20 +87,20 @@ public class EventHandlers
     public static void OnEnteringPocketDimension(EnteringPocketDimensionEventArgs ev)
     {
         if(ev.Scp106 != null && ev.Player != null)
-            pocketPlayers.Add(ev.Player, ev.Scp106);
+            PocketPlayers.Add(ev.Player, ev.Scp106);
     }
 
     public static void OnFailingEscapePocketDimension(FailingEscapePocketDimensionEventArgs ev)
     {
-        if (!pocketPlayers.ContainsKey(ev.Player)) return;
-        pocketPlayers[ev.Player].GiveReward(Plugin.Instance.Config.KillReward);
-        pocketPlayers.Remove(ev.Player);
+        if (!PocketPlayers.ContainsKey(ev.Player)) return;
+        PocketPlayers[ev.Player].GiveReward(Plugin.Instance.Config.KillReward);
+        PocketPlayers.Remove(ev.Player);
     }
 
     public static void OnEscapingPocketDimension(EscapingPocketDimensionEventArgs ev)
     {
-        if (pocketPlayers.ContainsKey(ev.Player))
-            pocketPlayers.Remove(ev.Player);
+        if (PocketPlayers.ContainsKey(ev.Player))
+            PocketPlayers.Remove(ev.Player);
     }
 
 

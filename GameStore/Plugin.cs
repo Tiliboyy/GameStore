@@ -44,7 +44,7 @@ public class Plugin : Plugin<Config, Translation>
             Player.EscapingPocketDimension += EventHandlers.OnEscapingPocketDimension;
             Player.FailingEscapePocketDimension += EventHandlers.OnFailingEscapePocketDimension;
             Player.EnteringPocketDimension += EventHandlers.OnEnteringPocketDimension;
-            Scp079.GainingLevel += EventHandlers.OnLeveling;
+            Scp079.GainingLevel += EventHandlers.OnGainingLevel;
         }
         catch (Exception e)
         {
@@ -65,7 +65,7 @@ public class Plugin : Plugin<Config, Translation>
         Player.EscapingPocketDimension -= EventHandlers.OnEscapingPocketDimension;
         Player.FailingEscapePocketDimension -= EventHandlers.OnFailingEscapePocketDimension;
         Player.EnteringPocketDimension -= EventHandlers.OnEnteringPocketDimension;
-        Scp079.GainingLevel -= EventHandlers.OnLeveling;
+        Scp079.GainingLevel -= EventHandlers.OnGainingLevel;
         Instance = null;
         EventHandler = null;
     }
