@@ -35,7 +35,7 @@ public class Config : IConfig
         {
             { RoleTypeId.Scp079, 500 },
         },
-        MaxPerRound = 1
+        MaxPerRound = -1
     };
 
     public Structs.Reward CufferReward { get; set; } = new()
