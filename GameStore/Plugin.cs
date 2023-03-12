@@ -48,7 +48,7 @@ public class Plugin : Plugin<Config, Translation>
         }
         catch (Exception e)
         {
-            Log.Error("Error :" + e);
+            Log.Error("Error: " + e);
         }
     }
 

@@ -106,6 +106,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Commands\ClientConsole\Balance.cs" />
+        <Compile Include="Commands\ClientConsole\Baltop.cs" />
         <Compile Include="Commands\ClientConsole\Buy.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Add.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Delete.cs" />

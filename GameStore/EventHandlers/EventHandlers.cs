@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.ThrowableProjectiles;
 using PlayerRoles;
 
 namespace GameStore.EventHandlers;
@@ -24,38 +24,39 @@ public class EventHandlers
             GameStoreDatabase.Database.RemovePlayer(ev.Player);
         }
     }
+    
     public static void OnGainingLevel(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
     {
         ev.Player?.GiveReward(Plugin.Instance.Config.Scp079LevelReward);
     }
+    
     public static void OnEscaping(EscapingEventArgs ev)
     {
         ev.Player.GiveReward(Plugin.Instance.Config.EscapeReward);
         ev.Player.Cuffer?.GiveReward(Plugin.Instance.Config.CufferReward);
     }
+    
     public static void OnWaitingForPlayers()
     {
         GameStoreDatabase.Database.CreatePlayers();
     }
-
+    
     public static void OnUsedItem(UsedItemEventArgs ev)
     {
         ev.Player.GiveReward(Plugin.Instance.Config.UsingItemReward);
     }
-
+    
     public static void OnSpawned(SpawnedEventArgs ev)
     {
         if (ev.Reason != SpawnReason.Escaped)
-        {
             ev.Player.GiveReward(Plugin.Instance.Config.SpawnReward);
-        }
     }
-
+    
     public static void OnThownItem(ThrownProjectileEventArgs ev)
     {
         ev.Player.GiveReward(Plugin.Instance.Config.UsingItemReward);
     }
-
+    
     public static void OnDying(DyingEventArgs ev)
     {
         if(Round.IsEnded || !Round.IsStarted) return;
@@ -89,19 +90,17 @@ public class EventHandlers
         if(ev.Scp106 != null && ev.Player != null)
             PocketPlayers.Add(ev.Player, ev.Scp106);
     }
-
+    
     public static void OnFailingEscapePocketDimension(FailingEscapePocketDimensionEventArgs ev)
     {
         if (!PocketPlayers.ContainsKey(ev.Player)) return;
         PocketPlayers[ev.Player].GiveReward(Plugin.Instance.Config.KillReward);
         PocketPlayers.Remove(ev.Player);
     }
-
+    
     public static void OnEscapingPocketDimension(EscapingPocketDimensionEventArgs ev)
     {
         if (PocketPlayers.ContainsKey(ev.Player))
             PocketPlayers.Remove(ev.Player);
     }
-
-
 }

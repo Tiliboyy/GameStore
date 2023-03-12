@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Exiled.API.Features;
 using JetBrains.Annotations;
 using LiteDB;
@@ -25,6 +26,8 @@ public static class GameStoreDatabase
     {
         public string _id { get; set; }
         public float Money { get; set; }
+        
+        public string Nickname { get; set; }
     }
 
     public static class Database
@@ -35,8 +38,7 @@ public static class GameStoreDatabase
 
             if (!players.Exists(x => true)) players.EnsureIndex(x => x._id);
         }
-
-
+        
         public static void AddPlayer(Player player)
         {
             if (player == null) return;
@@ -44,12 +46,20 @@ public static class GameStoreDatabase
             var playerID = player.RawUserId.Split('@')[0];
             var players = db.GetCollection<DatabasePlayer>("players");
 
-            if (players.FindOne(x => x._id == playerID) != null) return;
+            
+            if (players.FindOne(x => x._id == playerID) != null)
+            {
+                var udbplayer = players.FindOne(x => x._id == playerID);
+                udbplayer.Nickname = player.Nickname;
+                players.Update(udbplayer);
+                return;
+            }
 
             players.Insert(new DatabasePlayer
             {
                 _id = playerID,
-                Money = 0
+                Money = 0,
+                Nickname = player.Nickname
             });
             var dbplayer = players.FindOne(x => x._id == playerID);
             players.Update(dbplayer);
@@ -177,6 +187,28 @@ public static class GameStoreDatabase
                 dbplayer.Money = Plugin.Instance.Config.MaxMoney;
         
             players.Update(dbplayer);
+        }
+
+        public static string GetLeaderBoard()
+        {
+            var players = db.GetCollection<DatabasePlayer>("players");
+            var e = players.FindAll().OrderByDescending(p => p.Money).Take(10).ToList();
+            int i = 1;
+            var str = "\n";
+            foreach (var player in e)
+            {
+                if (player.Nickname == null)
+                {
+                    str += $"\n[{i}] {player._id}: {player.Money} {Plugin.Instance.Translation.CurrencyName}";
+                }
+                else
+                {
+                    str += $"\n[{i}] {player.Nickname}: {player.Money} {Plugin.Instance.Translation.CurrencyName}";
+                }
+
+                i++;
+            }
+            return str;
         }
 
 
