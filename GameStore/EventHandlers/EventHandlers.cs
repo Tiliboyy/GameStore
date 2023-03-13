@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
@@ -29,7 +30,6 @@ public class EventHandlers
     {
         ev.Player?.GiveReward(Plugin.Instance.Config.Scp079LevelReward);
     }
-    
     public static void OnEscaping(EscapingEventArgs ev)
     {
         ev.Player.GiveReward(Plugin.Instance.Config.EscapeReward);

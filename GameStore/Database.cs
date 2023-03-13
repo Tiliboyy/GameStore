@@ -148,9 +148,9 @@ public static class GameStoreDatabase
                     player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
                 }
                 if(reward.Money[player.Role.Type] == 0) return;
-                dbplayer.Money += reward.Money[player.Role.Type];
+                dbplayer.Money += reward.Money[player.Role.Type] * Plugin.MoneyMuliplier;
                 player.SendHintWhenNone
-                    (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", reward.Money[player.Role.Type].ToString(CultureInfo.InvariantCulture)), 2);
+                    (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", (reward.Money[player.Role.Type] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 2);
                 
             }else if (reward.Money.ContainsKey(RoleTypeId.None))
             {
@@ -169,12 +169,12 @@ public static class GameStoreDatabase
                 {
                     player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
                 }
-                dbplayer.Money += reward.Money[RoleTypeId.None];
+                dbplayer.Money += reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier;
                 player.SendHintWhenNone
                 (
                     Plugin.Instance.Translation.AddMoneyHintText.Replace(
                         "(money)", 
-                        reward.Money[RoleTypeId.None].ToString(CultureInfo.InvariantCulture)), 
+                        (reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 
                     2
                 );
             }
@@ -183,13 +183,13 @@ public static class GameStoreDatabase
                 return;
             }
             if (dbplayer.Money < 0) dbplayer.Money = 0;
-            if (dbplayer.Money > Plugin.Instance.Config.MaxMoney) 
-                dbplayer.Money = Plugin.Instance.Config.MaxMoney;
+            if (dbplayer.Money > Plugin.Instance.Config.MoneyLimit && Plugin.Instance.Config.EnableLimit) 
+                dbplayer.Money = Plugin.Instance.Config.MoneyLimit;
         
             players.Update(dbplayer);
         }
 
-        public static string GetLeaderBoard()
+        public static string GetLeaderboard()
         {
             var players = db.GetCollection<DatabasePlayer>("players");
             var e = players.FindAll().OrderByDescending(p => p.Money).Take(10).ToList();

@@ -21,15 +21,15 @@ internal class Toggle : ICommand
             return false;
         }
 
-        if (Plugin.Enablegamestore)
+        if (Plugin.EnableGamestore)
         {
             response = "GameStore wurde deaktiviert";
-            Plugin.Enablegamestore = false;
+            Plugin.EnableGamestore = false;
         }
         else
         {
             response = "GameStore wurde aktiviert";
-            Plugin.Enablegamestore = true;
+            Plugin.EnableGamestore = true;
         }
 
         return true;

@@ -15,7 +15,7 @@ internal class Baltop : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        response = GameStoreDatabase.Database.GetLeaderBoard();
+        response = GameStoreDatabase.Database.GetLeaderboard();
         return true;
     }
 }

@@ -110,6 +110,7 @@
         <Compile Include="Commands\ClientConsole\Buy.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Add.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Delete.cs" />
+        <Compile Include="Commands\RemoteAdmin\SubCommands\Muliplier.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\ResetLimits.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Toggle.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Set.cs" />

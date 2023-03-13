@@ -57,7 +57,7 @@ public static class Extensions
         var categories = list;
         if (Plugin.Instance.Config.ShowOnlyAvalibleItems && !ShowAll)
             categories = list.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
-        var category = "";
+        var category = $"";;
         var i = 1;
         foreach (var categoryitem in categories)
         {
@@ -66,12 +66,12 @@ public static class Extensions
         }
         if (category == "")
             category = Plugin.Instance.Translation.NothingToBuy;
-        return category;
+        return category + "";
     }
     
     public static string GetAvailableItems(this Player player,int category)
     {
-        var items = "";
+        var items = $"";
         var e = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
         var categories = e;
         if (Plugin.Instance.Config.ShowOnlyAvalibleItems)
@@ -85,8 +85,8 @@ public static class Extensions
             if(i != category) continue;
             items = categorynum.Items.Aggregate(items, (current, item) => current + $"\n[{item.Id}] {item.Name} - {item.Price} {Plugin.Instance.Translation.CurrencyName}");
         }
-
-        return items;
+        
+        return items + "";
     }
     
     public static string BuyItemFromName(this Player player, string Name)

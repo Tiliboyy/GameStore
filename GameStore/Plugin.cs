@@ -12,7 +12,9 @@ using Server = Exiled.Events.Handlers.Server;
 
 public class Plugin : Plugin<Config, Translation>
 {
-    public static bool Enablegamestore = true;
+    public static bool EnableGamestore = true;
+    
+    public static int MoneyMuliplier = 1;
 
     public static Plugin Instance;
 

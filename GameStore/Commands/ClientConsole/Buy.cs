@@ -32,7 +32,7 @@ internal class Commanad : ICommand
             response = Plugin.Instance.Translation.DntMessage;
             return true;
         }
-        if (!Plugin.Enablegamestore)
+        if (!Plugin.EnableGamestore)
         {
             response = Plugin.Instance.Translation.DisabledStore;
             return true;

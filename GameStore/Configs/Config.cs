@@ -13,9 +13,12 @@ public class Config : IConfig
 
     public bool Debug { get; set; } = false;
     public bool ShowOnlyAvalibleItems { get; set; }= true;
-    public int MaxMoney { get; set; } = 200000;
 
-    [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited")]
+    public bool EnableLimit { get; set; } = true;
+    public float MoneyLimit { get; set; } = 200000;
+    
+    [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited\n" +
+                 "The amount a player gets when he escapes")]
     public Structs.Reward EscapeReward { get; set; } = new()
     {
         Name = "Escape",
@@ -27,6 +30,18 @@ public class Config : IConfig
         },
         MaxPerRound = 1
     };
+    [Description("The amount of money the cuffer of an escaped player gets when he escapes")]
+    public Structs.Reward CufferReward { get; set; } = new()
+    {
+        Name = "EscapeCuffer",
+        Money = new Dictionary<RoleTypeId, int>
+        {
+            { RoleTypeId.None, 1000 }
+        },
+        MaxPerRound = 1
+    };
+    [Description("The amount of money SCP079 gets when leveling")]
+
     public Structs.Reward Scp079LevelReward { get; set; } = new()
     {
         Name = "Scp079Level",
@@ -37,17 +52,7 @@ public class Config : IConfig
         },
         MaxPerRound = -1
     };
-
-    public Structs.Reward CufferReward { get; set; } = new()
-    {
-        Name = "EscapeCuffer",
-        Money = new Dictionary<RoleTypeId, int>
-        {
-            { RoleTypeId.None, 1000 }
-        },
-        MaxPerRound = 1
-    };
-
+    [Description("The amount of money you get per kill as that role")]
     public Structs.Reward KillReward { get; set; } = new()
     {
         Name = "Kill",
@@ -75,6 +80,7 @@ public class Config : IConfig
         },
         MaxPerRound = -1
     };
+    [Description("The amount of money the killer of an scp gets")]
 
     public Structs.Reward ScpKillReward { get; set; } = new()
     {
@@ -86,6 +92,7 @@ public class Config : IConfig
         },
         MaxPerRound = 1
     };
+    [Description("The amount of money a player gets when he dies")]
 
     public Structs.Reward DeathReward { get; set; } = new()
     {
@@ -97,6 +104,7 @@ public class Config : IConfig
         },
         MaxPerRound = -1
     };
+    [Description("The amount of money a player gets when he is using an item")]
 
     public Structs.Reward UsingItemReward { get; set; } = new()
     {
@@ -108,6 +116,7 @@ public class Config : IConfig
         },
         MaxPerRound = -1
     };
+    [Description("The amount of money a player gets when he spawns as a role")]
 
     public Structs.Reward SpawnReward { get; set; } = new()
     {
