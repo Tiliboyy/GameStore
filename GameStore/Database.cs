@@ -235,7 +235,18 @@ public static class GameStoreDatabase
             if (dbplayer != null)
                 return dbplayer.Money;
             return 0;
+        }
+        [UsedImplicitly]
+        public static string GetNicknameFromSteam64ID(string steam64id)
+        {
+            var playerID = steam64id.Split('@')[0];
+            var players = db.GetCollection<DatabasePlayer>("players");
 
+            var dbplayer = players.FindOne(x => x._id == playerID);
+
+            if (dbplayer != null)
+                return dbplayer.Money;
+            return 0;
         }
 
         public static void RemovePlayer(Player player)
