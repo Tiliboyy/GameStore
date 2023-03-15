@@ -245,8 +245,8 @@ public static class GameStoreDatabase
             var dbplayer = players.FindOne(x => x._id == playerID);
 
             if (dbplayer != null)
-                return dbplayer.Money;
-            return 0;
+                return dbplayer.Nickname;
+            return "None";
         }
 
         public static void RemovePlayer(Player player)
