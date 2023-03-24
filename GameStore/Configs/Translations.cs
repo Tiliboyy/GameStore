@@ -23,8 +23,7 @@ public class Translation : ITranslation
 
     public string FullInventory { get; set; } = "Dein Inventar ist voll";
 
-    public string DntMessage { get; set; } =
-        "Du hast Do not Track aktiviert. Deakiviere DNT um den GameStore verwenden zu können";
+    public string DntMessage { get; set; } = "Du hast Do not Track aktiviert. Deakiviere DNT um den GameStore verwenden zu können";
 
     public string DisabledStore { get; set; } = "Der GameStore ist momentan deaktiviert";
 

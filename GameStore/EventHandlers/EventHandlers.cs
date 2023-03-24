@@ -57,12 +57,17 @@ public class EventHandlers
         ev.Player.GiveReward(Plugin.Instance.Config.UsingItemReward);
     }
     
-    public static void OnDying(DyingEventArgs ev)
+    public static void OnDied(DiedEventArgs ev)
     {
         if(Round.IsEnded || !Round.IsStarted) return;
         if (ev.Player == null) 
             return;
         ev.Player.GiveReward(Plugin.Instance.Config.DeathReward);
+        if (ev.Player.GameObject.TryGetComponent<GameStoreComponent>(out var gameStoreComponent))
+        {
+            gameStoreComponent.LifeSpentMoney = 0;
+            gameStoreComponent.LifeGainedMoney = 0;
+        }
         if (ev.DamageHandler.Type == DamageType.PocketDimension)
         {
             if (!PocketPlayers.ContainsKey(ev.Player)) return; 

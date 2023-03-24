@@ -13,9 +13,7 @@ namespace GameStore;
 
 public static class GameStoreDatabase
 {
-
-    public static event EventHandler<float> GainingMoney;
-
+    
     public static IEnumerator<float> SentHint(Player player, string message, float duration)
     {
         yield return Timing.WaitUntilFalse(() => player.HasHint && player.CurrentHint != null && !player.CurrentHint.Content.Contains("<size=69></size>"));
@@ -67,7 +65,6 @@ public static class GameStoreDatabase
             var dbplayer = players.FindOne(x => x._id == playerID);
             players.Update(dbplayer);
         }
-
         
         public static void BuyItem(Player player, Structs.ItemPrice item)
         {
@@ -79,6 +76,7 @@ public static class GameStoreDatabase
 
             if (dbplayer == null) return;
             dbplayer.Money -= item.Price;
+            OnSpendingMoney(player, item.Price);
             if (item.IsAmmo)
                 foreach (var items in item.AmmoTypes)
                     player.AddAmmo(items.Key, items.Value);
@@ -102,7 +100,6 @@ public static class GameStoreDatabase
 
             return false;
         }
-
 
         public static void AddMoneyToPlayer(Player player, float money)
         {
@@ -152,7 +149,7 @@ public static class GameStoreDatabase
                 }
                 if(reward.Money[player.Role.Type] == 0) return;
                 dbplayer.Money += reward.Money[player.Role.Type] * Plugin.MoneyMuliplier;
-                OnGainingMoney(reward.Money[player.Role.Type] * Plugin.MoneyMuliplier);
+                OnGainingMoney(player,reward.Money[player.Role.Type] * Plugin.MoneyMuliplier);
                 player.SendHintWhenNone
                     (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", (reward.Money[player.Role.Type] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 2);
                 
@@ -174,7 +171,7 @@ public static class GameStoreDatabase
                     player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
                 }
                 dbplayer.Money += reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier;
-                OnGainingMoney(reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier);
+                OnGainingMoney(player,reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier);
                 player.SendHintWhenNone
                 (
                     Plugin.Instance.Translation.AddMoneyHintText.Replace(
@@ -216,7 +213,6 @@ public static class GameStoreDatabase
             return str;
         }
 
-
         public static float GetPlayerMoney(Player player)
         {
             if (player.DoNotTrack) return 0;
@@ -249,9 +245,7 @@ public static class GameStoreDatabase
 
             var dbplayer = players.FindOne(x => x._id == playerID);
             
-            if (dbplayer != null)
-                return dbplayer.Nickname;
-            return "None";
+            return dbplayer != null ? dbplayer.Nickname : "None";
         }
 
         public static void RemovePlayer(Player player)
@@ -265,8 +259,23 @@ public static class GameStoreDatabase
         }
     }
 
-    private static void OnGainingMoney(float e)
+    private static void OnGainingMoney(Player player ,float amount)
     {
-        GainingMoney?.Invoke(null, e);
+        if (!player.GameObject.TryGetComponent<GameStoreComponent>(out var gameStoreComponent)) return;
+        
+        gameStoreComponent.LifeGainedMoney += amount;
+        gameStoreComponent.RoundGainedMoney += amount;
+        Log.Info(gameStoreComponent.LifeGainedMoney);
+        Log.Info(gameStoreComponent.RoundGainedMoney);
+
+    }
+    private static void OnSpendingMoney(Player player ,float amount)
+    {
+        if (!player.GameObject.TryGetComponent<GameStoreComponent>(out var gameStoreComponent)) return;
+        
+        gameStoreComponent.LifeSpentMoney += amount;
+        gameStoreComponent.RoundSpentMoney += amount;
+        Log.Info(gameStoreComponent.LifeSpentMoney);
+        Log.Info(gameStoreComponent.RoundSpentMoney);
     }
 }

@@ -35,7 +35,7 @@ public class Plugin : Plugin<Config, Translation>
             Instance = this;
             EventHandler = new EventHandlers();
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-            Player.Dying += EventHandlers.OnDying;
+            Player.Died += EventHandlers.OnDied;
             Player.Escaping += EventHandlers.OnEscaping;
             Player.Spawned += EventHandlers.OnSpawned;
             Player.Verified += EventHandlers.OnVerified;
@@ -57,7 +57,7 @@ public class Plugin : Plugin<Config, Translation>
     {
         Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
         Player.Escaping -= EventHandlers.OnEscaping;
-        Player.Dying -= EventHandlers.OnDying;
+        Player.Died -= EventHandlers.OnDied;
         Player.Spawned -= EventHandlers.OnSpawned;
         Player.Verified -= EventHandlers.OnVerified;
         Player.UsedItem -= EventHandlers.OnUsedItem;

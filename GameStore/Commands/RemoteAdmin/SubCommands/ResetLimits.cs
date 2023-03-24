@@ -27,7 +27,7 @@ internal class ResetLimits : ICommand
             return true;
         }
         
-        player.GameObject.GetComponent<GameStoreComponent>().ResetLimits();
+        player.GameObject.GetComponent<GameStoreComponent>().ResetBuyLimits();
         response = $"Limits reset!";
         return true;
 
