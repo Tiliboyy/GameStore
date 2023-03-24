@@ -32,8 +32,6 @@ public class Plugin : Plugin<Config, Translation>
     {
         try
         {
-            if (!Directory.Exists(Path.Combine(Paths.Configs, "Gamestore/")))
-                Directory.CreateDirectory(Path.Combine(Paths.Configs, "Gamestore/"));
             Instance = this;
             EventHandler = new EventHandlers();
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;

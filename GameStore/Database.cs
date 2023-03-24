@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace GameStore;
 
 public static class GameStoreDatabase
 {
+
+    public static event EventHandler<float> GainingMoney;
 
     public static IEnumerator<float> SentHint(Player player, string message, float duration)
     {
@@ -149,6 +152,7 @@ public static class GameStoreDatabase
                 }
                 if(reward.Money[player.Role.Type] == 0) return;
                 dbplayer.Money += reward.Money[player.Role.Type] * Plugin.MoneyMuliplier;
+                OnGainingMoney(reward.Money[player.Role.Type] * Plugin.MoneyMuliplier);
                 player.SendHintWhenNone
                     (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", (reward.Money[player.Role.Type] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 2);
                 
@@ -170,6 +174,7 @@ public static class GameStoreDatabase
                     player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
                 }
                 dbplayer.Money += reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier;
+                OnGainingMoney(reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier);
                 player.SendHintWhenNone
                 (
                     Plugin.Instance.Translation.AddMoneyHintText.Replace(
@@ -243,7 +248,7 @@ public static class GameStoreDatabase
             var players = db.GetCollection<DatabasePlayer>("players");
 
             var dbplayer = players.FindOne(x => x._id == playerID);
-
+            
             if (dbplayer != null)
                 return dbplayer.Nickname;
             return "None";
@@ -258,5 +263,10 @@ public static class GameStoreDatabase
 
             if (dbplayer != null) players.Delete(dbplayer._id);
         }
+    }
+
+    private static void OnGainingMoney(float e)
+    {
+        GainingMoney?.Invoke(null, e);
     }
 }
