@@ -14,7 +14,7 @@ public class Config : IConfig
     public bool Debug { get; set; } = false;
     public bool ShowOnlyAvalibleItems { get; set; }= true;
 
-    public bool EnableLimit { get; set; } = true;
+    public bool EnableLimit { get; set; } = false;
     public float MoneyLimit { get; set; } = 200000;
     
     [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited\n" +

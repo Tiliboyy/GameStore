@@ -191,10 +191,10 @@ public static class GameStoreDatabase
             players.Update(dbplayer);
         }
 
-        public static string GetLeaderboard()
+        public static string GetLeaderboard(int amount = 10)
         {
             var players = db.GetCollection<DatabasePlayer>("players");
-            var e = players.FindAll().OrderByDescending(p => p.Money).Take(10).ToList();
+            var e = players.FindAll().OrderByDescending(p => p.Money).Take(amount).ToList();
             int i = 1;
             var str = "\n";
             foreach (var player in e)
@@ -265,8 +265,6 @@ public static class GameStoreDatabase
         
         gameStoreComponent.LifeGainedMoney += amount;
         gameStoreComponent.RoundGainedMoney += amount;
-        Log.Info(gameStoreComponent.LifeGainedMoney);
-        Log.Info(gameStoreComponent.RoundGainedMoney);
 
     }
     private static void OnSpendingMoney(Player player ,float amount)
@@ -275,7 +273,5 @@ public static class GameStoreDatabase
         
         gameStoreComponent.LifeSpentMoney += amount;
         gameStoreComponent.RoundSpentMoney += amount;
-        Log.Info(gameStoreComponent.LifeSpentMoney);
-        Log.Info(gameStoreComponent.RoundSpentMoney);
     }
 }

@@ -57,7 +57,7 @@ public class EventHandlers
         ev.Player.GiveReward(Plugin.Instance.Config.UsingItemReward);
     }
     
-    public static void OnDied(DiedEventArgs ev)
+    public static void OnDying(DyingEventArgs ev)
     {
         if(Round.IsEnded || !Round.IsStarted) return;
         if (ev.Player == null) 
@@ -81,8 +81,6 @@ public class EventHandlers
         
         if (ev.Attacker == null || ev.Attacker.Id == ev.Player.Id)
             return;
-        
-        
         if (ev.Player.Role.Team == Team.SCPs && ev.Player.Role.Type != RoleTypeId.Scp0492)
             ev.Attacker.GiveReward(Plugin.Instance.Config.ScpKillReward);
         else
