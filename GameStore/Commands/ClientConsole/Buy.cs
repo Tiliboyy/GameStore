@@ -64,7 +64,7 @@ internal class Commanad : ICommand
                 {
                     if (!player.IsAlive)
                     {
-                        response = player.GetAvailableItems(argument1);
+                        response =  player.GetAvailableItems(argument1);
                         return true;
                     }
                     response = player.GetAvailableItems(argument1);

@@ -150,6 +150,7 @@ public static class GameStoreDatabase
                 if(reward.Money[player.Role.Type] == 0) return;
                 dbplayer.Money += reward.Money[player.Role.Type] * Plugin.MoneyMuliplier;
                 OnGainingMoney(player,reward.Money[player.Role.Type] * Plugin.MoneyMuliplier);
+                player.SendConsoleMessage(Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", (reward.Money[player.Role.Type] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), "red");
                 player.SendHintWhenNone
                     (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", (reward.Money[player.Role.Type] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 2);
                 

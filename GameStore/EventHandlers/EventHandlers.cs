@@ -48,7 +48,7 @@ public class EventHandlers
     
     public static void OnSpawned(SpawnedEventArgs ev)
     {
-        if (ev.Reason != SpawnReason.Escaped)
+        if (ev.Reason is SpawnReason.Respawn or SpawnReason.RoundStart or SpawnReason.LateJoin)
             ev.Player.GiveReward(Plugin.Instance.Config.SpawnReward);
     }
     
