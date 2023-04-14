@@ -22,13 +22,21 @@ public static class GameStoreDatabase
     }
 
     public static LiteDatabase db = new(Path.Combine(Paths.Configs, "Gamestore/GameStore.db"));
-
+    public struct Pay
+    {
+        public string TargetId { get; set; }
+        public float Amount { get; set; }
+        public DateTime Date { get; set; }
+    }
     public class DatabasePlayer
     {
         public string _id { get; set; }
         public float Money { get; set; }
         
         public string Nickname { get; set; }
+
+        public List<Pay> PayHistory { get; set; }
+        
     }
 
     public static class Database
@@ -39,7 +47,7 @@ public static class GameStoreDatabase
 
             if (!players.Exists(x => true)) players.EnsureIndex(x => x._id);
         }
-        
+
         public static void AddPlayer(Player player)
         {
             if (player == null) return;
@@ -47,11 +55,12 @@ public static class GameStoreDatabase
             var playerID = player.RawUserId.Split('@')[0];
             var players = db.GetCollection<DatabasePlayer>("players");
 
-            
+
             if (players.FindOne(x => x._id == playerID) != null)
             {
                 var udbplayer = players.FindOne(x => x._id == playerID);
                 udbplayer.Nickname = player.Nickname;
+                udbplayer.PayHistory ??= new List<Pay>();
                 players.Update(udbplayer);
                 return;
             }
@@ -65,7 +74,57 @@ public static class GameStoreDatabase
             var dbplayer = players.FindOne(x => x._id == playerID);
             players.Update(dbplayer);
         }
-        
+
+        public static bool CanPay(Player sender, float amount)
+        {
+            if (sender == null) return false;
+            if (sender.DoNotTrack) return false;
+            var senderid = sender.RawUserId.Split('@')[0];
+            var players = db.GetCollection<DatabasePlayer>("players");
+            var dbsender = players.FindOne(x => x._id != null && x._id == senderid);
+
+            float iAmount = amount;
+            if(dbsender.PayHistory == null) return !(iAmount > GameStorePlugin.Instance.Config.MaxDailyPayAmount);
+            iAmount += dbsender.PayHistory.Where(pay => pay.Date.Date == DateTime.Today).Sum(pay => pay.Amount);
+            return !(iAmount > GameStorePlugin.Instance.Config.MaxDailyPayAmount);
+        }
+        public static void PayToPlayer(Player sender, Player reciver, float amount)
+        {
+            if (sender == null || reciver == null) return;
+            if (sender.DoNotTrack || reciver.DoNotTrack) return;
+            if(!CanRemoveMoneyFromPlayer(sender, amount)) return;
+            var senderid = sender.RawUserId.Split('@')[0];
+            var reciverid = reciver.RawUserId.Split('@')[0];
+
+            var players = db.GetCollection<DatabasePlayer>("players");
+
+            var dbsender = players.FindOne(x => x._id != null && x._id == senderid);
+            var dbreciver = players.FindOne(x => x._id != null && x._id == reciverid);
+            if (dbsender == null || dbreciver == null) return;
+            reciver.SendHintWhenNone
+            (
+                GameStorePlugin.Instance.Translation.PayMoneyHintText.Replace(
+                    "(money)", 
+                    amount.ToString(CultureInfo.InvariantCulture)).Replace("(player)", sender.Nickname), 
+                2
+            );
+            dbsender.Money -= amount;
+            dbreciver.Money += amount;
+            if (dbsender.PayHistory == null)
+            {
+                dbsender.PayHistory = new List<Pay> { new(){Date = DateTime.Now, Amount = amount, TargetId = reciverid} };
+            }
+            else
+            {
+                dbsender.PayHistory.Add(new Pay(){Date = DateTime.Now, Amount = amount, TargetId = reciverid});
+            }
+
+            if (dbsender.Money < 0) dbsender.Money = 0;
+            players.Update(dbsender);
+            players.Update(dbreciver);
+
+        }
+
         public static void BuyItem(Player player, Structs.ItemPrice item)
         {
             if (player.DoNotTrack) return;
@@ -84,7 +143,7 @@ public static class GameStoreDatabase
                 foreach (var items in item.ItemTypes)
                     player.AddItem(items);
 
-            player.Broadcast(3, Plugin.Instance.Translation.BoughtItemBroadcast.Replace("(item)", item.Name));
+            player.Broadcast(3, GameStorePlugin.Instance.Translation.BoughtItemBroadcast.Replace("(item)", item.Name));
             players.Update(dbplayer);
         }
 
@@ -113,7 +172,7 @@ public static class GameStoreDatabase
             if (dbplayer == null) return;
             player.SendHintWhenNone
             (
-                Plugin.Instance.Translation.AddMoneyHintText.Replace(
+                GameStorePlugin.Instance.Translation.AddMoneyHintText.Replace(
                     "(money)", 
                     money.ToString(CultureInfo.InvariantCulture)), 
                 2
@@ -148,10 +207,10 @@ public static class GameStoreDatabase
                     player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
                 }
                 if(reward.Money[player.Role.Type] == 0) return;
-                dbplayer.Money += reward.Money[player.Role.Type] * Plugin.MoneyMuliplier;
-                OnGainingMoney(player,reward.Money[player.Role.Type] * Plugin.MoneyMuliplier);
+                dbplayer.Money += reward.Money[player.Role.Type] * GameStorePlugin.MoneyMuliplier;
+                OnGainingMoney(player,reward.Money[player.Role.Type] * GameStorePlugin.MoneyMuliplier);
                 player.SendHintWhenNone
-                    (Plugin.Instance.Translation.AddMoneyHintText.Replace("(money)", (reward.Money[player.Role.Type] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 2);
+                    (GameStorePlugin.Instance.Translation.AddMoneyHintText.Replace("(money)", (reward.Money[player.Role.Type] * GameStorePlugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 2);
                 
             }else if (reward.Money.ContainsKey(RoleTypeId.None))
             {
@@ -170,13 +229,13 @@ public static class GameStoreDatabase
                 {
                     player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
                 }
-                dbplayer.Money += reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier;
-                OnGainingMoney(player,reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier);
+                dbplayer.Money += reward.Money[RoleTypeId.None] * GameStorePlugin.MoneyMuliplier;
+                OnGainingMoney(player,reward.Money[RoleTypeId.None] * GameStorePlugin.MoneyMuliplier);
                 player.SendHintWhenNone
                 (
-                    Plugin.Instance.Translation.AddMoneyHintText.Replace(
+                    GameStorePlugin.Instance.Translation.AddMoneyHintText.Replace(
                         "(money)", 
-                        (reward.Money[RoleTypeId.None] * Plugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 
+                        (reward.Money[RoleTypeId.None] * GameStorePlugin.MoneyMuliplier).ToString(CultureInfo.InvariantCulture)), 
                     2
                 );
             }
@@ -185,8 +244,8 @@ public static class GameStoreDatabase
                 return;
             }
             if (dbplayer.Money < 0) dbplayer.Money = 0;
-            if (dbplayer.Money > Plugin.Instance.Config.MoneyLimit && Plugin.Instance.Config.EnableLimit) 
-                dbplayer.Money = Plugin.Instance.Config.MoneyLimit;
+            if (dbplayer.Money > GameStorePlugin.Instance.Config.MoneyLimit && GameStorePlugin.Instance.Config.EnableLimit) 
+                dbplayer.Money = GameStorePlugin.Instance.Config.MoneyLimit;
         
             players.Update(dbplayer);
         }
@@ -201,11 +260,11 @@ public static class GameStoreDatabase
             {
                 if (player.Nickname == null)
                 {
-                    str += $"\n[{i}] {player._id}: {player.Money} {Plugin.Instance.Translation.CurrencyName}";
+                    str += $"\n[{i}] {player._id}: {player.Money} {GameStorePlugin.Instance.Translation.CurrencyName}";
                 }
                 else
                 {
-                    str += $"\n[{i}] {player.Nickname}: {player.Money} {Plugin.Instance.Translation.CurrencyName}";
+                    str += $"\n[{i}] {player.Nickname}: {player.Money} {GameStorePlugin.Instance.Translation.CurrencyName}";
                 }
 
                 i++;

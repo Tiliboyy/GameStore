@@ -12,6 +12,11 @@ public class Config : IConfig
     public bool IsEnabled { get; set; } = true;
 
     public bool Debug { get; set; } = false;
+
+    [Description("Pay configs")] 
+    public bool EnablePay { get; set; } = true;
+
+    public float MaxDailyPayAmount { get; set; }= 10000;
     public bool ShowOnlyAvalibleItems { get; set; }= true;
 
     public bool EnableLimit { get; set; } = false;

@@ -25,7 +25,7 @@ public static class Extensions
         if (dbplayer == null) return false;
         player.SendHintWhenNone
         (
-            Plugin.Instance.Translation.SetMoneyHintText.Replace(
+            GameStorePlugin.Instance.Translation.SetMoneyHintText.Replace(
                 "(money)", 
                 money.ToString(CultureInfo.InvariantCulture)), 
             2
@@ -53,9 +53,9 @@ public static class Extensions
     
     public static string GetAvailableCategories(this Player player, bool ShowAll = false)
     {
-        var list = Plugin.Instance.Config.Categorys.OrderBy(category => category.id).ToList();
+        var list = GameStorePlugin.Instance.Config.Categorys.OrderBy(category => category.id).ToList();
         var categories = list;
-        if (Plugin.Instance.Config.ShowOnlyAvalibleItems && !ShowAll)
+        if (GameStorePlugin.Instance.Config.ShowOnlyAvalibleItems && !ShowAll)
             categories = list.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
         var category = $"";;
         var i = 1;
@@ -65,25 +65,25 @@ public static class Extensions
             i++;
         }
         if (category == "")
-            category = Plugin.Instance.Translation.NothingToBuy;
+            category = GameStorePlugin.Instance.Translation.NothingToBuy;
         return category + "";
     }
     
     public static string GetAvailableItems(this Player player,int category)
     {
         var items = $"";
-        var e = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
+        var e = GameStorePlugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
         var categories = e;
-        if (Plugin.Instance.Config.ShowOnlyAvalibleItems)
+        if (GameStorePlugin.Instance.Config.ShowOnlyAvalibleItems)
             categories = e.Where(VARIABLE => VARIABLE.AllowedRoles.Contains(player.Role.Type) || VARIABLE.AllowedRoles.Contains(RoleTypeId.None) && !player.IsScp).ToList();
         if (category > categories.Count)
-            return Plugin.Instance.Translation.ItemDoesNotExist;
+            return GameStorePlugin.Instance.Translation.ItemDoesNotExist;
         var i = 0;
         foreach (var categorynum in categories)
         {
             i++;
             if(i != category) continue;
-            items = categorynum.Items.Aggregate(items, (current, item) => current + $"\n[{item.Id}] {item.Name} - {item.Price} {Plugin.Instance.Translation.CurrencyName}");
+            items = categorynum.Items.Aggregate(items, (current, item) => current + $"\n[{item.Id}] {item.Name} - {item.Price} {GameStorePlugin.Instance.Translation.CurrencyName}");
         }
         
         return items + "";
@@ -93,9 +93,9 @@ public static class Extensions
     {
         if (!Round.IsStarted)
         {
-            return Plugin.Instance.Translation.RoundNotStarted;
+            return GameStorePlugin.Instance.Translation.RoundNotStarted;
         }
-        var list = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
+        var list = GameStorePlugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
         bool foundwithrole = false;
         bool notexisting = false;
         bool nomoney = false;
@@ -156,25 +156,25 @@ public static class Extensions
                 }
 
                 GameStoreDatabase.Database.BuyItem(player, items);
-                return Plugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
+                return GameStorePlugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
                     .Replace("(itemprice)", items.Price.ToString());
             }
         }
 
         if (!notexisting)
         {
-            return Plugin.Instance.Translation.ItemDoesNotExist;
+            return GameStorePlugin.Instance.Translation.ItemDoesNotExist;
         }
         if (!foundwithrole)
         {
-            return Plugin.Instance.Translation.WrongeRole;
+            return GameStorePlugin.Instance.Translation.WrongeRole;
         }
         if (!notfullinventory)
         {
-            return Plugin.Instance.Translation.FullInventory;
+            return GameStorePlugin.Instance.Translation.FullInventory;
         }
 
-        return !nomoney ? Plugin.Instance.Translation.CantAfford : Plugin.Instance.Translation.MaxAmountReached;
+        return !nomoney ? GameStorePlugin.Instance.Translation.CantAfford : GameStorePlugin.Instance.Translation.MaxAmountReached;
 
     }
     
@@ -182,22 +182,22 @@ public static class Extensions
     {
         if (!Round.IsStarted)
         {
-            return Plugin.Instance.Translation.RoundNotStarted;
+            return GameStorePlugin.Instance.Translation.RoundNotStarted;
         }
 
         if (player == null)
         {
-            return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", "Player is Null");
+            return GameStorePlugin.Instance.Translation.ErrorMessage.Replace("(error)", "Player is Null");
         }
 
-        var Categorys = Plugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
-        if (Plugin.Instance.Config.ShowOnlyAvalibleItems)
+        var Categorys = GameStorePlugin.Instance.Config.Categorys.OrderBy(category1 => category1.id).ToList();
+        if (GameStorePlugin.Instance.Config.ShowOnlyAvalibleItems)
         {
             Categorys = Categorys.Where(x => x.AllowedRoles.Contains(player.Role.Type) || x.AllowedRoles.Contains(RoleTypeId.None)).ToList();
         }
         if (category > Categorys.Count)
         {
-            return Plugin.Instance.Translation.CategoryDoesNotExist;
+            return GameStorePlugin.Instance.Translation.CategoryDoesNotExist;
         }
 
         var list = Categorys;
@@ -213,26 +213,26 @@ public static class Extensions
                 if (!int.TryParse(num, out var result))
                 {
                     Log.Warn($"\nCategory ID: {category1.id} \nItem ID:{items.Id} is invalid");
-                    return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Category Id: {category1.id} or {items.Id} is Invalid");
+                    return GameStorePlugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Category Id: {category1.id} or {items.Id} is Invalid");
                 }
 
                 if (category1.AllowedRoles == null)
                 {
                     Log.Error("Allowed Roles is null!");
-                    return Plugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Allowed roles from {category1.Name} is null");
+                    return GameStorePlugin.Instance.Translation.ErrorMessage.Replace("(error)", $"Allowed roles from {category1.Name} is null");
                 }
                 if (!category1.AllowedRoles.Contains(player.Role.Type) && !category1.AllowedRoles.Contains(RoleTypeId.None) || player.IsScp)
                 {
-                    return Plugin.Instance.Translation.WrongeRole;
+                    return GameStorePlugin.Instance.Translation.WrongeRole;
                 }
                 if (player.Items.Count >= 8 && items.NoInventoryCheck == false)
                 {
-                    return Plugin.Instance.Translation.FullInventory;
+                    return GameStorePlugin.Instance.Translation.FullInventory;
                 }
 
                 if (!GameStoreDatabase.Database.CanRemoveMoneyFromPlayer(player, items.Price))
                 {
-                    return Plugin.Instance.Translation.CantAfford;
+                    return GameStorePlugin.Instance.Translation.CantAfford;
                 }
 
                 if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(result))
@@ -241,7 +241,7 @@ public static class Extensions
                     if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result] >=
                         items.Maxbuys)
                     {
-                        return Plugin.Instance.Translation.MaxAmountReached;
+                        return GameStorePlugin.Instance.Translation.MaxAmountReached;
                     }
                     player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result]++;
                 }
@@ -250,13 +250,13 @@ public static class Extensions
                     player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
                 }
                 GameStoreDatabase.Database.BuyItem(player, items);
-                return Plugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
+                return GameStorePlugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
                     .Replace("(itemprice)", items.Price.ToString());
             }
             break;
         }
 
-        return Plugin.Instance.Translation.ItemDoesNotExist;
+        return GameStorePlugin.Instance.Translation.ItemDoesNotExist;
 
 
     }

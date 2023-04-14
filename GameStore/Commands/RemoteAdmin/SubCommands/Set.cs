@@ -38,7 +38,7 @@ internal class Set : ICommand
         var oldamount = player.GetMoney();
         if (player.SetMoney(result))
         {
-            response = $"Die {Plugin.Instance.Translation.CurrencyName} von {player.Nickname} wurde von {oldamount} auf {result} gesetzt";
+            response = $"Die {GameStorePlugin.Instance.Translation.CurrencyName} von {player.Nickname} wurde von {oldamount} auf {result} gesetzt";
             return true;
         }
 

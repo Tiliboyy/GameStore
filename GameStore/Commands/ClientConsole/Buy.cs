@@ -29,12 +29,12 @@ internal class Commanad : ICommand
         }
         if (player.DoNotTrack)
         {
-            response = Plugin.Instance.Translation.DntMessage;
+            response = GameStorePlugin.Instance.Translation.DntMessage;
             return true;
         }
-        if (!Plugin.EnableGamestore)
+        if (!GameStorePlugin.EnableGamestore)
         {
-            response = Plugin.Instance.Translation.DisabledStore;
+            response = GameStorePlugin.Instance.Translation.DisabledStore;
             return true;
         }
 
@@ -64,7 +64,7 @@ internal class Commanad : ICommand
                 {
                     if (!player.IsAlive)
                     {
-                        response =  player.GetAvailableItems(argument1);
+                        response = player.GetAvailableItems(argument1);
                         return true;
                     }
                     response = player.GetAvailableItems(argument1);
@@ -72,7 +72,7 @@ internal class Commanad : ICommand
                 }
                 if (!player.IsAlive)
                 {
-                    response = Plugin.Instance.Translation.CategoryDoesNotExist;
+                    response = GameStorePlugin.Instance.Translation.CategoryDoesNotExist;
                     return true;
                 }
                 string name = FormatArguments(arguments, 0);

@@ -42,7 +42,7 @@ internal class Add : ICommand
                 foreach (var ply in Player.List)
                     ply.GiveMoney(amount);
 
-                response = $"Everyone was given {amount} {Plugin.Instance.Translation.CurrencyName}";
+                response = $"Everyone was given {amount} {GameStorePlugin.Instance.Translation.CurrencyName}";
                 return true;
             default:
                 var pl = Player.Get(arguments.At(0));
@@ -60,7 +60,7 @@ internal class Add : ICommand
                 pl.GiveMoney(amountsingle);
 
                 response =
-                    $"Player {pl.Nickname} has been given {amountsingle} {Plugin.Instance.Translation.CurrencyName}";
+                    $"Player {pl.Nickname} has been given {amountsingle} {GameStorePlugin.Instance.Translation.CurrencyName}";
                 return true;
         }
     }

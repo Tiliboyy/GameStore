@@ -10,13 +10,13 @@ using MapEvent = Exiled.Events.Handlers.Map;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
 
-public class Plugin : Plugin<Config, Translation>
+public class GameStorePlugin : Plugin<Config, Translation>
 {
     public static bool EnableGamestore = true;
     
     public static int MoneyMuliplier = 1;
 
-    public static Plugin Instance;
+    public static GameStorePlugin Instance;
 
     public EventHandlers EventHandler;
     public override string Author => "Tiliboyy";
@@ -34,6 +34,8 @@ public class Plugin : Plugin<Config, Translation>
         {
             Instance = this;
             EventHandler = new EventHandlers();
+            if (!Directory.Exists(Path.Combine(Paths.Configs, "Gamestore/")))
+                Directory.CreateDirectory(Path.Combine(Paths.Configs, "Gamestore/"));
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
             Player.Dying += EventHandlers.OnDying;
             Player.Escaping += EventHandlers.OnEscaping;

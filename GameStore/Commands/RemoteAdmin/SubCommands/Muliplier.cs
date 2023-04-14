@@ -27,7 +27,7 @@ internal class Multiplier : ICommand
             response = "Usage: gamestore multiplier <multiplier>";
             return true;
         }
-        Plugin.MoneyMuliplier = i;
+        GameStorePlugin.MoneyMuliplier = i;
         response = $"Der Muliplier wurde auf {i} gesetzt.";
         return true;
     }
