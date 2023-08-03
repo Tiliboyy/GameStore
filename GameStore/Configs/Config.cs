@@ -1,9 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Exiled.API.Enums;
 using Exiled.API.Interfaces;
 using PlayerRoles;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace GameStore.Configs;
 
 [Serializable]
 public class Config : IConfig
@@ -22,8 +24,7 @@ public class Config : IConfig
     public bool EnableLimit { get; set; } = false;
     public float MoneyLimit { get; set; } = 200000;
     
-    [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited\n" +
-                 "The amount a player gets when he escapes")]
+    [Description("The amount a player gets from each event. 0 disables the event. -1 Is unlimited")]
     public Structs.Reward EscapeReward { get; set; } = new()
     {
         Name = "Escape",

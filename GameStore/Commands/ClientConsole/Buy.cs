@@ -1,15 +1,10 @@
-﻿using System;
-using System.Linq;
-using CommandSystem;
+﻿using CommandSystem;
 using Exiled.API.Features;
-using Exiled.API.Features.Roles;
-using Mirror;
 using NorthwoodLib.Pools;
-using PlayerRoles;
-using database = GameStore.GameStoreDatabase.Database;
+using System;
 
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.ClientConsole;
 [CommandHandler(typeof(ClientCommandHandler))]
 internal class Commanad : ICommand
 {

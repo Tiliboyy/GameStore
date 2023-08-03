@@ -74,13 +74,16 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Assembly-CSharp-firstpass">
-          <HintPath>..\..\..\Documents\assambys\Assembly-CSharp-firstpass.dll</HintPath>
+          <HintPath>..\..\..\SCP Secret Laboratory\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>
         <Reference Include="CommandSystem.Core">
           <HintPath>..\..\..\..\Desktop\Exiled Beta\CommandSystem.Core.dll</HintPath>
         </Reference>
+        <Reference Include="Core">
+          <HintPath>..\..\..\SCP Secret Laboratory\Assembly\Core.dll</HintPath>
+        </Reference>
         <Reference Include="Mirror">
-          <HintPath>..\..\..\Documents\assambys\Mirror-Publicized.dll</HintPath>
+          <HintPath>..\..\..\SCP Secret Laboratory\Assembly\Mirror.dll</HintPath>
         </Reference>
         <Reference Include="NorthwoodLib">
           <HintPath>..\..\..\..\Documents\Assembly\NorthwoodLib.dll</HintPath>
@@ -95,13 +98,13 @@
         <Reference Include="System.Net.Http" />
         <Reference Include="System.Xml" />
         <Reference Include="UnityEngine">
-          <HintPath>..\..\..\Documents\assambys\UnityEngine.dll</HintPath>
+          <HintPath>..\..\..\SCP Secret Laboratory\Assembly\UnityEngine.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-          <HintPath>..\..\..\Documents\assambys\UnityEngine.CoreModule.dll</HintPath>
+          <HintPath>..\..\..\SCP Secret Laboratory\Assembly\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.PhysicsModule">
-          <HintPath>..\..\..\Documents\assambys\UnityEngine.PhysicsModule.dll</HintPath>
+          <HintPath>..\..\..\SCP Secret Laboratory\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
@@ -118,6 +121,9 @@
         <Compile Include="Commands\RemoteAdmin\GameStoreParentCommand.cs" />
         <Compile Include="Configs\Translations.cs" />
         <Compile Include="Database.cs" />
+        <Compile Include="Events\EventArgs\BoughtItemEventArgs.cs" />
+        <Compile Include="Events\EventArgs\GainedMoneyEventArgs.cs" />
+        <Compile Include="Events\Handlers.cs" />
         <Compile Include="Extensions.cs" />
         <Compile Include="GameStoreComponent.cs" />
         <Compile Include="Plugin.cs" />
@@ -130,7 +136,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="EXILED">
-          <Version>6.1.0-beta.1</Version>
+          <Version>7.0.0-rc.1-2</Version>
         </PackageReference>
         <PackageReference Include="Lib.Harmony">
             <Version>2.2.2</Version>

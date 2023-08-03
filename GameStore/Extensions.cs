@@ -1,7 +1,10 @@
+using Core.Features.Data.Enums;
+using Core.Features.Extensions;
 using System;
 using System.Globalization;
 using System.Linq;
 using Exiled.API.Features;
+using GameStore.Configs;
 using MEC;
 using PlayerRoles;
 
@@ -9,11 +12,7 @@ namespace GameStore;
 
 public static class Extensions
 {
-
-    public static void SendHintWhenNone(this Player player, string message, float duration)
-    {
-        if (player != null) Timing.RunCoroutine(GameStoreDatabase.SentHint(player, message, duration));
-    }
+    
     public static bool SetMoney(this Player player, float money)
     {
         if (player == null) return false;
@@ -23,13 +22,6 @@ public static class Extensions
         var dbplayer = players.FindOne(x => x._id != null && x._id == playerID);
 
         if (dbplayer == null) return false;
-        player.SendHintWhenNone
-        (
-            GameStorePlugin.Instance.Translation.SetMoneyHintText.Replace(
-                "(money)", 
-                money.ToString(CultureInfo.InvariantCulture)), 
-            2
-        );
         dbplayer.Money = money;
         if (dbplayer.Money < 0) dbplayer.Money = 0;
         players.Update(dbplayer);
@@ -46,7 +38,7 @@ public static class Extensions
         GameStoreDatabase.Database.AddRewardToPlayer(player, reward);
     }
     
-    public static void GiveMoney(this Player player, float money)
+    public static void GiveMoney(this Player player, int money)
     {
         GameStoreDatabase.Database.AddMoneyToPlayer(player, money);
     }
@@ -225,7 +217,7 @@ public static class Extensions
                 {
                     return GameStorePlugin.Instance.Translation.WrongeRole;
                 }
-                if (player.Items.Count >= 8 && items.NoInventoryCheck == false)
+                if (player.IsInventoryFull && items.NoInventoryCheck == false)
                 {
                     return GameStorePlugin.Instance.Translation.FullInventory;
                 }

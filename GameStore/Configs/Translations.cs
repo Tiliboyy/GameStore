@@ -1,7 +1,7 @@
-﻿using System;
-using Exiled.API.Interfaces;
+﻿using Exiled.API.Interfaces;
+using System;
 
-namespace GameStore;
+namespace GameStore.Configs;
 
 [Serializable]
 public class Translation : ITranslation

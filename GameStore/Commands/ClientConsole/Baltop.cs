@@ -1,8 +1,7 @@
-using System;
-using System.Linq;
 using CommandSystem;
-using GameStore;
+using System;
 
+namespace GameStore.Commands.ClientConsole;
 
 [CommandHandler(typeof(ClientCommandHandler))]
 internal class Baltop : ICommand

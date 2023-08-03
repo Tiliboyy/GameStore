@@ -1,8 +1,8 @@
-using System;
 using CommandSystem;
+using System;
 using Player = Exiled.API.Features.Player;
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.RemoteAdmin.SubCommands;
 
 internal class ResetLimits : ICommand
 {

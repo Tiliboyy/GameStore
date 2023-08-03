@@ -1,9 +1,10 @@
-using System;
-using System.Linq;
 using CommandSystem;
 using Exiled.Permissions.Extensions;
+using GameStore.Commands.RemoteAdmin.SubCommands;
+using System;
+using System.Linq;
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.RemoteAdmin;
 
 
 [CommandHandler(typeof(RemoteAdminCommandHandler))]

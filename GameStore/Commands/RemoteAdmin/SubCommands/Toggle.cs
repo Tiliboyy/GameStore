@@ -1,9 +1,8 @@
-﻿using System;
-using CommandSystem;
+﻿using CommandSystem;
 using Exiled.Permissions.Extensions;
-using database = GameStore.GameStoreDatabase.Database;
+using System;
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.RemoteAdmin.SubCommands;
 
 internal class Toggle : ICommand
 {

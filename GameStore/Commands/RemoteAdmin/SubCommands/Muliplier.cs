@@ -1,10 +1,7 @@
-using System;
 using CommandSystem;
-using PluginAPI.Core;
-using static GameStore.Extensions;
-using Player = Exiled.API.Features.Player;
+using System;
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.RemoteAdmin.SubCommands;
 
 internal class Multiplier : ICommand
 {

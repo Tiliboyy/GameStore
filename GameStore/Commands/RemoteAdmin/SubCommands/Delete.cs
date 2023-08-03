@@ -1,10 +1,8 @@
-using System;
 using CommandSystem;
-using PluginAPI.Core;
-using static GameStore.Extensions;
+using System;
 using Player = Exiled.API.Features.Player;
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.RemoteAdmin.SubCommands;
 
 internal class Delete : ICommand
 {

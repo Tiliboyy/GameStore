@@ -1,11 +1,9 @@
-﻿using System;
-using CommandSystem;
+﻿using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using static GameStore.GameStoreDatabase;
-using database = GameStore.GameStoreDatabase.Database;
+using System;
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.RemoteAdmin.SubCommands;
 
 internal class Add : ICommand
 {
@@ -33,7 +31,7 @@ internal class Add : ICommand
         {
             case "*":
             case "all":
-                if (!float.TryParse(arguments.At(1), out var amount) && amount <= 0)
+                if (!int.TryParse(arguments.At(1), out int amount) && amount <= 0)
                 {
                     response = "Thats not a number!";
                     return false;
@@ -52,7 +50,7 @@ internal class Add : ICommand
                     return false;
                 }
 
-                if (!float.TryParse(arguments.At(1), out var amountsingle) && amountsingle <= 0)
+                if (!int.TryParse(arguments.At(1), out int amountsingle) && amountsingle <= 0)
                 {
                     response = $"Money argument invalid: {arguments.At(1)}";
                     return false;

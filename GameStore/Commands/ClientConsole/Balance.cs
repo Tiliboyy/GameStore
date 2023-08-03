@@ -1,11 +1,9 @@
-﻿using System;
-using System.Globalization;
-using CommandSystem;
+﻿using CommandSystem;
 using Exiled.API.Features;
-using RemoteAdmin;
-using UnityEngine;
+using System;
+using System.Globalization;
 
-namespace GameStore.Commands;
+namespace GameStore.Commands.ClientConsole;
 
 [CommandHandler(typeof(ClientCommandHandler))]
 internal class GameStore : ICommand

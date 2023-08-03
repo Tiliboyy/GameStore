@@ -32,8 +32,8 @@ public class EventHandlers
     }
     public static void OnEscaping(EscapingEventArgs ev)
     {
-        ev.Player.GiveReward(GameStorePlugin.Instance.Config.EscapeReward);
-        ev.Player.Cuffer?.GiveReward(GameStorePlugin.Instance.Config.CufferReward);
+        ev.Player?.GiveReward(GameStorePlugin.Instance.Config.EscapeReward);
+        ev.Player?.Cuffer?.GiveReward(GameStorePlugin.Instance.Config.CufferReward);
     }
     
     public static void OnWaitingForPlayers()
@@ -43,18 +43,19 @@ public class EventHandlers
     
     public static void OnUsedItem(UsedItemEventArgs ev)
     {
-        ev.Player.GiveReward(GameStorePlugin.Instance.Config.UsingItemReward);
+        ev.Player?.GiveReward(GameStorePlugin.Instance.Config.UsingItemReward);
     }
     
     public static void OnSpawned(SpawnedEventArgs ev)
     {
+        if(ev.Player == null) return;
         if (ev.Reason is SpawnReason.Respawn or SpawnReason.RoundStart or SpawnReason.LateJoin)
-            ev.Player.GiveReward(GameStorePlugin.Instance.Config.SpawnReward);
+            ev.Player?.GiveReward(GameStorePlugin.Instance.Config.SpawnReward);
     }
     
     public static void OnThownItem(ThrownProjectileEventArgs ev)
     {
-        ev.Player.GiveReward(GameStorePlugin.Instance.Config.UsingItemReward);
+        ev.Player?.GiveReward(GameStorePlugin.Instance.Config.UsingItemReward);
     }
     
     public static void OnDying(DyingEventArgs ev)
@@ -90,7 +91,7 @@ public class EventHandlers
     
     public static void OnEnteringPocketDimension(EnteringPocketDimensionEventArgs ev)
     {
-        if(ev.Scp106 != null && ev.Player != null)
+        if(ev.Scp106 != null && ev.Player != null && PocketPlayers.ContainsKey(ev.Player))
             PocketPlayers.Add(ev.Player, ev.Scp106);
     }
     

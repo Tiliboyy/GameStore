@@ -1,14 +1,13 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using Exiled.API.Features;
 using Exiled.Events.Handlers;
-using GameStore;
-using GameStore.EventHandlers;
-using PlayerRoles;
-using MapEvent = Exiled.Events.Handlers.Map;
+using GameStore.Configs;
+using GameStore.Events.EventArgs;
+using System;
+using System.IO;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
+
+namespace GameStore;
 
 public class GameStorePlugin : Plugin<Config, Translation>
 {
@@ -18,7 +17,7 @@ public class GameStorePlugin : Plugin<Config, Translation>
 
     public static GameStorePlugin Instance;
 
-    public EventHandlers EventHandler;
+    public EventHandlers.EventHandlers EventHandler;
     public override string Author => "Tiliboyy";
 
     public override string Name => "GameStore";
@@ -27,26 +26,27 @@ public class GameStorePlugin : Plugin<Config, Translation>
     public override Version Version => new(1, 0, 0);
 
     public override Version RequiredExiledVersion => new(6, 0, 0, 0);
+    
 
     public override void OnEnabled()
     {
         try
         {
             Instance = this;
-            EventHandler = new EventHandlers();
+            EventHandler = new EventHandlers.EventHandlers();
             if (!Directory.Exists(Path.Combine(Paths.Configs, "Gamestore/")))
                 Directory.CreateDirectory(Path.Combine(Paths.Configs, "Gamestore/"));
-            Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-            Player.Dying += EventHandlers.OnDying;
-            Player.Escaping += EventHandlers.OnEscaping;
-            Player.Spawned += EventHandlers.OnSpawned;
-            Player.Verified += EventHandlers.OnVerified;
-            Player.UsedItem += EventHandlers.OnUsedItem;
-            Player.ThrownProjectile += EventHandlers.OnThownItem;
-            Player.EscapingPocketDimension += EventHandlers.OnEscapingPocketDimension;
-            Player.FailingEscapePocketDimension += EventHandlers.OnFailingEscapePocketDimension;
-            Player.EnteringPocketDimension += EventHandlers.OnEnteringPocketDimension;
-            Scp079.GainingLevel += EventHandlers.OnGainingLevel;
+            Server.WaitingForPlayers += EventHandlers.EventHandlers.OnWaitingForPlayers;
+            Player.Dying += EventHandlers.EventHandlers.OnDying;
+            Player.Escaping += EventHandlers.EventHandlers.OnEscaping;
+            Player.Spawned += EventHandlers.EventHandlers.OnSpawned;
+            Player.Verified += EventHandlers.EventHandlers.OnVerified;
+            Player.UsedItem += EventHandlers.EventHandlers.OnUsedItem;
+            Player.ThrownProjectile += EventHandlers.EventHandlers.OnThownItem;
+            Player.EscapingPocketDimension += EventHandlers.EventHandlers.OnEscapingPocketDimension;
+            Player.FailingEscapePocketDimension += EventHandlers.EventHandlers.OnFailingEscapePocketDimension;
+            Player.EnteringPocketDimension += EventHandlers.EventHandlers.OnEnteringPocketDimension;
+            Scp079.GainingLevel += EventHandlers.EventHandlers.OnGainingLevel;
         }
         catch (Exception e)
         {
@@ -57,17 +57,17 @@ public class GameStorePlugin : Plugin<Config, Translation>
 
     public override void OnDisabled()
     {
-        Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
-        Player.Escaping -= EventHandlers.OnEscaping;
-        Player.Dying -= EventHandlers.OnDying;
-        Player.Spawned -= EventHandlers.OnSpawned;
-        Player.Verified -= EventHandlers.OnVerified;
-        Player.UsedItem -= EventHandlers.OnUsedItem;
-        Player.ThrownProjectile -= EventHandlers.OnThownItem;
-        Player.EscapingPocketDimension -= EventHandlers.OnEscapingPocketDimension;
-        Player.FailingEscapePocketDimension -= EventHandlers.OnFailingEscapePocketDimension;
-        Player.EnteringPocketDimension -= EventHandlers.OnEnteringPocketDimension;
-        Scp079.GainingLevel -= EventHandlers.OnGainingLevel;
+        Server.WaitingForPlayers -= EventHandlers.EventHandlers.OnWaitingForPlayers;
+        Player.Escaping -= EventHandlers.EventHandlers.OnEscaping;
+        Player.Dying -= EventHandlers.EventHandlers.OnDying;
+        Player.Spawned -= EventHandlers.EventHandlers.OnSpawned;
+        Player.Verified -= EventHandlers.EventHandlers.OnVerified;
+        Player.UsedItem -= EventHandlers.EventHandlers.OnUsedItem;
+        Player.ThrownProjectile -= EventHandlers.EventHandlers.OnThownItem;
+        Player.EscapingPocketDimension -= EventHandlers.EventHandlers.OnEscapingPocketDimension;
+        Player.FailingEscapePocketDimension -= EventHandlers.EventHandlers.OnFailingEscapePocketDimension;
+        Player.EnteringPocketDimension -= EventHandlers.EventHandlers.OnEnteringPocketDimension;
+        Scp079.GainingLevel -= EventHandlers.EventHandlers.OnGainingLevel;
         Instance = null;
         EventHandler = null;
     }
