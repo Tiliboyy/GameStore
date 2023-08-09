@@ -67,7 +67,7 @@ internal class Commanad : ICommand
                 }
                 if (!player.IsAlive)
                 {
-                    response = GameStorePlugin.Instance.Translation.CategoryDoesNotExist;
+                    response = GameStorePlugin.Instance.Translation.WrongeRole;
                     return true;
                 }
                 string name = FormatArguments(arguments, 0);

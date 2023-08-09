@@ -1,4 +1,5 @@
 using CommandSystem;
+using Exiled.API.Features;
 using System;
 
 namespace GameStore.Commands.ClientConsole;
@@ -14,7 +15,7 @@ internal class Baltop : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        response = GameStoreDatabase.Database.GetLeaderboard();
+        response = GameStoreDatabase.Database.GetPlayerLeaderboard(Player.Get(sender));
         return true;
     }
 }

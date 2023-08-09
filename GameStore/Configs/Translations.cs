@@ -9,11 +9,9 @@ public class Translation : ITranslation
     public string CurrencyName { get; set; } = "Daylight Bits";
     public string NothingToBuy { get; set; } = "Du kannst mit deiner Rolle nichts kaufen.";
     public string SetMoneyHintText { get; set; } = "Deine Daylight Bits wurden auf (money) gesetzt.";
+    
     public string PayMoneyHintText { get; set; } = "Du hast (money) DayLight Bits von (sender) erhalten.";
-
-    public string BoughtItemBroadcast { get; set; } = "Du hast (item) gekauft.";
-
-    public string AddMoneyHintText { get; set; } = "Du hast (money) Daylight Bits erhalten.";
+    public string BoughtItemBHint { get; set; } = "Du hast (item) gekauft.";
     public string BoughtItem { get; set; } = "Du hast (itemname) für (itemprice) Daylight Bits gekauft";
     public string ErrorMessage { get; set; } = "Error please contact server staff with this: (error)";
 

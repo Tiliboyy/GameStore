@@ -111,7 +111,7 @@
         <Compile Include="Commands\ClientConsole\Balance.cs" />
         <Compile Include="Commands\ClientConsole\Baltop.cs" />
         <Compile Include="Commands\ClientConsole\Buy.cs" />
-        <Compile Include="Commands\ClientConsole\Pay.cs" />
+        <Compile Include="Commands\ClientConsole\FakeMoney.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Add.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Delete.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Muliplier.cs" />
@@ -119,13 +119,13 @@
         <Compile Include="Commands\RemoteAdmin\SubCommands\Toggle.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Set.cs" />
         <Compile Include="Commands\RemoteAdmin\GameStoreParentCommand.cs" />
+        <Compile Include="Components\GameStoreComponent.cs" />
         <Compile Include="Configs\Translations.cs" />
         <Compile Include="Database.cs" />
         <Compile Include="Events\EventArgs\BoughtItemEventArgs.cs" />
         <Compile Include="Events\EventArgs\GainedMoneyEventArgs.cs" />
         <Compile Include="Events\Handlers.cs" />
         <Compile Include="Extensions.cs" />
-        <Compile Include="GameStoreComponent.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Configs\Config.cs" />
         <Compile Include="EventHandlers\EventHandlers.cs" />

@@ -5,6 +5,7 @@ using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using GameStore.Components;
 using PlayerRoles;
 
 namespace GameStore.EventHandlers;
@@ -64,11 +65,6 @@ public class EventHandlers
         if (ev.Player == null) 
             return;
         ev.Player.GiveReward(GameStorePlugin.Instance.Config.DeathReward);
-        if (ev.Player.GameObject.TryGetComponent<GameStoreComponent>(out var gameStoreComponent))
-        {
-            gameStoreComponent.LifeSpentMoney = 0;
-            gameStoreComponent.LifeGainedMoney = 0;
-        }
         if (ev.DamageHandler.Type == DamageType.PocketDimension)
         {
             if (!PocketPlayers.ContainsKey(ev.Player)) return; 

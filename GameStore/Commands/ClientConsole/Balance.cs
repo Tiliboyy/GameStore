@@ -29,6 +29,12 @@ internal class GameStore : ICommand
             return true;
         }
 
+        if (FakeMoney.FakeMoneyList.ContainsKey(player))
+        {
+            response = GameStorePlugin.Instance.Translation.BalanceMessage.Replace("(balance)", FakeMoney.FakeMoneyList[player]);
+            return true;
+
+        }
         var balance = player.GetMoney();
         response = GameStorePlugin.Instance.Translation.BalanceMessage.Replace("(balance)", balance.ToString(CultureInfo.InvariantCulture));
         return true;

@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Core.Features.Data.Enums;
+using Core.Features.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using Exiled.API.Features;
+using GameStore.Commands.ClientConsole;
+using GameStore.Components;
 using GameStore.Configs;
 using GameStore.EventHandlers;
 using JetBrains.Annotations;
@@ -15,7 +19,7 @@ namespace GameStore;
 
 public static class GameStoreDatabase
 {
-    
+
 
     public static LiteDatabase db = new(Path.Combine(Paths.Configs, "Gamestore/GameStore.db"));
     public struct Pay
@@ -28,11 +32,11 @@ public static class GameStoreDatabase
     {
         public string _id { get; set; }
         public float Money { get; set; }
-        
+
         public string Nickname { get; set; }
 
         public List<Pay> PayHistory { get; set; }
-        
+
     }
 
     public static class Database
@@ -80,7 +84,7 @@ public static class GameStoreDatabase
             var dbsender = players.FindOne(x => x._id != null && x._id == senderid);
 
             float iAmount = amount;
-            if(dbsender.PayHistory == null) return !(iAmount > GameStorePlugin.Instance.Config.MaxDailyPayAmount);
+            if (dbsender.PayHistory == null) return !(iAmount > GameStorePlugin.Instance.Config.MaxDailyPayAmount);
             iAmount += dbsender.PayHistory.Where(pay => pay.Date.Date == DateTime.Today).Sum(pay => pay.Amount);
             return !(iAmount > GameStorePlugin.Instance.Config.MaxDailyPayAmount);
         }
@@ -88,7 +92,7 @@ public static class GameStoreDatabase
         {
             if (sender == null || reciver == null) return;
             if (sender.DoNotTrack || reciver.DoNotTrack) return;
-            if(!CanRemoveMoneyFromPlayer(sender, amount)) return;
+            if (!CanRemoveMoneyFromPlayer(sender, amount)) return;
             var senderid = sender.RawUserId.Split('@')[0];
             var reciverid = reciver.RawUserId.Split('@')[0];
 
@@ -101,11 +105,11 @@ public static class GameStoreDatabase
             dbreciver.Money += amount;
             if (dbsender.PayHistory == null)
             {
-                dbsender.PayHistory = new List<Pay> { new(){Date = DateTime.Now, Amount = amount, TargetId = reciverid} };
+                dbsender.PayHistory = new List<Pay> { new() { Date = DateTime.Now, Amount = amount, TargetId = reciverid } };
             }
             else
             {
-                dbsender.PayHistory.Add(new Pay(){Date = DateTime.Now, Amount = amount, TargetId = reciverid});
+                dbsender.PayHistory.Add(new Pay() { Date = DateTime.Now, Amount = amount, TargetId = reciverid });
             }
 
             if (dbsender.Money < 0) dbsender.Money = 0;
@@ -131,7 +135,7 @@ public static class GameStoreDatabase
                 foreach (var items in item.ItemTypes)
                     player.AddItem(items);
             Events.Handlers.OnBuyingItem(player, item, item.Price);
-            player.Broadcast(3, GameStorePlugin.Instance.Translation.BoughtItemBroadcast.Replace("(item)", item.Name));
+            player.SendHint(ScreenZone.Notifications, GameStorePlugin.Instance.Translation.BoughtItemBHint.Replace("(item)", item.Name), 3);
             players.Update(dbplayer);
         }
 
@@ -150,7 +154,7 @@ public static class GameStoreDatabase
 
         public static void AddMoneyToPlayer(Player player, int money)
         {
-            if (player == null) return ;
+            if (player == null) return;
             if (player.DoNotTrack || money == 0) return;
             var playerID = player.RawUserId.Split('@')[0];
             var players = db.GetCollection<DatabasePlayer>("players");
@@ -160,10 +164,16 @@ public static class GameStoreDatabase
             if (dbplayer == null) return;
             dbplayer.Money += money;
             if (dbplayer.Money < 0) dbplayer.Money = 0;
-            Events.Handlers.OnGainingMoney(player, new Structs.Reward(){Name = "AddMoney", Money = new Dictionary<RoleTypeId, int>() 
-            {
-                {RoleTypeId.None, money},
-            }, MaxPerRound = -1}, money);
+            Events.Handlers.OnGainingMoney(player,
+                new Structs.Reward()
+                {
+                    Name = "AddMoney", Money = new Dictionary<RoleTypeId, int>()
+                    {
+                        { RoleTypeId.None, money },
+                    },
+                    MaxPerRound = -1
+                },
+                money);
 
             players.Update(dbplayer);
         }
@@ -175,82 +185,96 @@ public static class GameStoreDatabase
             var dbplayer = players.FindOne(x => x._id != null && x._id == playerID);
 
             if (dbplayer == null) return;
-            
+
             if (reward.Money.ContainsKey(player.Role.Type))
             {
-                if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
+                if (player.GameObject.GetComponent<GameStoreComponent>().RewardLimit.ContainsKey(reward.Name))
                 {
-                    int amount = player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name];
-                    if (amount >= reward.MaxPerRound  && reward.MaxPerRound != -1)
+                    int amount = player.GameObject.GetComponent<GameStoreComponent>().RewardLimit[reward.Name];
+                    if (amount >= reward.MaxPerRound && reward.MaxPerRound != -1)
                     {
                         return;
                     }
 
-                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name]++;
+                    player.GameObject.GetComponent<GameStoreComponent>().RewardLimit[reward.Name]++;
                 }
                 else
                 {
-                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
+                    player.GameObject.GetComponent<GameStoreComponent>().RewardLimit.Add(reward.Name, 1);
                 }
-                if(reward.Money[player.Role.Type] == 0) return;
+                if (reward.Money[player.Role.Type] == 0) return;
                 dbplayer.Money += reward.Money[player.Role.Type] * GameStorePlugin.MoneyMuliplier;
-                Events.Handlers.OnGainingMoney(player,reward ,reward.Money[player.Role.Type] * GameStorePlugin.MoneyMuliplier);
+                Events.Handlers.OnGainingMoney(player, reward, reward.Money[player.Role.Type] * GameStorePlugin.MoneyMuliplier);
 
-                OnGainingMoney(player,reward.Money[player.Role.Type] * GameStorePlugin.MoneyMuliplier);
-                
-            }else if (reward.Money.ContainsKey(RoleTypeId.None))
+
+            }
+            else if (reward.Money.ContainsKey(RoleTypeId.None))
             {
-                
-                if (player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.ContainsKey(reward.Name))
+
+                if (player.GameObject.GetComponent<GameStoreComponent>().RewardLimit.ContainsKey(reward.Name))
                 {
-                    int amount = player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name];
-                    if (amount >= reward.MaxPerRound  && reward.MaxPerRound != -1)
+                    int amount = player.GameObject.GetComponent<GameStoreComponent>().RewardLimit[reward.Name];
+                    if (amount >= reward.MaxPerRound && reward.MaxPerRound != -1)
                     {
                         return;
                     }
 
-                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit[reward.Name]++;
+                    player.GameObject.GetComponent<GameStoreComponent>().RewardLimit[reward.Name]++;
                 }
                 else
                 {
-                    player.GameObject.GetComponent<GameStoreComponent>().rewardlimit.Add(reward.Name, 1);
+                    player.GameObject.GetComponent<GameStoreComponent>().RewardLimit.Add(reward.Name, 1);
                 }
                 dbplayer.Money += reward.Money[RoleTypeId.None] * GameStorePlugin.MoneyMuliplier;
                 Events.Handlers.OnGainingMoney(player, reward, reward.Money[RoleTypeId.None] * GameStorePlugin.MoneyMuliplier);
-                OnGainingMoney(player,reward.Money[RoleTypeId.None] * GameStorePlugin.MoneyMuliplier);
+                
             }
             else
             {
                 return;
             }
-            
+
             if (dbplayer.Money < 0) dbplayer.Money = 0;
-            if (dbplayer.Money > GameStorePlugin.Instance.Config.MoneyLimit && GameStorePlugin.Instance.Config.EnableLimit) 
+            if (dbplayer.Money > GameStorePlugin.Instance.Config.MoneyLimit && GameStorePlugin.Instance.Config.EnableLimit)
                 dbplayer.Money = GameStorePlugin.Instance.Config.MoneyLimit;
-        
+
             players.Update(dbplayer);
         }
-
-        public static string GetLeaderboard(int amount = 10)
+        public static string GetPlayerLeaderboard(Player player)
         {
-            var players = db.GetCollection<DatabasePlayer>("players");
-            var e = players.FindAll().OrderByDescending(p => p.Money).Take(amount).ToList();
-            int i = 1;
+            var e = GetLeaderboard();
+            var playerID = player.RawUserId.Split('@')[0];
+
+            var plypos = e.IndexOf(e.First(X => X._id == playerID));
+            var leaderboard = e.Take(10).ToList();
+            var i = 1;
+            var hasply = false;
             var str = "\n";
-            foreach (var player in e)
+            foreach (var databasePlayer in leaderboard)
             {
-                if (player.Nickname == null)
+                if (databasePlayer.Nickname == null)
                 {
-                    str += $"\n[{i}] {player._id}: {player.Money} {GameStorePlugin.Instance.Translation.CurrencyName}";
+                    str += $"\n[{i}] {databasePlayer._id}: {databasePlayer.Money} {GameStorePlugin.Instance.Translation.CurrencyName}";
                 }
                 else
                 {
-                    str += $"\n[{i}] {player.Nickname}: {player.Money} {GameStorePlugin.Instance.Translation.CurrencyName}";
+
+                    if (databasePlayer.Nickname == player.Nickname)
+                        hasply = true;
+                    str += $"\n[{i}] {databasePlayer.Nickname}: {databasePlayer.Money} {GameStorePlugin.Instance.Translation.CurrencyName}";
                 }
 
                 i++;
             }
+            if(!hasply)
+                str += $"\n\n[{plypos + 1}] {player.Nickname}";
             return str;
+        }
+        public static List<DatabasePlayer> GetLeaderboard()
+        {
+            var players = db.GetCollection<DatabasePlayer>("players");
+            var e = players.FindAll().OrderByDescending(p => p.Money).ToList();
+            return e;
         }
 
         public static float GetPlayerMoney(Player player)
@@ -284,7 +308,7 @@ public static class GameStoreDatabase
             var players = db.GetCollection<DatabasePlayer>("players");
 
             var dbplayer = players.FindOne(x => x._id == playerID);
-            
+
             return dbplayer != null ? dbplayer.Nickname : "None";
         }
 
@@ -297,21 +321,5 @@ public static class GameStoreDatabase
 
             if (dbplayer != null) players.Delete(dbplayer._id);
         }
-    }
-
-    private static void OnGainingMoney(Player player ,float amount)
-    {
-        if (!player.GameObject.TryGetComponent<GameStoreComponent>(out var gameStoreComponent)) return;
-        
-        gameStoreComponent.LifeGainedMoney += amount;
-        gameStoreComponent.RoundGainedMoney += amount;
-
-    }
-    private static void OnSpendingMoney(Player player ,float amount)
-    {
-        if (!player.GameObject.TryGetComponent<GameStoreComponent>(out var gameStoreComponent)) return;
-        
-        gameStoreComponent.LifeSpentMoney += amount;
-        gameStoreComponent.RoundSpentMoney += amount;
     }
 }

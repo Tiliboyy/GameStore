@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using Exiled.API.Features;
+using GameStore.Components;
 using GameStore.Configs;
 using MEC;
 using PlayerRoles;
@@ -132,19 +133,19 @@ public static class Extensions
 
                 nomoney = true;
 
-                if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(result))
+                if (player.GameObject.GetComponent<GameStoreComponent>().BoughtItems.ContainsKey(result))
                 {
-                    if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result] >=
+                    if (player.GameObject.GetComponent<GameStoreComponent>().BoughtItems[result] >=
                         items.Maxbuys)
                     {
                         continue;
                     }
 
-                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result]++;
+                    player.GameObject.GetComponent<GameStoreComponent>().BoughtItems[result]++;
                 }
                 else
                 {
-                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
+                    player.GameObject.GetComponent<GameStoreComponent>().BoughtItems.Add(result, 1);
                 }
 
                 GameStoreDatabase.Database.BuyItem(player, items);
@@ -227,19 +228,19 @@ public static class Extensions
                     return GameStorePlugin.Instance.Translation.CantAfford;
                 }
 
-                if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems.ContainsKey(result))
+                if (player.GameObject.GetComponent<GameStoreComponent>().BoughtItems.ContainsKey(result))
                 {
 
-                    if (player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result] >=
+                    if (player.GameObject.GetComponent<GameStoreComponent>().BoughtItems[result] >=
                         items.Maxbuys)
                     {
                         return GameStorePlugin.Instance.Translation.MaxAmountReached;
                     }
-                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems[result]++;
+                    player.GameObject.GetComponent<GameStoreComponent>().BoughtItems[result]++;
                 }
                 else
                 {
-                    player.GameObject.GetComponent<GameStoreComponent>().boughtitems.Add(result, 1);
+                    player.GameObject.GetComponent<GameStoreComponent>().BoughtItems.Add(result, 1);
                 }
                 GameStoreDatabase.Database.BuyItem(player, items);
                 return GameStorePlugin.Instance.Translation.BoughtItem.Replace("(itemname)", items.Name)
