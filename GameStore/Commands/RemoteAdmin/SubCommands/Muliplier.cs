@@ -9,7 +9,7 @@ internal class Multiplier : ICommand
 
     public string[] Aliases { get; } = Array.Empty<string>();
 
-    public string Description { get; } = "Sets the Gamestore Money Muliplier";
+    public string Description { get; } = "Sets the Gamestore Money Multiplier";
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
@@ -25,7 +25,7 @@ internal class Multiplier : ICommand
             return true;
         }
         GameStorePlugin.MoneyMuliplier = i;
-        response = $"Der Muliplier wurde auf {i} gesetzt.";
+        response = $"Der Multiplier wurde auf {i} gesetzt.";
         return true;
     }
 }
