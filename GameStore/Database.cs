@@ -242,11 +242,11 @@ public static class GameStoreDatabase
         }
         public static string GetPlayerLeaderboard(Player player)
         {
-            var e = GetLeaderboard();
+            var list = GetLeaderboard();
             var playerID = player.RawUserId.Split('@')[0];
 
-            var plypos = e.IndexOf(e.First(X => X._id == playerID));
-            var leaderboard = e.Take(10).ToList();
+            var plypos = list.IndexOf(list.First(X => X._id == playerID));
+            var leaderboard = list.Take(10).ToList();
             var i = 1;
             var hasply = false;
             var str = "\n";
