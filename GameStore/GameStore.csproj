@@ -111,7 +111,6 @@
         <Compile Include="Commands\ClientConsole\Balance.cs" />
         <Compile Include="Commands\ClientConsole\Baltop.cs" />
         <Compile Include="Commands\ClientConsole\Buy.cs" />
-        <Compile Include="Commands\ClientConsole\FakeMoney.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Add.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Delete.cs" />
         <Compile Include="Commands\RemoteAdmin\SubCommands\Muliplier.cs" />
@@ -136,13 +135,13 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="EXILED">
-          <Version>7.0.0-rc.1-2</Version>
+          <Version>8.0.0-beta.1</Version>
         </PackageReference>
         <PackageReference Include="Lib.Harmony">
             <Version>2.2.2</Version>
         </PackageReference>
         <PackageReference Include="LiteDB">
-            <Version>5.0.15</Version>
+            <Version>5.0.17</Version>
         </PackageReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

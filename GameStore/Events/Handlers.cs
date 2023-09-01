@@ -7,15 +7,16 @@ namespace GameStore.Events;
 
 public static class Handlers
 {
-    public static event Exiled.Events.Events.CustomEventHandler<GainedMoneyEventArgs> GainingMoney;
-    public static event Exiled.Events.Events.CustomEventHandler<BuyingItemsEventArgs> BuyingItems;
+    public static Exiled.Events.Features.Event<GainedMoneyEventArgs> GainingMoney = new();
+    public static Exiled.Events.Features.Event<BuyingItemsEventArgs> BuyingItems = new();
+    
 
     public static void OnGainingMoney(Player player, Structs.Reward reward, int amount)
     {
-        GainingMoney?.Invoke(new GainedMoneyEventArgs(player, reward, amount));
+        GainingMoney?.InvokeSafely(new GainedMoneyEventArgs(player,reward, amount));
     }
     public static void OnBuyingItem(Player player, Structs.ItemPrice reward, int price)
     {
-        BuyingItems?.Invoke(new BuyingItemsEventArgs(player, reward, price));
+        BuyingItems?.InvokeSafely(new BuyingItemsEventArgs(player, reward, price));
     }
 }

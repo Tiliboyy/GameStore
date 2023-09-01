@@ -288,7 +288,7 @@ public class Config : IConfig
                     Price = 3000,
                     NoInventoryCheck = false,
                     Name = "Kadettenkarte",
-                    ItemTypes = new List<ItemType> { ItemType.KeycardNTFOfficer },
+                    ItemTypes = new List<ItemType> { ItemType.KeycardMTFPrivate },
                     Maxbuys = 1
                 },
 
